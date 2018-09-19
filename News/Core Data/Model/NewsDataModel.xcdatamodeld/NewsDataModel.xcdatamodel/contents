@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ArticleEntity" representedClassName="ArticleEntity" syncable="YES">
+        <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="details" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="publishedAt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="urlToImage" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="toLikeEntity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LikeEntity" inverseName="toArticleEntity" inverseEntity="LikeEntity" syncable="YES"/>
+    </entity>
+    <entity name="LikeEntity" representedClassName="LikeEntity" syncable="YES">
+        <attribute name="isDisliked" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isLiked" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="toArticleEntity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ArticleEntity" inverseName="toLikeEntity" inverseEntity="ArticleEntity" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="ArticleEntity" positionX="-54" positionY="-9" width="128" height="180"/>
+        <element name="LikeEntity" positionX="-45" positionY="63" width="128" height="90"/>
+    </elements>
+</model>
