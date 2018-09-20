@@ -33,6 +33,7 @@
 		40EF5179213E949C0018E75A /* ArticleEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EF5177213E949C0018E75A /* ArticleEntity+CoreDataClass.swift */; };
 		40EF517A213E949C0018E75A /* ArticleEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EF5178213E949C0018E75A /* ArticleEntity+CoreDataProperties.swift */; };
 		784ED4C257951FFC5E817AEB /* Pods_News.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84ED085739B8A2DE94ABBAA0 /* Pods_News.framework */; };
+		D12C8CA9215383BB0066EB31 /* TableLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12C8CA8215383BB0066EB31 /* TableLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		40EF5178213E949C0018E75A /* ArticleEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ArticleEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		60688CF83DDEDC4C006EA48E /* Pods-News.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-News.release.xcconfig"; path = "Pods/Target Support Files/Pods-News/Pods-News.release.xcconfig"; sourceTree = "<group>"; };
 		84ED085739B8A2DE94ABBAA0 /* Pods_News.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_News.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D12C8CA8215383BB0066EB31 /* TableLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				40D6A78921426B5900878A45 /* MosaicLayout.swift */,
+				D12C8CA8215383BB0066EB31 /* TableLayout.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				40EF5172213E94100018E75A /* NewsDataModel.xcdatamodeld in Sources */,
 				40BC8C4F2147BB0900D4B1E6 /* NewsVC.swift in Sources */,
 				40EF5179213E949C0018E75A /* ArticleEntity+CoreDataClass.swift in Sources */,
+				D12C8CA9215383BB0066EB31 /* TableLayout.swift in Sources */,
 				40E16E1A214F8C9F004BB60D /* LikeService.swift in Sources */,
 				40EF517A213E949C0018E75A /* ArticleEntity+CoreDataProperties.swift in Sources */,
 				40E16E28214FB971004BB60D /* LikeEntity+CoreDataProperties.swift in Sources */,
@@ -510,7 +514,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8972LWR885;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = News/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -529,7 +533,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8972LWR885;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = News/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -44,10 +44,18 @@ class NewsVC: UIViewController {
         
         collectionView.dataSource = self
         
+        setupLayout()
+        
         setupData()
     }
     
     // MARK: - Private instance methods
+    
+    // Set Collection View Layout
+    private func setupLayout() {
+        let layout = TableLayout() // MosaicLayout()
+        collectionView.collectionViewLayout = layout
+    }
     
     // Setup data
     private func setupData() {
@@ -62,14 +70,16 @@ class NewsVC: UIViewController {
     private func configureSearchController() {
         
         let searchResultsVC = SearchResultsVC.initialize(with: news)
-        let searchController = UISearchController(searchResultsController: searchResultsVC)
+        //let searchController = UISearchController(searchResultsController: searchResultsVC)
+        
+        let navigationController = UINavigationController(rootViewController: searchResultsVC) //
+        let searchController = UISearchController(searchResultsController: navigationController) //
         
         navigationItem.searchController = searchController
         
         searchController.searchResultsUpdater = searchResultsVC
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.tintColor = .lightGray
-        
         definesPresentationContext = true
 
         // Search Bar Style
@@ -80,7 +90,6 @@ class NewsVC: UIViewController {
                 backgroundView.clipsToBounds = true
             }
         }
- 
     }
     
     // MARK: - Navigation

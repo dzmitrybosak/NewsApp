@@ -31,7 +31,13 @@ class NewsCell: UICollectionViewCell {
         } else {
             imageView.image = UIImage(named: Constants.imageHolder)
         }
-        
+    }
+    
+    // Закругленные ячейки
+    override func awakeFromNib() {
+        super.awakeFromNib()        
+        layer.cornerRadius = 10
+        layer.masksToBounds = true
     }
     
     override func prepareForReuse() {

@@ -29,11 +29,10 @@ class SearchResultsVC: UIViewController {
     // For initialization
     class func initialize(with news: [Article]) -> SearchResultsVC {
         let storyboard = UIStoryboard(name: Constants.mainStoryboardID, bundle: nil)
-        guard let searchVC = storyboard.instantiateViewController(withIdentifier: Constants.searchResultsStoryboardID) as? SearchResultsVC else { fatalError() }
+        guard let searchVC = storyboard.instantiateViewController(withIdentifier: Constants.searchResultsStoryboardID) as? SearchResultsVC else { fatalError("Unable to instatiate a SearchResultsVC from the storyboard.") }
         searchVC.allNews = news
         return searchVC
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +42,7 @@ class SearchResultsVC: UIViewController {
     }
     
     // MARK: - Private instance methods
-    
+        
     private func filterContentForSearchText(_ searchText: String) {
         filteredNews = allNews.filter({ (article: Article) -> Bool in
             if article.description != nil, article.title != nil {
@@ -80,7 +79,7 @@ extension SearchResultsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let navigationController = UIApplication.shared.keyWindow?.rootViewController as! UINavigationController
+        //let navigationController = UIApplication.shared.keyWindow?.rootViewController as! UINavigationController
         
         guard let newsCell = tableView.cellForRow(at: indexPath) as? TableNewsCell, let destinationVC = storyboard?.instantiateViewController(withIdentifier: Constants.articleVC) as? ArticleVC else {
             return
@@ -88,7 +87,8 @@ extension SearchResultsVC: UITableViewDelegate {
         
         destinationVC.article = newsCell.article
         
-        navigationController.pushViewController(destinationVC, animated: true)
+        //navigationController.pushViewController(destinationVC, animated: true)
+        navigationController?.pushViewController(destinationVC, animated: true)
     }
 }
 
