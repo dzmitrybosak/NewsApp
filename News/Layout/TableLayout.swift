@@ -1,0 +1,29 @@
+//
+//  TableLayout.swift
+//  News
+//
+//  Created by Dzmitry Bosak on 9/20/18.
+//  Copyright © 2018 Dzmitry Bosak. All rights reserved.
+//
+
+import UIKit
+
+class TableLayout: UICollectionViewFlowLayout {
+ 
+    override func prepare() {
+        super.prepare()
+ 
+        guard let cv = collectionView else { return }
+ 
+        let availableWidth = cv.bounds.inset(by: cv.layoutMargins).size.width
+ 
+        let minColumnWidth = CGFloat(300.0)
+        let maxNumColumns = Int(availableWidth / minColumnWidth)
+        let cellWidth = (availableWidth / CGFloat(maxNumColumns)).rounded(.down)
+ 
+        self.itemSize = CGSize(width: cellWidth, height: 150.0)
+ 
+        self.sectionInset = UIEdgeInsets(top: self.minimumInteritemSpacing, left: 0.0, bottom: 0.0, right: 0.0)
+        self.sectionInsetReference = .fromSafeArea
+    }
+}

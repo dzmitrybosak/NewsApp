@@ -70,7 +70,7 @@
         <!--News-->
         <scene sceneID="qZR-Jz-sBi">
             <objects>
-                <viewController id="zLH-ut-FBP" customClass="NewsVC" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewsVC" id="zLH-ut-FBP" customClass="NewsVC" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SDY-L3-GDd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -352,7 +352,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Mbu-po-CIe">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nKA-24-187" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="rootNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="nKA-24-187" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="BAa-TX-Rwg">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>

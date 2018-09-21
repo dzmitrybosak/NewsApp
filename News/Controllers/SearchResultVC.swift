@@ -20,10 +20,8 @@ class SearchResultsVC: UIViewController {
     // MARK: - Properties
     
     @IBOutlet weak var tableView: UITableView!
-    
-    private let newsService = NewsService.shared
-    
-    private var allNews: [Article] = []
+        
+    var allNews: [Article] = []
     private var filteredNews: [Article] = []
     
     // For initialization
@@ -79,15 +77,17 @@ extension SearchResultsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        //let navigationController = UIApplication.shared.keyWindow?.rootViewController as! UINavigationController
+        tableView.cellForRow(at: indexPath)?.isSelected = false
         
-        guard let newsCell = tableView.cellForRow(at: indexPath) as? TableNewsCell, let destinationVC = storyboard?.instantiateViewController(withIdentifier: Constants.articleVC) as? ArticleVC else {
+        let storyboard = UIStoryboard(name: Constants.mainStoryboardID, bundle: nil)
+        let navigationController = self.view.window?.rootViewController as? UINavigationController
+        
+        guard let newsCell = tableView.cellForRow(at: indexPath) as? TableNewsCell, let destinationVC = storyboard.instantiateViewController(withIdentifier: Constants.articleVC) as? ArticleVC else {
             return
         }
-        
+
         destinationVC.article = newsCell.article
         
-        //navigationController.pushViewController(destinationVC, animated: true)
         navigationController?.pushViewController(destinationVC, animated: true)
     }
 }

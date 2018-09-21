@@ -70,22 +70,22 @@ class NewsVC: UIViewController {
     private func configureSearchController() {
         
         let searchResultsVC = SearchResultsVC.initialize(with: news)
-        //let searchController = UISearchController(searchResultsController: searchResultsVC)
+//        let searchController = UISearchController(searchResultsController: searchResultsVC)
         
-        let navigationController = UINavigationController(rootViewController: searchResultsVC) //
-        let searchController = UISearchController(searchResultsController: navigationController) //
-        
+        let navigationController = UINavigationController(rootViewController: searchResultsVC)
+        let searchController = UISearchController(searchResultsController: navigationController)
+               
         navigationItem.searchController = searchController
         
         searchController.searchResultsUpdater = searchResultsVC
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.tintColor = .lightGray
         definesPresentationContext = true
-
+        
         // Search Bar Style
         if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: Constants.searchField) as? UITextField {
             if let backgroundView = textFieldInsideSearchBar.subviews.first {
-                backgroundView.backgroundColor = UIColor.white
+                backgroundView.backgroundColor = .white
                 backgroundView.layer.cornerRadius = 10
                 backgroundView.clipsToBounds = true
             }
