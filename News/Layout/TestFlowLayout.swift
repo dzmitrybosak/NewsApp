@@ -1,5 +1,5 @@
 //
-//  MosaicLayout.swift
+//  TestFlowLayout.swift
 //  News
 //
 //  Created by Dzmitry Bosak on 9/7/18.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-class MosaicLayout: UICollectionViewLayout {
-    
+class TestFlowLayout: UICollectionViewLayout {
+
     var contentBounds = CGRect.zero
     var cachedAttributes = [UICollectionViewLayoutAttributes]()
     
@@ -35,6 +35,8 @@ class MosaicLayout: UICollectionViewLayout {
         guard cachedAttributes.isEmpty == true, let collectionView = collectionView else {
             return
         }
+        
+
         
         // 2. Pre-Calculates the X Offset for every column and adds an array to increment the currently max Y Offset for each column
         // 3. Iterates through the list of items in the first section
@@ -62,5 +64,4 @@ class MosaicLayout: UICollectionViewLayout {
             return rect.intersects(attributes.frame)
         }
     }
-    
 }

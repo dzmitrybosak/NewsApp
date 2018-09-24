@@ -26,6 +26,7 @@ class NewsVC: UIViewController {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
+    private let refreshControl = UIRefreshControl()
     
     private let newsService = NewsService.shared
     
@@ -44,16 +45,18 @@ class NewsVC: UIViewController {
         
         collectionView.dataSource = self
         
-        setupLayout()
+        //setupLayout()
         
         setupData()
+        
+        setupRefreshControl()
     }
     
     // MARK: - Private instance methods
     
     // Set Collection View Layout
     private func setupLayout() {
-        let layout = TableLayout() // MosaicLayout()
+        let layout = TestFlowLayout()
         collectionView.collectionViewLayout = layout
     }
     
@@ -64,6 +67,24 @@ class NewsVC: UIViewController {
         newsService.news { [weak self] news in
             self?.news = news
         }
+        
+        DispatchQueue.main.async {
+            if self.refreshControl.isRefreshing == true {
+                self.activityIndicator.isHidden = true
+            }
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
+    // Setup Refresh Control
+    private func setupRefreshControl() {
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        refreshControl.tintColor = .white
+    }
+    
+    @objc private func refreshData(_ sender: Any) {
+        setupData()
     }
     
     // Setup search

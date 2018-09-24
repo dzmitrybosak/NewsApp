@@ -34,6 +34,7 @@
 		40EF517A213E949C0018E75A /* ArticleEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EF5178213E949C0018E75A /* ArticleEntity+CoreDataProperties.swift */; };
 		784ED4C257951FFC5E817AEB /* Pods_News.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84ED085739B8A2DE94ABBAA0 /* Pods_News.framework */; };
 		D12C8CA9215383BB0066EB31 /* TableLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12C8CA8215383BB0066EB31 /* TableLayout.swift */; };
+		D1758A05215518C2003AC6DA /* TestFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1758A04215518C2003AC6DA /* TestFlowLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		60688CF83DDEDC4C006EA48E /* Pods-News.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-News.release.xcconfig"; path = "Pods/Target Support Files/Pods-News/Pods-News.release.xcconfig"; sourceTree = "<group>"; };
 		84ED085739B8A2DE94ABBAA0 /* Pods_News.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_News.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D12C8CA8215383BB0066EB31 /* TableLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableLayout.swift; sourceTree = "<group>"; };
+		D1758A04215518C2003AC6DA /* TestFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFlowLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +189,7 @@
 		40D6A7882142645D00878A45 /* Layout */ = {
 			isa = PBXGroup;
 			children = (
+				D1758A04215518C2003AC6DA /* TestFlowLayout.swift */,
 				40D6A78921426B5900878A45 /* MosaicLayout.swift */,
 				D12C8CA8215383BB0066EB31 /* TableLayout.swift */,
 			);
@@ -353,6 +356,7 @@
 				403F0C41213D613F0098FFE2 /* DateConverter.swift in Sources */,
 				403F0C3F213D0E2F0098FFE2 /* WebService.swift in Sources */,
 				403F0C35213D03BA0098FFE2 /* NewsCell.swift in Sources */,
+				D1758A05215518C2003AC6DA /* TestFlowLayout.swift in Sources */,
 				40EF515F213E8F2A0018E75A /* CoreDataStack.swift in Sources */,
 				40E16E2A214FCBBC004BB60D /* Like.swift in Sources */,
 				40EF5172213E94100018E75A /* NewsDataModel.xcdatamodeld in Sources */,
