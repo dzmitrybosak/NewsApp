@@ -81,6 +81,10 @@ class NewsVC: UIViewController {
         collectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         refreshControl.tintColor = .white
+        
+        let attributedString = NSAttributedString(string: "Loading...", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
+        
+        refreshControl.attributedTitle = attributedString
     }
     
     @objc private func refreshData(_ sender: Any) {
