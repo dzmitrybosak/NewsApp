@@ -82,7 +82,7 @@ class NewsVC: UIViewController {
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         refreshControl.tintColor = .white
         
-        let attributedString = NSAttributedString(string: "Loading...", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
+        let attributedString = NSAttributedString(string: "Pull down to refresh...", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
         
         refreshControl.attributedTitle = attributedString
     }
