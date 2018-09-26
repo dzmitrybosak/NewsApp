@@ -44,8 +44,9 @@ class NewsVC: UIViewController {
         super.viewDidLoad()
         
         collectionView.dataSource = self
+//        collectionView.delegate = self
         
-        //setupLayout()
+        setupLayout()
         
         setupData()
         
@@ -56,8 +57,9 @@ class NewsVC: UIViewController {
     
     // Set Collection View Layout
     private func setupLayout() {
-        let layout = TestFlowLayout()
+        let layout = AppleMosaicLayout()
         collectionView.collectionViewLayout = layout
+        //layout.delegate = self
     }
     
     // Setup data
@@ -79,15 +81,15 @@ class NewsVC: UIViewController {
     // Setup Refresh Control
     private func setupRefreshControl() {
         collectionView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(didRefresh(_:)), for: .valueChanged)
         refreshControl.tintColor = .white
-        
-        let attributedString = NSAttributedString(string: "Pull down to refresh...", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
-        
+
+        let attributedString = NSAttributedString(string: "Pull down to refresh", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+
         refreshControl.attributedTitle = attributedString
     }
     
-    @objc private func refreshData(_ sender: Any) {
+    @objc private func didRefresh(_ sender: Any) {
         setupData()
     }
     
@@ -99,7 +101,7 @@ class NewsVC: UIViewController {
         
         let navigationController = UINavigationController(rootViewController: searchResultsVC)
         let searchController = UISearchController(searchResultsController: navigationController)
-               
+        
         navigationItem.searchController = searchController
         
         searchController.searchResultsUpdater = searchResultsVC
@@ -157,3 +159,28 @@ extension NewsVC: UICollectionViewDataSource {
         return cell
     }
 }
+
+// MARK: -  UICollectionViewDelegateFlowLayout - 1 large, 2 small
+
+extension NewsVC: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+        
+        var numberOfCellsPerLine = 0
+        
+        if indexPath.item % 3 == 0 {
+            numberOfCellsPerLine = 1
+        } else {
+            numberOfCellsPerLine = 2
+        }
+        
+        // Generic cell width calculation
+        let cellWidth = (collectionView.bounds.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right) - flowLayout.minimumInteritemSpacing * CGFloat(numberOfCellsPerLine - 1)) / CGFloat(numberOfCellsPerLine)
+        return CGSize(width: cellWidth, height: cellWidth / 2)
+    }
+    
+}
+
+

@@ -8,7 +8,7 @@
 
 import CoreData
 
-final class LikeService {
+/*final class LikeService {
     private let coreDataManager = CoreDataManager.shared
     
     static let shared = LikeService()
@@ -31,4 +31,4 @@ final class LikeService {
         let fetchRequest = NSFetchRequest<LikeEntity>(entityName: String(describing: LikeEntity.self))
         return (try? context.fetch(fetchRequest)) ?? []
     }
-}
+}*/

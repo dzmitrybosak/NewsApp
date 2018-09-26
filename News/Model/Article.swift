@@ -20,7 +20,7 @@ struct Article: Decodable {
     var urlToImage: URL?
     var publishedAt: String?
     
-    var like: Like
+//    var like: Like
     
     enum CodingKeys: CodingKey {
         case source
@@ -49,7 +49,7 @@ struct Article: Decodable {
         self.urlToImage = try? container.decode(URL.self, forKey: .urlToImage)
         self.publishedAt = try? container.decode(String.self, forKey: .publishedAt)
         
-        let like = Like(isLiked: false, isDisliked: false)
-        self.like = like
+//        let like = Like(isLiked: false, isDisliked: false)
+//        self.like = like
     }
 }

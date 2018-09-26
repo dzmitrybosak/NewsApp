@@ -20,7 +20,7 @@ private enum Segues: String {
 class ArticleVC: UIViewController {
 
     private let dateConverter = DateConverter.shared
-    private let likeService = LikeService.shared
+    //private let likeService = LikeService.shared
     
     // MARK: - Properties
     
@@ -68,7 +68,7 @@ class ArticleVC: UIViewController {
         }
     }
     
-    private func checkLikeValue() {
+    /*private func checkLikeValue() {
         print("Article like: \(String(describing: article?.like.isLiked.description))")
         print("Article dislike: \(String(describing: article?.like.isDisliked.description))")
         
@@ -93,7 +93,7 @@ class ArticleVC: UIViewController {
         
         print("Dislike button pressed")
         checkLikeValue()
-    }
+    }*/
     
     // MARK: - Navigation
     
@@ -119,11 +119,11 @@ class ArticleVC: UIViewController {
     @IBAction func readMoreButton(_ sender: UIButton) {}
     
     @IBAction func likeButtonPressed(_ sender: UIButton) {
-        likeSelected()
+        //likeSelected()
     }
     
     @IBAction func dislikeButtonPressed(_ sender: UIButton) {
-        dislikeSelected()
+        //dislikeSelected()
     }
     
 }

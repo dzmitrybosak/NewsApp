@@ -20,5 +20,4 @@ extension ArticleEntity {
     @NSManaged public var urlToImage: String?
     @NSManaged public var publishedAt: String?
     
-    @NSManaged public var toLikeEntity: LikeEntity?
 }

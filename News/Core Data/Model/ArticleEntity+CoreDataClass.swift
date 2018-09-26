@@ -22,8 +22,6 @@ public class ArticleEntity: NSManagedObject {
         articleEntity?.url = article.url?.absoluteString
         articleEntity?.urlToImage = article.urlToImage?.absoluteString
         articleEntity?.publishedAt = article.publishedAt
-        //articleEntity?.toLikeEntity?.isLiked = article.like.isLiked
-        //articleEntity?.toLikeEntity?.isDisliked = article.like.isDisliked
   
         return articleEntity
     }
@@ -52,8 +50,5 @@ private extension Article {
         self.url = URL(string: url)!
         self.urlToImage = URL(string: urlToImage)!
         self.publishedAt = entity.publishedAt ?? ""
-        
-        let like = Like(isLiked: (entity.toLikeEntity?.isLiked)!, isDisliked: (entity.toLikeEntity?.isDisliked)!) //
-        self.like = like //
     }
 }

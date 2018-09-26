@@ -8,39 +8,81 @@
 
 import UIKit
 
+enum MyMosaicSegmentStyle {
+    case twoThirdsOneThird
+    case oneThirdTwoThirds
+}
+
 class MosaicLayout: UICollectionViewLayout {
     
-    var contentBounds = CGRect.zero
-    var cachedAttributes = [UICollectionViewLayoutAttributes]()
+    private var contentBounds = CGRect.zero
+    private var cachedAttributes = [UICollectionViewLayoutAttributes]()
     
     override func prepare() {
+        super.prepare()
         
-        guard let cv = collectionView else { return }
+        guard let collectionView = collectionView else { return }
         
-        // Reset cached info
+        // Reset cached information.
         cachedAttributes.removeAll()
-        contentBounds = CGRect(origin: .zero, size: cv.bounds.size)
+        contentBounds = CGRect(origin: .zero, size: collectionView.bounds.size)
         
-        // for every item
-        // - Prepare attributes
-        // - Store attributes in cachedAttributes array
-        // - union contentBounds with attributes.frame
-        createAttributes()
-    }
-    
-    private func createAttributes() {
-        // calculate the sizes, positions, transform, etc. for cells
+        // For every item in the collection view:
+        //  - Prepare the attributes.
+        //  - Store attributes in the cachedAttributes array.
+        //  - Combine contentBounds with attributes.frame.
+        let count = collectionView.numberOfItems(inSection: 0)
         
-        // 1. Only calculate once
-        guard cachedAttributes.isEmpty == true, let collectionView = collectionView else {
-            return
+        var currentIndex = 0
+        var segment: MyMosaicSegmentStyle = .twoThirdsOneThird
+        var lastFrame: CGRect = .zero
+        
+        let cvWidth = collectionView.bounds.size.width
+        
+        while currentIndex < count {
+            let segmentFrame = CGRect(x: 0, y: lastFrame.maxY + 1.0, width: cvWidth, height: 200.0)
+            
+            var segmentRects = [CGRect]()
+            switch segment {
+                
+            case .twoThirdsOneThird:
+                let horizontalSlices = segmentFrame.dividedIntegral(fraction: (2.0 / 3.0), from: .minXEdge)
+                let verticalSlices = horizontalSlices.second.dividedIntegral(fraction: 0.5, from: .minYEdge)
+                segmentRects = [horizontalSlices.first, verticalSlices.first, verticalSlices.second]
+                
+            case .oneThirdTwoThirds:
+                let horizontalSlices = segmentFrame.dividedIntegral(fraction: (1.0 / 3.0), from: .minXEdge)
+                let verticalSlices = horizontalSlices.first.dividedIntegral(fraction: 0.5, from: .minYEdge)
+                segmentRects = [verticalSlices.first, verticalSlices.second, horizontalSlices.second]
+            }
+            
+            // Create and cache layout attributes for calculated frames.
+            for rect in segmentRects {
+                let attributes = UICollectionViewLayoutAttributes(forCellWith: IndexPath(item: currentIndex, section: 0))
+                attributes.frame = rect
+                
+                cachedAttributes.append(attributes)
+                contentBounds = contentBounds.union(lastFrame)
+                
+                currentIndex += 1
+                lastFrame = rect
+            }
+            
+            // Determine the next segment style.
+            switch count - currentIndex {
+            case 1:
+                segment = .twoThirdsOneThird
+            case 2:
+                segment = .oneThirdTwoThirds
+            default:
+                switch segment {
+                case .twoThirdsOneThird:
+                    segment = .oneThirdTwoThirds
+                case .oneThirdTwoThirds:
+                    segment = .twoThirdsOneThird
+                }
+            }
         }
-        
-        // 2. Pre-Calculates the X Offset for every column and adds an array to increment the currently max Y Offset for each column
-        // 3. Iterates through the list of items in the first section
-        // 4. Asks the delegate for the height of the picture and the annotation and calculates the cell frame.
-        // 5. Creates an UICollectionViewLayoutItem with the frame and add it to the cache
-        // 6. Updates the collection view content height
     }
     
     override var collectionViewContentSize: CGSize {

@@ -24,8 +24,6 @@
 		40D6A78A21426B5900878A45 /* MosaicLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D6A78921426B5900878A45 /* MosaicLayout.swift */; };
 		40DC36842140F6EC000C599C /* WebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DC36832140F6EC000C599C /* WebVC.swift */; };
 		40E16E1A214F8C9F004BB60D /* LikeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E16E19214F8C9F004BB60D /* LikeService.swift */; };
-		40E16E27214FB971004BB60D /* LikeEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E16E25214FB971004BB60D /* LikeEntity+CoreDataClass.swift */; };
-		40E16E28214FB971004BB60D /* LikeEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E16E26214FB971004BB60D /* LikeEntity+CoreDataProperties.swift */; };
 		40E16E2A214FCBBC004BB60D /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E16E29214FCBBC004BB60D /* Like.swift */; };
 		40EF515F213E8F2A0018E75A /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EF515E213E8F2A0018E75A /* CoreDataStack.swift */; };
 		40EF5161213E8F380018E75A /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EF5160213E8F380018E75A /* CoreDataManager.swift */; };
@@ -33,8 +31,10 @@
 		40EF5179213E949C0018E75A /* ArticleEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EF5177213E949C0018E75A /* ArticleEntity+CoreDataClass.swift */; };
 		40EF517A213E949C0018E75A /* ArticleEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EF5178213E949C0018E75A /* ArticleEntity+CoreDataProperties.swift */; };
 		784ED4C257951FFC5E817AEB /* Pods_News.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84ED085739B8A2DE94ABBAA0 /* Pods_News.framework */; };
+		D10F94E6215B6CA2007A646D /* TestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10F94E5215B6CA2007A646D /* TestLayout.swift */; };
 		D12C8CA9215383BB0066EB31 /* TableLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12C8CA8215383BB0066EB31 /* TableLayout.swift */; };
-		D1758A05215518C2003AC6DA /* TestFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1758A04215518C2003AC6DA /* TestFlowLayout.swift */; };
+		D1758A05215518C2003AC6DA /* FillingLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1758A04215518C2003AC6DA /* FillingLayout.swift */; };
+		D1F02AFA215A6C2B003F0922 /* AppleMosaicLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F02AF9215A6C2B003F0922 /* AppleMosaicLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,8 +58,6 @@
 		40D6A78921426B5900878A45 /* MosaicLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosaicLayout.swift; sourceTree = "<group>"; };
 		40DC36832140F6EC000C599C /* WebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebVC.swift; sourceTree = "<group>"; };
 		40E16E19214F8C9F004BB60D /* LikeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeService.swift; sourceTree = "<group>"; };
-		40E16E25214FB971004BB60D /* LikeEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LikeEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		40E16E26214FB971004BB60D /* LikeEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LikeEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		40E16E29214FCBBC004BB60D /* Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
 		40EF515E213E8F2A0018E75A /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		40EF5160213E8F380018E75A /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -68,8 +66,10 @@
 		40EF5178213E949C0018E75A /* ArticleEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ArticleEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		60688CF83DDEDC4C006EA48E /* Pods-News.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-News.release.xcconfig"; path = "Pods/Target Support Files/Pods-News/Pods-News.release.xcconfig"; sourceTree = "<group>"; };
 		84ED085739B8A2DE94ABBAA0 /* Pods_News.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_News.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D10F94E5215B6CA2007A646D /* TestLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLayout.swift; sourceTree = "<group>"; };
 		D12C8CA8215383BB0066EB31 /* TableLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableLayout.swift; sourceTree = "<group>"; };
-		D1758A04215518C2003AC6DA /* TestFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFlowLayout.swift; sourceTree = "<group>"; };
+		D1758A04215518C2003AC6DA /* FillingLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillingLayout.swift; sourceTree = "<group>"; };
+		D1F02AF9215A6C2B003F0922 /* AppleMosaicLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMosaicLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,8 +189,10 @@
 		40D6A7882142645D00878A45 /* Layout */ = {
 			isa = PBXGroup;
 			children = (
-				D1758A04215518C2003AC6DA /* TestFlowLayout.swift */,
+				D1758A04215518C2003AC6DA /* FillingLayout.swift */,
+				D1F02AF9215A6C2B003F0922 /* AppleMosaicLayout.swift */,
 				40D6A78921426B5900878A45 /* MosaicLayout.swift */,
+				D10F94E5215B6CA2007A646D /* TestLayout.swift */,
 				D12C8CA8215383BB0066EB31 /* TableLayout.swift */,
 			);
 			path = Layout;
@@ -208,8 +210,6 @@
 		40EF515C213E8F0F0018E75A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				40E16E25214FB971004BB60D /* LikeEntity+CoreDataClass.swift */,
-				40E16E26214FB971004BB60D /* LikeEntity+CoreDataProperties.swift */,
 				40EF5177213E949C0018E75A /* ArticleEntity+CoreDataClass.swift */,
 				40EF5178213E949C0018E75A /* ArticleEntity+CoreDataProperties.swift */,
 				40EF5170213E94100018E75A /* NewsDataModel.xcdatamodeld */,
@@ -351,12 +351,12 @@
 			files = (
 				40072456214008D9002171C2 /* NewsService.swift in Sources */,
 				403F0C3B213D0A6C0098FFE2 /* News.swift in Sources */,
+				D1F02AFA215A6C2B003F0922 /* AppleMosaicLayout.swift in Sources */,
 				403F0C1C213D02190098FFE2 /* AppDelegate.swift in Sources */,
-				40E16E27214FB971004BB60D /* LikeEntity+CoreDataClass.swift in Sources */,
 				403F0C41213D613F0098FFE2 /* DateConverter.swift in Sources */,
 				403F0C3F213D0E2F0098FFE2 /* WebService.swift in Sources */,
 				403F0C35213D03BA0098FFE2 /* NewsCell.swift in Sources */,
-				D1758A05215518C2003AC6DA /* TestFlowLayout.swift in Sources */,
+				D1758A05215518C2003AC6DA /* FillingLayout.swift in Sources */,
 				40EF515F213E8F2A0018E75A /* CoreDataStack.swift in Sources */,
 				40E16E2A214FCBBC004BB60D /* Like.swift in Sources */,
 				40EF5172213E94100018E75A /* NewsDataModel.xcdatamodeld in Sources */,
@@ -365,12 +365,12 @@
 				D12C8CA9215383BB0066EB31 /* TableLayout.swift in Sources */,
 				40E16E1A214F8C9F004BB60D /* LikeService.swift in Sources */,
 				40EF517A213E949C0018E75A /* ArticleEntity+CoreDataProperties.swift in Sources */,
-				40E16E28214FB971004BB60D /* LikeEntity+CoreDataProperties.swift in Sources */,
 				403F0C37213D040E0098FFE2 /* ArticleVC.swift in Sources */,
 				40DC36842140F6EC000C599C /* WebVC.swift in Sources */,
 				4034248521512E7900DCFBFB /* SearchResultVC.swift in Sources */,
 				4034248721512F5C00DCFBFB /* TableNewsCell.swift in Sources */,
 				403F0C39213D0A420098FFE2 /* Article.swift in Sources */,
+				D10F94E6215B6CA2007A646D /* TestLayout.swift in Sources */,
 				40D6A78A21426B5900878A45 /* MosaicLayout.swift in Sources */,
 				40EF5161213E8F380018E75A /* CoreDataManager.swift in Sources */,
 			);

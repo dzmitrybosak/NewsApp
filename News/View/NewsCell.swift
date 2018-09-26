@@ -17,6 +17,8 @@ class NewsCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     
+    private var imageOverlayView = UIView()
+    
     var article: Article? {
         didSet {
             update()
@@ -26,6 +28,8 @@ class NewsCell: UICollectionViewCell {
     private func update() {
         titleLabel.text = article?.title
         
+        addOverlay()
+        
         if article?.urlToImage != nil {
             imageView.af_setImage(withURL: (article?.urlToImage)!, placeholderImage: UIImage(named: Constants.imageHolder))
         } else {
@@ -33,15 +37,23 @@ class NewsCell: UICollectionViewCell {
         }
     }
     
-    // Закругленные ячейки
+    private func addOverlay() {
+        imageOverlayView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        imageOverlayView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        imageView.addSubview(imageOverlayView)
+    }
+    
+    
     override func awakeFromNib() {
-        super.awakeFromNib()        
-        layer.cornerRadius = 10
+        super.awakeFromNib()
+        // Rounded cell edges
+        layer.cornerRadius = 1.5
         layer.masksToBounds = true
     }
     
     override func prepareForReuse() {
         titleLabel.text = nil
+        imageOverlayView.removeFromSuperview()
         imageView.af_cancelImageRequest()
         imageView.image = UIImage(named: Constants.imageHolder)
     }
