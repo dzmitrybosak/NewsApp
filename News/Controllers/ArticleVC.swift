@@ -17,10 +17,15 @@ private enum Segues: String {
     case showWebView = "showWebView"
 }
 
+private enum Like: Int16 {
+    case isLiked = 1
+    case noLike = 0
+    case isDisliked = -1
+}
+
 class ArticleVC: UIViewController {
 
     private let dateConverter = DateConverter.shared
-    //private let likeService = LikeService.shared
     
     // MARK: - Properties
     
@@ -58,7 +63,7 @@ class ArticleVC: UIViewController {
         }
         
         checkURLAndSetButton()
-        
+        checkLikeValue()
     }
     
     private func checkURLAndSetButton() {
@@ -68,32 +73,38 @@ class ArticleVC: UIViewController {
         }
     }
     
-    /*private func checkLikeValue() {
-        print("Article like: \(String(describing: article?.like.isLiked.description))")
-        print("Article dislike: \(String(describing: article?.like.isDisliked.description))")
+    private func checkLikeValue() {
+        print("Article like value is: \(String(describing: article?.likeValue))")
         
-        if article?.like.isLiked == true {
+        guard let likeValue = article?.likeValue else { return }
+        
+        switch likeValue {
+        case Like.isLiked.rawValue:
+            likeButton.isEnabled = true
             dislikeButton.isEnabled = false
-        } else if article?.like.isDisliked == true {
+        case Like.isDisliked.rawValue:
+            dislikeButton.isEnabled = true
             likeButton.isEnabled = false
+        default:
+            break
         }
     }
     
     private func likeSelected() {
-        article?.like.isLiked = true
-        article?.like.isDisliked = false
+        article?.likeValue = Like.isLiked.rawValue
         
         print("Like button pressed")
+        
         checkLikeValue()
     }
     
     private func dislikeSelected() {
-        article?.like.isDisliked = true
-        article?.like.isLiked = false
+        article?.likeValue = Like.isDisliked.rawValue
         
         print("Dislike button pressed")
+        
         checkLikeValue()
-    }*/
+    }
     
     // MARK: - Navigation
     
@@ -116,14 +127,13 @@ class ArticleVC: UIViewController {
     
     // MARK: - Actions
     
-    @IBAction func readMoreButton(_ sender: UIButton) {}
-    
     @IBAction func likeButtonPressed(_ sender: UIButton) {
-        //likeSelected()
+        likeSelected()
     }
     
     @IBAction func dislikeButtonPressed(_ sender: UIButton) {
-        //dislikeSelected()
+        dislikeSelected()
     }
     
+    @IBAction func readMoreButton(_ sender: UIButton) {}
 }

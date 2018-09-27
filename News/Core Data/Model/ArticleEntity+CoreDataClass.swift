@@ -26,6 +26,12 @@ public class ArticleEntity: NSManagedObject {
         return articleEntity
     }
     
+    class func saveLike(from article: Article, in context: NSManagedObjectContext) {
+        let articleEntity = NSEntityDescription.insertNewObject(forEntityName: String(describing: ArticleEntity.self), into: context) as? ArticleEntity
+        
+        articleEntity?.likeValue = article.likeValue //
+    }
+    
     func map() -> Article? {
         return Article(from: self)
     }
@@ -50,5 +56,7 @@ private extension Article {
         self.url = URL(string: url)!
         self.urlToImage = URL(string: urlToImage)!
         self.publishedAt = entity.publishedAt ?? ""
+        
+        self.likeValue = entity.likeValue //
     }
 }

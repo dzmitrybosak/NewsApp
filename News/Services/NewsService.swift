@@ -40,6 +40,10 @@ final class NewsService {
         }
     }
     
+    private func storeLikes() {
+        
+    }
+    
     private func storeRemoteArticles(using articles: [Article], callback: @escaping ([Article]) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
