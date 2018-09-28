@@ -22,14 +22,28 @@ public class ArticleEntity: NSManagedObject {
         articleEntity?.url = article.url?.absoluteString
         articleEntity?.urlToImage = article.urlToImage?.absoluteString
         articleEntity?.publishedAt = article.publishedAt
+        
+        articleEntity?.likeValue = article.likeValue //
   
         return articleEntity
     }
     
-    class func saveLike(from article: Article, in context: NSManagedObjectContext) {
+    class func resaveLike(from article: Article, in context: NSManagedObjectContext) -> ArticleEntity? {
         let articleEntity = NSEntityDescription.insertNewObject(forEntityName: String(describing: ArticleEntity.self), into: context) as? ArticleEntity
         
+        articleEntity?.setValue(article.likeValue, forKey: String(describing: articleEntity?.likeValue.self))
+        /*articleEntity?.id = article.id
+        articleEntity?.name = article.name
+        articleEntity?.author = article.author
+        articleEntity?.title = article.title
+        articleEntity?.details = article.description
+        articleEntity?.url = article.url?.absoluteString
+        articleEntity?.urlToImage = article.urlToImage?.absoluteString
+        articleEntity?.publishedAt = article.publishedAt
+        
         articleEntity?.likeValue = article.likeValue //
+        */
+        return articleEntity
     }
     
     func map() -> Article? {

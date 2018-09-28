@@ -26,6 +26,7 @@ private enum Like: Int16 {
 class ArticleVC: UIViewController {
 
     private let dateConverter = DateConverter.shared
+    private let newsService = NewsService.shared //
     
     // MARK: - Properties
     
@@ -44,6 +45,8 @@ class ArticleVC: UIViewController {
         
         setupData()
     }
+    
+    // MARK: - Private methods
     
     private func setupData() {
         guard let article = article else {
@@ -91,17 +94,25 @@ class ArticleVC: UIViewController {
     }
     
     private func likeSelected() {
+        print("Like button pressed")
+        
         article?.likeValue = Like.isLiked.rawValue
         
-        print("Like button pressed")
+        newsService.resaveEntity(using: article!) { [weak self] _ in
+            _ = self?.article
+        } //
         
         checkLikeValue()
     }
     
     private func dislikeSelected() {
+        print("Dislike button pressed")
+        
         article?.likeValue = Like.isDisliked.rawValue
         
-        print("Dislike button pressed")
+        newsService.resaveEntity(using: article!) { [weak self] _ in
+            _ = self?.article
+        } //
         
         checkLikeValue()
     }

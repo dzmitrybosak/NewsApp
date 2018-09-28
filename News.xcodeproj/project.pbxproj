@@ -147,8 +147,8 @@
 			isa = PBXGroup;
 			children = (
 				403F0C3E213D0E2F0098FFE2 /* WebService.swift */,
-				403F0C40213D613F0098FFE2 /* DateConverter.swift */,
 				40072455214008D9002171C2 /* NewsService.swift */,
+				403F0C40213D613F0098FFE2 /* DateConverter.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -263,6 +263,11 @@
 					403F0C17213D02190098FFE2 = {
 						CreatedOnToolsVersion = 9.4.1;
 						LastSwiftMigration = 1000;
+						SystemCapabilities = {
+							com.apple.WAC = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};

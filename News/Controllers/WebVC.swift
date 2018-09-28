@@ -11,6 +11,8 @@ import WebKit
 
 class WebVC: UIViewController {
 
+    // MARK: - Properties
+    
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var progressView: UIProgressView!
     

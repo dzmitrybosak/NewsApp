@@ -35,7 +35,7 @@ class TestLayout: UICollectionViewFlowLayout {
         //  - Prepare the attributes.
         //  - Store attributes in the cachedAttributes array.
         //  - Combine contentBounds with attributes.frame.
-        let count = collectionView.numberOfItems(inSection: 0)
+        //let count = collectionView.numberOfItems(inSection: 0)
 
     }
     

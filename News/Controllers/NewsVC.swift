@@ -89,7 +89,8 @@ class NewsVC: UIViewController {
         refreshControl.attributedTitle = attributedString
     }
     
-    @objc private func didRefresh(_ sender: Any) {
+    @objc
+    private func didRefresh(_ sender: Any) {
         setupData()
     }
     
@@ -162,7 +163,7 @@ extension NewsVC: UICollectionViewDataSource {
 
 // MARK: -  UICollectionViewDelegateFlowLayout - 1 large, 2 small
 
-extension NewsVC: UICollectionViewDelegateFlowLayout {
+/*extension NewsVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -181,6 +182,6 @@ extension NewsVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: cellWidth, height: cellWidth / 2)
     }
     
-}
+}*/
 
 
