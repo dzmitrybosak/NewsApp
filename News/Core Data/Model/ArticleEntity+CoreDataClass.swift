@@ -29,20 +29,18 @@ public class ArticleEntity: NSManagedObject {
     }
     
     class func resaveLike(from article: Article, in context: NSManagedObjectContext) -> ArticleEntity? {
-        let articleEntity = NSEntityDescription.insertNewObject(forEntityName: String(describing: ArticleEntity.self), into: context) as? ArticleEntity
+        let articleEntity = NSEntityDescription.entity(forEntityName: String(describing: ArticleEntity.self), in: context) as? ArticleEntity
         
         articleEntity?.setValue(article.likeValue, forKey: String(describing: articleEntity?.likeValue.self))
-        /*articleEntity?.id = article.id
-        articleEntity?.name = article.name
-        articleEntity?.author = article.author
-        articleEntity?.title = article.title
-        articleEntity?.details = article.description
-        articleEntity?.url = article.url?.absoluteString
-        articleEntity?.urlToImage = article.urlToImage?.absoluteString
-        articleEntity?.publishedAt = article.publishedAt
+        articleEntity?.setValue(article.name, forKey: String(describing: articleEntity?.name.self))
+        articleEntity?.setValue(article.id, forKey: String(describing: articleEntity?.id.self))
+        articleEntity?.setValue(article.author, forKey: String(describing: articleEntity?.author.self))
+        articleEntity?.setValue(article.title, forKey: String(describing: articleEntity?.title.self))
+        articleEntity?.setValue(article.description, forKey: String(describing: articleEntity?.details.self))
+        articleEntity?.setValue(article.url?.absoluteURL, forKey: String(describing: articleEntity?.url.self))
+        articleEntity?.setValue(article.urlToImage, forKey: String(describing: articleEntity?.urlToImage.self))
+        articleEntity?.setValue(article.publishedAt, forKey: String(describing: articleEntity?.publishedAt.self))
         
-        articleEntity?.likeValue = article.likeValue //
-        */
         return articleEntity
     }
     

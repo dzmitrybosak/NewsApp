@@ -57,7 +57,8 @@ class NewsVC: UIViewController {
     
     // Set Collection View Layout
     private func setupLayout() {
-        let layout = AppleMosaicLayout()
+        //let layout = AppleMosaicLayout()
+        let layout = TableLayout()
         collectionView.collectionViewLayout = layout
         //layout.delegate = self
     }
@@ -67,7 +68,15 @@ class NewsVC: UIViewController {
         activityIndicator.startAnimating()
         
         newsService.news { [weak self] news in
-            self?.news = news
+            
+            // Sort by date
+            let sortedNews = news.sorted(by: { (firstArticle: Article, secondArticle: Article) -> Bool in
+                return firstArticle.publishedAt?.compare(secondArticle.publishedAt!) == .orderedDescending
+            })
+
+            self?.news = sortedNews
+            print("Sorted news in VC: \(String(describing: self?.news.count))")
+//            self?.news = news
         }
         
         DispatchQueue.main.async {

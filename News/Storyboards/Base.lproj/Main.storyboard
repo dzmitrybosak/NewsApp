@@ -311,7 +311,7 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem systemItem="flexibleSpace" id="KO2-Rc-xaN"/>
-                                    <barButtonItem systemItem="play" id="4qy-mQ-Qq3">
+                                    <barButtonItem image="safari" landscapeImage="safari" largeContentSizeImage="safari" id="4qy-mQ-Qq3">
                                         <connections>
                                             <action selector="openSafariButtonPressed:" destination="OZe-V7-gQi" id="lD5-NY-H4E"/>
                                         </connections>
@@ -397,5 +397,6 @@
         <image name="dislike" width="45" height="45"/>
         <image name="like" width="45" height="45"/>
         <image name="placeholder" width="600" height="400"/>
+        <image name="safari" width="28" height="28"/>
     </resources>
 </document>
