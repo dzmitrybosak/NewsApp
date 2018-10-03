@@ -18,8 +18,9 @@ final class NewsService {
     static let shared = NewsService()
     private init() { }
     
-    // MARK: - Main method
+    // MARK: - Main methods
     
+    // Get News
     func news(callback: @escaping ([Article]) -> Void) {
         newsWebService.getNews { [weak self] (remoteArticles, error) in
             if let _ = error {
@@ -32,15 +33,7 @@ final class NewsService {
         }
     }
     
-    
-// запуск -> загрузка новостей из интернета -> удаление старых новостей из базы -> сохранение новых новостей в базу
-//                                          -> если нет соединения, то извлечение новостей из базы
-//
-// запуск -> загрузка новостей из интернета -> сохранение новостей в базу с проверкой (если новость есть, то не ее не сохранять) -> лайк -> пересохранение новости в базу -> извлечение новостей из базы
-//                                          -> если соединения нет, то извлечение новостей базы -> лайк -> проверка на наличие таковой новости в базе. если нет, то добавить и удалить первую -> сохранить базу -> извлечение новостей из базы
-
-    
-    // resave entity
+    // Resave Entity
     func resaveEntity(using article: Article, callback: @escaping (Article) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
@@ -56,23 +49,6 @@ final class NewsService {
             try? context.save()
             
             callback(article)
-        }
-    }
-    
-    // fetch articles with likes
-    // получить массив статей с сохраненными лайками
-    // заменить лайки в массиве?
-    func fetchLikes(callback: @escaping ([Article]) -> Void) {
-        let context = coreDataManager.context
-        context.perform { [weak self] in
-            let articleEntities = self?.fetchArticleEntities(from: context) ?? []
-            
-            var articles = [Article?]()
-            for articleEntity in articleEntities {
-                articles.append(articleEntity.map())
-            }
-            
-            callback(articles.compactMap({ $0 }))
         }
     }
     
@@ -92,60 +68,53 @@ final class NewsService {
         }
     }
     
-    /*
-     private func storeRemoteArticles(using articles: [Article], callback: @escaping ([Article]) -> Void) {
-     let context = coreDataManager.context
-     context.perform { [weak self] in
-     let articleEntities = self?.fetchArticleEntities(from: context) ?? []
-     
-     for articleEntity in articleEntities {
-     context.delete(articleEntity)
-     }
-     
-     for article in articles {
-     _ = ArticleEntity.create(from: article, in: context)
-     }
-     
-     try? context.save()
-     
-     callback(articles)
-     }
-     }
-     */
-    
-    // сохранить записи -> удалить все записи -> создать новые записи -> сохранить контекст -> колбэк
-    // сохранить записи -> если статья уже есть, то вернуть записи -> если статьи нет, то создать и удалить первую запись ->  сохранить контекст -> колбэк
+
     
     private func storeRemoteArticles(using articles: [Article], callback: @escaping ([Article]) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
-            var articleEntities = self?.fetchArticleEntities(from: context) ?? []
+            let articleEntities = self?.fetchArticleEntities(from: context) ?? []
             
-            for article in articles {
+             for article in articles {
                 
-                if !articleEntities.contains(where: { $0.title == article.title }) {
-                    _ = ArticleEntity.create(from: article, in: context)
-                } else if !articles.contains(where: { $0.title == article.title }) {
-                    
-                    for articleEntity in articleEntities {
-                        //context.delete(articleEntity)
+                        let isArticleExisted = articleEntities.contains { entity in
+                            if entity.url == article.url?.absoluteString {
+                                return true
+                            } else {
+                                return false
+                            }
+                        }
+                        
+                        if isArticleExisted == false {
+                            _ = ArticleEntity.create(from: article, in: context)
+                        }
+                        
                     }
-                }
-                
-                
-                
-            }
-            
-            
-            
+        
             try? context.save()
-            
-            print("Articles from web: \(articles.count)")
-            print("Articles in CoreData \(articleEntities.count)")
-            
             callback(articles)
         }
     }
+    
+    /* // Store Remote Articles
+     private func storeRemoteArticles(using articles: [Article], callback: @escaping ([Article]) -> Void) {
+        let context = coreDataManager.context
+        context.perform { [weak self] in
+            let articleEntities = self?.fetchArticleEntities(from: context) ?? []
+     
+            for articleEntity in articleEntities {
+                context.delete(articleEntity)
+            }
+     
+            for article in articles {
+                _ = ArticleEntity.create(from: article, in: context)
+            }
+     
+            try? context.save()
+     
+            callback(articles)
+        }
+     } */
     
     private func fetchArticleEntities(from context: NSManagedObjectContext) -> [ArticleEntity] {
         let fetchRequest = NSFetchRequest<ArticleEntity>(entityName: String(describing: ArticleEntity.self))

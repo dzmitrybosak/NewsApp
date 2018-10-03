@@ -20,13 +20,7 @@ struct Article: Decodable {
     var urlToImage: URL?
     var publishedAt: String?
     
-    var likeValue: Int16 //
-    
-    /*
-     isDisliked: Int16 = -1 // Min value
-     defaultLike: Int16 = 0 // isn't liked, isn't disliked - Default value
-     isLiked: Int16 = 1 // Max value
-     */
+    var likeValue: Int16
     
     enum CodingKeys: CodingKey {
         case source
@@ -55,6 +49,6 @@ struct Article: Decodable {
         self.urlToImage = try? container.decode(URL.self, forKey: .urlToImage)
         self.publishedAt = try? container.decode(String.self, forKey: .publishedAt)
         
-        self.likeValue = 0 //
+        self.likeValue = 0
     }
 }

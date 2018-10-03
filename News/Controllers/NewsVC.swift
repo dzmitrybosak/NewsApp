@@ -30,6 +30,8 @@ class NewsVC: UIViewController {
     
     private let newsService = NewsService.shared
     
+    private var isLoadingViewController = false
+    
     private var news: [Article] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
@@ -48,17 +50,28 @@ class NewsVC: UIViewController {
         
         setupLayout()
         
+        isLoadingViewController = true
         setupData()
         
         setupRefreshControl()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if isLoadingViewController {
+            isLoadingViewController = false
+        } else {
+            setupData()
+        }
     }
     
     // MARK: - Private instance methods
     
     // Set Collection View Layout
     private func setupLayout() {
-        //let layout = AppleMosaicLayout()
-        let layout = TableLayout()
+        let layout = AppleMosaicLayout()
+        //let layout = TableLayout()
         collectionView.collectionViewLayout = layout
         //layout.delegate = self
     }

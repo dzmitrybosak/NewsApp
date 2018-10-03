@@ -18,15 +18,15 @@ private enum Segues: String {
 }
 
 private enum Like: Int16 {
-    case isLiked = 1
-    case noLike = 0
     case isDisliked = -1
+//  case noLike = 0
+    case isLiked = 1
 }
 
 class ArticleVC: UIViewController {
 
     private let dateConverter = DateConverter.shared
-    private let newsService = NewsService.shared //
+    private let newsService = NewsService.shared
     
     // MARK: - Properties
     
@@ -77,7 +77,6 @@ class ArticleVC: UIViewController {
     }
     
     private func checkLikeValue() {
-        print("Article like value is: \(String(describing: article?.likeValue))")
         
         guard let likeValue = article?.likeValue else { return }
         
@@ -94,25 +93,23 @@ class ArticleVC: UIViewController {
     }
     
     private func likeSelected() {
-        print("Like button pressed")
         
         article?.likeValue = Like.isLiked.rawValue
         
         newsService.resaveEntity(using: article!) { [weak self] _ in
             _ = self?.article
-        } //
+        }
         
         checkLikeValue()
     }
     
     private func dislikeSelected() {
-        print("Dislike button pressed")
         
         article?.likeValue = Like.isDisliked.rawValue
         
         newsService.resaveEntity(using: article!) { [weak self] _ in
             _ = self?.article
-        } //
+        }
         
         checkLikeValue()
     }
