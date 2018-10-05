@@ -37,7 +37,7 @@ class AppleMosaicLayout: UICollectionViewLayout {
         let count = collectionView.numberOfItems(inSection: 0)
         
         var currentIndex = 0
-        var segment: MosaicSegmentStyle = .twoThirdsOneThird
+        var segment: MosaicSegmentStyle = .fullWidth
         var lastFrame: CGRect = .zero
         
         let cvWidth = collectionView.bounds.size.width
@@ -92,7 +92,7 @@ class AppleMosaicLayout: UICollectionViewLayout {
                 case .twoThirdsOneThird:
                     segment = .oneThirdTwoThirds
                 case .oneThirdTwoThirds:
-                    segment = .twoThirdsOneThird
+                    segment = .fiftyFifty
                 }
             }
         }

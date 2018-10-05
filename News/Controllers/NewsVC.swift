@@ -88,8 +88,6 @@ class NewsVC: UIViewController {
             })
 
             self?.news = sortedNews
-            print("Sorted news in VC: \(String(describing: self?.news.count))")
-//            self?.news = news
         }
         
         DispatchQueue.main.async {
