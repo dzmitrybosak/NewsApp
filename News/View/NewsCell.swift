@@ -39,16 +39,8 @@ class NewsCell: UICollectionViewCell {
     
     private func addOverlay() {
         imageOverlayView.backgroundColor = UIColor(white: 0, alpha: 0.5)
-        imageOverlayView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        imageOverlayView.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
         imageView.addSubview(imageOverlayView)
-    }
-    
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Rounded cell edges
-        layer.cornerRadius = 1.5
-        layer.masksToBounds = true
     }
     
     override func prepareForReuse() {

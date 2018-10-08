@@ -148,7 +148,7 @@ class MosaicLayout: UICollectionViewLayout {
         
         // Loop through the cache and look for items in the rect
         for attributes in cachedAttributes {
-            if attributes.frame.intersects(rect) { // что значит пересекаются два прямоугольника? // то есть, если совпадают значения фрэйма с позицией прямоугольника?
+            if attributes.frame.intersects(rect) {
                 visibleLayoutAttributes.append(attributes)
             }
         }

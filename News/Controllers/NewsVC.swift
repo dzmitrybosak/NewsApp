@@ -70,9 +70,7 @@ class NewsVC: UIViewController {
     // Set Collection View Layout
     private func setupLayout() {
         let layout = MosaicLayout()
-        //let layout = TableLayout()
         collectionView.collectionViewLayout = layout
-        //layout.delegate = self
     }
     
     // Setup data
