@@ -8,9 +8,11 @@
 
 import UIKit
 
-enum MyMosaicSegmentStyle {
+enum MosaicSegmentStyle {
     case twoThirdsOneThird
     case oneThirdTwoThirds
+    case fiftyFifty
+    case fullWidth
 }
 
 class MosaicLayout: UICollectionViewLayout {
@@ -18,7 +20,7 @@ class MosaicLayout: UICollectionViewLayout {
     var contentBounds = CGRect.zero
     var cachedAttributes = [UICollectionViewLayoutAttributes]()
     
-    /// - Tag: PrepareMosaicLayout
+    // PrepareMosaicLayout
     override func prepare() {
         super.prepare()
         
@@ -41,27 +43,58 @@ class MosaicLayout: UICollectionViewLayout {
         let cvWidth = collectionView.bounds.size.width
         
         while currentIndex < count {
-            let segmentFrame = CGRect(x: 0, y: lastFrame.maxY + 1.0, width: cvWidth, height: 200.0)
             
             var segmentRects = [CGRect]()
+            
             switch segment {
             case .fullWidth:
+                
+                let segmentFrame = CGRect(x: 0, y: lastFrame.maxY + 2.0, width: cvWidth, height: 200.0)
                 segmentRects = [segmentFrame]
                 
             case .fiftyFifty:
-                let horizontalSlices = segmentFrame.dividedIntegral(fraction: 0.5, from: .minXEdge)
-                segmentRects = [horizontalSlices.first, horizontalSlices.second]
-                print(segmentRects)
+                
+                let space: CGFloat = 2.0
+                let x: CGFloat = 0
+                let y: CGFloat = lastFrame.maxY + (space * 2)
+                let numberOfRects: CGFloat = 2
+                let width: CGFloat = cvWidth / numberOfRects
+                let heigt: CGFloat = 200.0
+                
+                let halfFirst = CGRect(x: x, y: y, width: width - space, height: heigt)
+                let halfSecond = CGRect(x: x + width + space, y: y, width: width - space, height: heigt)
+                
+                segmentRects = [halfFirst, halfSecond]
                 
             case .twoThirdsOneThird:
-                let horizontalSlices = segmentFrame.dividedIntegral(fraction: (2.0 / 3.0), from: .minXEdge)
-                let verticalSlices = horizontalSlices.second.dividedIntegral(fraction: 0.5, from: .minYEdge)
-                segmentRects = [horizontalSlices.first, verticalSlices.first, verticalSlices.second]
+                
+                let space: CGFloat = 2.0
+                let x: CGFloat = 0
+                let y: CGFloat = lastFrame.maxY + (space * 2)
+                let numberOfRects: CGFloat = 2
+                let width: CGFloat = cvWidth / numberOfRects
+                let heigt: CGFloat = 200.0
+                
+                let leftThird = CGRect(x: x, y: y, width: width - space, height: heigt)
+                let rightThirdFirst = CGRect(x: x + width + space, y: y, width: width - space, height: (heigt / numberOfRects) - space)
+                let rightThirdSecond = CGRect(x: x + width + space, y: y + (heigt / numberOfRects) + space, width: width - space, height: (heigt / numberOfRects) - space)
+                
+                segmentRects = [leftThird, rightThirdFirst, rightThirdSecond]
                 
             case .oneThirdTwoThirds:
-                let horizontalSlices = segmentFrame.dividedIntegral(fraction: (1.0 / 3.0), from: .minXEdge)
-                let verticalSlices = horizontalSlices.first.dividedIntegral(fraction: 0.5, from: .minYEdge)
-                segmentRects = [verticalSlices.first, verticalSlices.second, horizontalSlices.second]
+                
+                let space: CGFloat = 2.0
+                let x: CGFloat = 0
+                let y: CGFloat = lastFrame.maxY + (space * 2)
+                let numberOfRects: CGFloat = 2
+                let width: CGFloat = cvWidth / numberOfRects
+                let heigt: CGFloat = 200.0
+                
+                let leftThirdFirst = CGRect(x: x, y: y, width: width - space, height: (heigt / numberOfRects) - space)
+                let leftThirdSecond = CGRect(x: x, y: y + (heigt / numberOfRects) + space, width: width - space, height: (heigt / numberOfRects) - space)
+                let rightThird = CGRect(x: x + width + space, y: y, width: width - space, height: heigt)
+                
+                segmentRects = [leftThirdFirst, leftThirdSecond, rightThird]
             }
             
             // Create and cache layout attributes for calculated frames.
@@ -70,7 +103,7 @@ class MosaicLayout: UICollectionViewLayout {
                 attributes.frame = rect
                 
                 cachedAttributes.append(attributes)
-                contentBounds = contentBounds.union(lastFrame)
+                contentBounds = contentBounds.union(lastFrame) // возвращает наименьший rect
                 
                 currentIndex += 1
                 lastFrame = rect
@@ -84,74 +117,46 @@ class MosaicLayout: UICollectionViewLayout {
                 segment = .fiftyFifty
             default:
                 switch segment {
-                case .fullWidth:
-                    segment = .fiftyFifty
-                case .fiftyFifty:
-                    segment = .twoThirdsOneThird
                 case .twoThirdsOneThird:
                     segment = .oneThirdTwoThirds
                 case .oneThirdTwoThirds:
+                    segment = .twoThirdsOneThird
+                case .fiftyFifty:
+                    segment = .fullWidth
+                case .fullWidth:
                     segment = .twoThirdsOneThird
                 }
             }
         }
     }
     
-    /// - Tag: CollectionViewContentSize
+    // CollectionViewContentSize
     override var collectionViewContentSize: CGSize {
         return contentBounds.size
     }
     
-    /// - Tag: ShouldInvalidateLayout
+    // ShouldInvalidateLayout
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         guard let collectionView = collectionView else { return false }
         return !newBounds.size.equalTo(collectionView.bounds.size)
     }
     
-    /// - Tag: LayoutAttributesForItem
+    // LayoutAttributesForElements
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        
+        var visibleLayoutAttributes = [UICollectionViewLayoutAttributes]()
+        
+        // Loop through the cache and look for items in the rect
+        for attributes in cachedAttributes {
+            if attributes.frame.intersects(rect) { // что значит пересекаются два прямоугольника? // то есть, если совпадают значения фрэйма с позицией прямоугольника?
+                visibleLayoutAttributes.append(attributes)
+            }
+        }
+        return visibleLayoutAttributes
+    }
+    
+    // LayoutAttributesForItem
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cachedAttributes[indexPath.item]
     }
-    
-    /// - Tag: LayoutAttributesForElements
-    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        var attributesArray = [UICollectionViewLayoutAttributes]()
-        
-        // Find any cell that sits within the query rect.
-        guard let lastIndex = cachedAttributes.indices.last,
-            let firstMatchIndex = binSearch(rect, start: 0, end: lastIndex) else { return attributesArray }
-        
-        // Starting from the match, loop up and down through the array until all the attributes
-        // have been added within the query rect.
-        for attributes in cachedAttributes[..<firstMatchIndex].reversed() {
-            guard attributes.frame.maxY >= rect.minY else { break }
-            attributesArray.append(attributes)
-        }
-        
-        for attributes in cachedAttributes[firstMatchIndex...] {
-            guard attributes.frame.minY <= rect.maxY else { break }
-            attributesArray.append(attributes)
-        }
-        
-        return attributesArray
-    }
-    
-    // Perform a binary search on the cached attributes array.
-    func binSearch(_ rect: CGRect, start: Int, end: Int) -> Int? {
-        if end < start { return nil }
-        
-        let mid = (start + end) / 2
-        let attr = cachedAttributes[mid]
-        
-        if attr.frame.intersects(rect) {
-            return mid
-        } else {
-            if attr.frame.maxY < rect.minY {
-                return binSearch(rect, start: (mid + 1), end: end)
-            } else {
-                return binSearch(rect, start: start, end: (mid - 1))
-            }
-        }
-    }
-    
 }

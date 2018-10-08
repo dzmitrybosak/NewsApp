@@ -46,7 +46,6 @@ class NewsVC: UIViewController {
         super.viewDidLoad()
         
         collectionView.dataSource = self
-//        collectionView.delegate = self
         
         setupLayout()
         
@@ -70,7 +69,7 @@ class NewsVC: UIViewController {
     
     // Set Collection View Layout
     private func setupLayout() {
-        let layout = AppleMosaicLayout()
+        let layout = MosaicLayout()
         //let layout = TableLayout()
         collectionView.collectionViewLayout = layout
         //layout.delegate = self
@@ -180,28 +179,3 @@ extension NewsVC: UICollectionViewDataSource {
         return cell
     }
 }
-
-// MARK: -  UICollectionViewDelegateFlowLayout - 1 large, 2 small
-
-/*extension NewsVC: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
-        
-        var numberOfCellsPerLine = 0
-        
-        if indexPath.item % 3 == 0 {
-            numberOfCellsPerLine = 1
-        } else {
-            numberOfCellsPerLine = 2
-        }
-        
-        // Generic cell width calculation
-        let cellWidth = (collectionView.bounds.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right) - flowLayout.minimumInteritemSpacing * CGFloat(numberOfCellsPerLine - 1)) / CGFloat(numberOfCellsPerLine)
-        return CGSize(width: cellWidth, height: cellWidth / 2)
-    }
-    
-}*/
-
-
