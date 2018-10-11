@@ -25,17 +25,21 @@ class WebVC: UIViewController {
         
         setupWebView()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
+    }
 
     private func setupWebView() {
         progressView.progress = 0
         
-        if let unwrappedURL = url {
-            let request = URLRequest(url: unwrappedURL)
-            webView.load(request)
-            
-            // Observer for progress view
-            webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
-        }
+        guard let url = url else { return }
+        let request = URLRequest(url: url)
+        webView.load(request)
+        
+        // Observer for progress view
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
     }
     
     // For ProgressView
@@ -43,29 +47,23 @@ class WebVC: UIViewController {
         if keyPath == "estimatedProgress" {
             progressView.progress = Float(webView.estimatedProgress)
         }
+        
     }
     
     // Actions for buttons
     
     private func openSafari() {
-        guard let url = url else {
-            return
-        }
-        UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
+        guard let url = url else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     
     private func activityViewController() {
-        
-        guard let url = self.url else {
-            return
-        }
-        
+        guard let url = url else { return }
         let urlToShare = [url]
         let activityViewController = UIActivityViewController(activityItems: urlToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         
         self.present(activityViewController, animated: true, completion: nil)
-        
     }
     
     // MARK: - Actions
@@ -90,9 +88,4 @@ extension WebVC: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         progressView.isHidden = true
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

@@ -28,6 +28,7 @@ class SearchResultsVC: UIViewController {
     class func initialize(with news: [Article]) -> SearchResultsVC {
         let storyboard = UIStoryboard(name: Constants.mainStoryboardID, bundle: nil)
         guard let searchVC = storyboard.instantiateViewController(withIdentifier: Constants.searchResultsStoryboardID) as? SearchResultsVC else { fatalError("Unable to instatiate a SearchResultsVC from the storyboard.") }
+        
         searchVC.allNews = news
         return searchVC
     }
@@ -36,18 +37,18 @@ class SearchResultsVC: UIViewController {
         super.viewDidLoad()
         
         tableView.dataSource = self
-        tableView.delegate = self
+        tableView.delegate = self   
     }
     
     // MARK: - Private instance methods
         
     private func filterContentForSearchText(_ searchText: String) {
         filteredNews = allNews.filter({ (article: Article) -> Bool in
-            if article.description != nil, article.title != nil {
-                return (article.description?.lowercased().contains(searchText.lowercased()))! || (article.title?.lowercased().contains(searchText.lowercased()))!
-            } else {
-                return false
-            }
+            
+            guard let articleDescription = article.description, let articleTitle = article.title else { fatalError() }
+            
+            return articleDescription.lowercased().contains(searchText.lowercased()) || articleTitle.lowercased().contains(searchText.lowercased())
+            
         })
         tableView.reloadData()
     }
