@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="E64-CO-X3R">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableCell" textLabel="Mdz-1Z-NV1" detailTextLabel="pEn-ht-c9h" style="IBUITableViewCellStyleSubtitle" id="E2g-Uq-FOa" customClass="TableNewsCell" customModule="News" customModuleProvider="target">
@@ -76,7 +76,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="wct-C3-mOl">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="140" width="414" height="722"/>
                                 <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="aeZ-H7-Dsg">
                                     <size key="itemSize" width="150" height="150"/>
@@ -85,7 +85,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <activityIndicatorView key="backgroundView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" id="2YN-HK-XZE">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="722"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </activityIndicatorView>
                                 <cells>
@@ -134,7 +134,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="RcR-kq-kxd"/>
                     </view>
-                    <navigationItem key="navigationItem" title="News" largeTitleDisplayMode="never" id="qJj-Kq-FBy"/>
+                    <navigationItem key="navigationItem" title="News" id="qJj-Kq-FBy"/>
                     <connections>
                         <outlet property="activityIndicator" destination="2YN-HK-XZE" id="W2E-ma-4JT"/>
                         <outlet property="collectionView" destination="wct-C3-mOl" id="tWG-KI-XTr"/>
@@ -373,24 +373,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xWo-4U-FKU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="241" y="840"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Jc1-di-Vri">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2Xf-qP-2P0" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jM9-tk-LK5" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="sLW-Yq-uwB">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="9l5-TK-pZV" kind="relationship" relationship="rootViewController" id="32o-b3-L1f"/>
-                    </connections>
-                </navigationController>
-            </objects>
-            <point key="canvasLocation" x="241" y="132"/>
         </scene>
     </scenes>
     <resources>

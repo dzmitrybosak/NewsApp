@@ -115,16 +115,16 @@ class NewsVC: UIViewController {
     private func configureSearchController() {
         
         let searchResultsVC = SearchResultsVC.initialize(with: news)
-//        let searchController = UISearchController(searchResultsController: searchResultsVC)
-        
-        let navigationController = UINavigationController(rootViewController: searchResultsVC)
-        let searchController = UISearchController(searchResultsController: navigationController)
+        let searchController = UISearchController(searchResultsController: searchResultsVC)
+
+//        let navigationController = UINavigationController(rootViewController: searchResultsVC)
+//        let searchController = UISearchController(searchResultsController: navigationController)
         
         navigationItem.searchController = searchController
         
         searchController.searchResultsUpdater = searchResultsVC
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.tintColor = .lightGray
+        searchController.searchBar.tintColor = .lightGray  
         definesPresentationContext = true
         
         // Search Bar Style

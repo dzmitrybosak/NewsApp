@@ -135,6 +135,7 @@
 				40EF515B213E8EAE0018E75A /* Core Data */,
 				403F0C32213D03140098FFE2 /* Storyboards */,
 				40BC8C502147BD4800D4B1E6 /* Assets */,
+				403F0C1B213D02190098FFE2 /* AppDelegate.swift */,
 				403F0C27213D021C0098FFE2 /* Info.plist */,
 			);
 			path = News;
@@ -191,7 +192,6 @@
 		40BC8C502147BD4800D4B1E6 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				403F0C1B213D02190098FFE2 /* AppDelegate.swift */,
 				403F0C22213D021C0098FFE2 /* Assets.xcassets */,
 			);
 			path = Assets;
