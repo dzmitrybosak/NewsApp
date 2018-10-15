@@ -39,7 +39,7 @@ class NewsCell: UICollectionViewCell {
     
     private func addOverlay() {
         imageOverlayView.backgroundColor = UIColor(white: 0, alpha: 0.5)
-        imageOverlayView.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
+        imageOverlayView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
         imageView.addSubview(imageOverlayView)
     }
     

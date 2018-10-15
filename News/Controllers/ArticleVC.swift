@@ -19,13 +19,12 @@ private enum Segues: String {
 
 private enum Like: Int16 {
     case isDisliked = -1
-//  case noLike = 0
     case isLiked = 1
 }
 
 class ArticleVC: UIViewController {
 
-    private let dateConverter = DateConverter.shared
+    private let dateFormatService = DateFormatService.shared
     private let newsService = NewsService.shared
     
     // MARK: - Properties
@@ -58,7 +57,7 @@ class ArticleVC: UIViewController {
         textView.text = article.description
         
         if let unwrapedDate = article.publishedAt {
-            dateLabel.text = dateConverter.fromDate(unwrapedDate)
+            dateLabel.text = dateFormatService.fromDate(unwrapedDate)
         }
         
         if let unwrapedURLToImage = article.urlToImage {

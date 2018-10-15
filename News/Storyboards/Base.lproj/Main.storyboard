@@ -134,7 +134,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="RcR-kq-kxd"/>
                     </view>
-                    <navigationItem key="navigationItem" title="News" id="qJj-Kq-FBy"/>
+                    <navigationItem key="navigationItem" title="News" id="qJj-Kq-FBy">
+                        <barButtonItem key="rightBarButtonItem" image="sort" landscapeImage="sort" largeContentSizeImage="sort" id="HAc-Bk-Pdt">
+                            <connections>
+                                <action selector="sort:" destination="zLH-ut-FBP" id="vR9-fE-6wq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="2YN-HK-XZE" id="W2E-ma-4JT"/>
                         <outlet property="collectionView" destination="wct-C3-mOl" id="tWG-KI-XTr"/>
@@ -380,5 +386,6 @@
         <image name="like" width="45" height="45"/>
         <image name="placeholder" width="600" height="400"/>
         <image name="safari" width="28" height="28"/>
+        <image name="sort" width="24" height="24"/>
     </resources>
 </document>

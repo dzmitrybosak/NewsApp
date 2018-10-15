@@ -8,19 +8,19 @@
 
 import Foundation
 
-final class DateConverter {
+final class DateFormatService {
  
-    static let shared = DateConverter()
+    static let shared = DateFormatService()
     private init() {}
     
-    func fromDate(_ publishedAt: String) -> String {
+    func fromDate(_ publishedAt: Date) -> String {
         
-        let string = publishedAt
+        let date = publishedAt
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        guard let date = dateFormatter.date(from: string) else {
-            fatalError()
-        }
+        //dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        //guard let date = dateFormatter.date(from: string) else {
+        //    fatalError()
+        //}
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
         let dateString = dateFormatter.string(from: date)

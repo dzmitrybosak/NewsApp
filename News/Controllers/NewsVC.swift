@@ -29,6 +29,7 @@ class NewsVC: UIViewController {
     private let refreshControl = UIRefreshControl()
     
     private let newsService = NewsService.shared
+    private let sortService = SortService.shared
     
     private var isLoadingViewController = false
     
@@ -61,7 +62,8 @@ class NewsVC: UIViewController {
         if isLoadingViewController {
             isLoadingViewController = false
         } else {
-            setupData()
+            //collectionView.reloadData()
+            // вместо этого всего сделать замыкание
         }
     }
     
@@ -106,8 +108,7 @@ class NewsVC: UIViewController {
         refreshControl.attributedTitle = attributedString
     }
     
-    @objc
-    private func didRefresh(_ sender: Any) {
+    @objc private func didRefresh(_ sender: Any) {
         setupData()
     }
     
@@ -115,10 +116,10 @@ class NewsVC: UIViewController {
     private func configureSearchController() {
         
         let searchResultsVC = SearchResultsVC.initialize(with: news)
-        let searchController = UISearchController(searchResultsController: searchResultsVC)
+//        let searchController = UISearchController(searchResultsController: searchResultsVC)
 
-//        let navigationController = UINavigationController(rootViewController: searchResultsVC)
-//        let searchController = UISearchController(searchResultsController: navigationController)
+        let navigationController = UINavigationController(rootViewController: searchResultsVC)
+        let searchController = UISearchController(searchResultsController: navigationController)
         
         navigationItem.searchController = searchController
         
@@ -155,6 +156,13 @@ class NewsVC: UIViewController {
             break
         }
     }
+    
+    // MARK: - Actions
+    
+    @IBAction func sort(_ sender: UIBarButtonItem) {
+        news = sortService.quicksort(news)
+    }
+    
 }
 
 // MARK: - UICollectionViewDataSource
