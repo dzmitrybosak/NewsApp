@@ -10,15 +10,15 @@
 import CoreData
 
 extension ArticleEntity {
-    @NSManaged public var id: String?
-    @NSManaged public var name: String?
+    @NSManaged var id: String?
+    @NSManaged var name: String?
     
-    @NSManaged public var author: String?
-    @NSManaged public var title: String?
-    @NSManaged public var details: String?
-    @NSManaged public var url: String?
-    @NSManaged public var urlToImage: String?
-    @NSManaged public var publishedAt: Date?
+    @NSManaged var author: String?
+    @NSManaged var title: String?
+    @NSManaged var details: String?
+    @NSManaged var url: String?
+    @NSManaged var urlToImage: String?
+    @NSManaged var publishedAt: Date?
     
-    @NSManaged public var likeValue: Int16
+    @NSManaged var likeValue: Int16
 }

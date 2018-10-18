@@ -14,16 +14,13 @@ final class DateFormatService {
     private init() {}
     
     func fromDate(_ publishedAt: Date) -> String {
-        
-        let date = publishedAt
+
         let dateFormatter = DateFormatter()
-        //dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        //guard let date = dateFormatter.date(from: string) else {
-        //    fatalError()
-        //}
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
-        let dateString = dateFormatter.string(from: date)
+
+        let dateString = dateFormatter.string(from: publishedAt)
+
         return ("Published on \(dateString)")
     }
 }

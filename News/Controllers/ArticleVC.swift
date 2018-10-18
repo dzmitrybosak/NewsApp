@@ -56,13 +56,17 @@ class ArticleVC: UIViewController {
         titleLabel.text = article.title
         textView.text = article.description
         
-        if let unwrapedDate = article.publishedAt {
-            dateLabel.text = dateFormatService.fromDate(unwrapedDate)
+        guard let publishedAt = article.publishedAt else {
+            return
         }
         
-        if let unwrapedURLToImage = article.urlToImage {
-            imageView.af_setImage(withURL: unwrapedURLToImage, placeholderImage: UIImage(named: Constants.imageHolder))
+        dateLabel.text = dateFormatService.fromDate(publishedAt)
+        
+        guard let urlToImage = article.urlToImage else {
+            return
         }
+        
+        imageView.af_setImage(withURL: urlToImage, placeholderImage: UIImage(named: Constants.imageHolder))
         
         checkURLAndSetButton()
         checkLikeValue()
@@ -77,7 +81,9 @@ class ArticleVC: UIViewController {
     
     private func checkLikeValue() {
         
-        guard let likeValue = article?.likeValue else { return }
+        guard let likeValue = article?.likeValue else {
+            return
+        }
         
         switch likeValue {
         case Like.isLiked.rawValue:

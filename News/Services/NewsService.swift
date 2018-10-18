@@ -67,9 +67,7 @@ final class NewsService {
             callback(articles.compactMap({ $0 }))
         }
     }
-    
-
-    
+ 
     private func storeRemoteArticles(using articles: [Article], callback: @escaping ([Article]) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in

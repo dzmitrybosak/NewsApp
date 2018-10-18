@@ -14,14 +14,19 @@ final class SortService {
     private init() {}
     
     func quicksort(_ array: [Article]) -> [Article] {
-        guard array.count > 1 else { return array }
+        guard array.count > 1 else {
+            return array
+        }
         
-        guard let pivot = array[array.count/2].publishedAt else { fatalError() } // стержень – выбирается индекс посередине массива
+        guard let pivot = array[array.count / 2].publishedAt else {
+            assertionFailure("Expected not nil published date")
+            return []
+        }
         
-        let less = array.filter { $0.publishedAt ?? Date() < pivot } // меньший - массив, где значения меньше, чем стержень
-        let equal = array.filter { $0.publishedAt == pivot } // равный - массив из значений, равных стержню
-        let greater = array.filter { $0.publishedAt ?? Date() > pivot } // больший - массив, где значения больше, чем стержень
+        let less = array.filter { $0.publishedAt ?? Date() < pivot }
+        let equal = array.filter { $0.publishedAt == pivot }
+        let greater = array.filter { $0.publishedAt ?? Date() > pivot }
         
-        return quicksort(less) + equal + quicksort(greater) // рекурсивно сортируются меньший и больший, а затем склеивается с равным
+        return quicksort(less) + equal + quicksort(greater)
     }
 }

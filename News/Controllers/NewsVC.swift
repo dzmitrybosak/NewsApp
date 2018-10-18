@@ -59,11 +59,11 @@ class NewsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // TODO: - Closure instead of this code
         if isLoadingViewController {
             isLoadingViewController = false
         } else {
-            //collectionView.reloadData()
-            // вместо этого всего сделать замыкание
+            
         }
     }
     
@@ -116,7 +116,6 @@ class NewsVC: UIViewController {
     private func configureSearchController() {
         
         let searchResultsVC = SearchResultsVC.initialize(with: news)
-//        let searchController = UISearchController(searchResultsController: searchResultsVC)
 
         let navigationController = UINavigationController(rootViewController: searchResultsVC)
         let searchController = UISearchController(searchResultsController: navigationController)

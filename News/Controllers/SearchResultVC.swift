@@ -27,7 +27,9 @@ class SearchResultsVC: UIViewController {
     // For initialization
     class func initialize(with news: [Article]) -> SearchResultsVC {
         let storyboard = UIStoryboard(name: Constants.mainStoryboardID, bundle: nil)
-        guard let searchVC = storyboard.instantiateViewController(withIdentifier: Constants.searchResultsStoryboardID) as? SearchResultsVC else { fatalError("Unable to instatiate a SearchResultsVC from the storyboard.") }
+        guard let searchVC = storyboard.instantiateViewController(withIdentifier: Constants.searchResultsStoryboardID) as? SearchResultsVC else {
+            fatalError("Unable to instatiate a SearchResultsVC from the storyboard")
+        }
         
         searchVC.allNews = news
         return searchVC
@@ -45,7 +47,10 @@ class SearchResultsVC: UIViewController {
     private func filterContentForSearchText(_ searchText: String) {
         filteredNews = allNews.filter({ (article: Article) -> Bool in
             
-            guard let articleDescription = article.description, let articleTitle = article.title else { fatalError() }
+            guard let articleDescription = article.description, let articleTitle = article.title else {
+                assertionFailure("Expected not nil article description and title")
+                return false
+            }
             
             return articleDescription.lowercased().contains(searchText.lowercased()) || articleTitle.lowercased().contains(searchText.lowercased())
             
@@ -63,7 +68,9 @@ extension SearchResultsVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellID, for: indexPath) as? TableNewsCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellID, for: indexPath) as? TableNewsCell else {
+            return UITableViewCell()
+        }
         
         let article = filteredNews[indexPath.row]
         cell.article = article

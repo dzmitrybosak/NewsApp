@@ -44,10 +44,6 @@ private extension Article {
         self.description = entity.details ?? ""
         self.url = URL(string: entity.url ?? "")
         self.urlToImage = URL(string: entity.urlToImage ?? "")
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        
         self.publishedAt = entity.publishedAt ?? nil
         
         self.likeValue = entity.likeValue

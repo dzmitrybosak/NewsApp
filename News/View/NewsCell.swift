@@ -16,8 +16,7 @@ private enum Constants {
 class NewsCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
-    
-    private var imageOverlayView = UIView()
+    @IBOutlet weak var overlay: UIView!
     
     var article: Article? {
         didSet {
@@ -28,24 +27,15 @@ class NewsCell: UICollectionViewCell {
     private func update() {
         titleLabel.text = article?.title
         
-        addOverlay()
-        
-        if article?.urlToImage != nil {
-            imageView.af_setImage(withURL: (article?.urlToImage)!, placeholderImage: UIImage(named: Constants.imageHolder))
-        } else {
-            imageView.image = UIImage(named: Constants.imageHolder)
+        guard let urlToImage = article?.urlToImage else {
+            return
         }
-    }
-    
-    private func addOverlay() {
-        imageOverlayView.backgroundColor = UIColor(white: 0, alpha: 0.5)
-        imageOverlayView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
-        imageView.addSubview(imageOverlayView)
+        
+        imageView.af_setImage(withURL: urlToImage, placeholderImage: UIImage(named: Constants.imageHolder))
     }
     
     override func prepareForReuse() {
         titleLabel.text = nil
-        imageOverlayView.removeFromSuperview()
         imageView.af_cancelImageRequest()
         imageView.image = UIImage(named: Constants.imageHolder)
     }
