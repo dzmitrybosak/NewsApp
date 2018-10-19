@@ -19,13 +19,12 @@ private enum Segues: String {
 
 private enum Like: Int16 {
     case isDisliked = -1
-//  case noLike = 0
     case isLiked = 1
 }
 
 class ArticleVC: UIViewController {
 
-    private let dateConverter = DateConverter.shared
+    private let dateFormatService = DateFormatService.shared
     private let newsService = NewsService.shared
     
     // MARK: - Properties
@@ -57,13 +56,17 @@ class ArticleVC: UIViewController {
         titleLabel.text = article.title
         textView.text = article.description
         
-        if let unwrapedDate = article.publishedAt {
-            dateLabel.text = dateConverter.fromDate(unwrapedDate)
+        guard let publishedAt = article.publishedAt else {
+            return
         }
         
-        if let unwrapedURLToImage = article.urlToImage {
-            imageView.af_setImage(withURL: unwrapedURLToImage, placeholderImage: UIImage(named: Constants.imageHolder))
+        dateLabel.text = dateFormatService.fromDate(publishedAt)
+        
+        guard let urlToImage = article.urlToImage else {
+            return
         }
+        
+        imageView.af_setImage(withURL: urlToImage, placeholderImage: UIImage(named: Constants.imageHolder))
         
         checkURLAndSetButton()
         checkLikeValue()
@@ -78,7 +81,9 @@ class ArticleVC: UIViewController {
     
     private func checkLikeValue() {
         
-        guard let likeValue = article?.likeValue else { return }
+        guard let likeValue = article?.likeValue else {
+            return
+        }
         
         switch likeValue {
         case Like.isLiked.rawValue:

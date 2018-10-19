@@ -44,7 +44,7 @@ private extension Article {
         self.description = entity.details ?? ""
         self.url = URL(string: entity.url ?? "")
         self.urlToImage = URL(string: entity.urlToImage ?? "")
-        self.publishedAt = entity.publishedAt ?? ""
+        self.publishedAt = entity.publishedAt ?? nil
         
         self.likeValue = entity.likeValue
     }

@@ -34,7 +34,11 @@ class WebVC: UIViewController {
     private func setupWebView() {
         progressView.progress = 0
         
-        guard let url = url else { return }
+        guard let url = url else {
+            return
+            
+        }
+        
         let request = URLRequest(url: url)
         webView.load(request)
         
@@ -53,12 +57,18 @@ class WebVC: UIViewController {
     // Actions for buttons
     
     private func openSafari() {
-        guard let url = url else { return }
+        guard let url = url else {
+            return
+        }
+        
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     
     private func activityViewController() {
-        guard let url = url else { return }
+        guard let url = url else {
+            return
+        }
+        
         let urlToShare = [url]
         let activityViewController = UIActivityViewController(activityItems: urlToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view

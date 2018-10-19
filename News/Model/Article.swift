@@ -18,7 +18,7 @@ struct Article: Decodable {
     var description: String?
     var url: URL?
     var urlToImage: URL?
-    var publishedAt: String?
+    var publishedAt: Date?
     
     var likeValue: Int16
     
@@ -47,7 +47,7 @@ struct Article: Decodable {
         self.description = try? container.decode(String.self, forKey: .description)
         self.url = try? container.decode(URL.self, forKey: .url)
         self.urlToImage = try? container.decode(URL.self, forKey: .urlToImage)
-        self.publishedAt = try? container.decode(String.self, forKey: .publishedAt)
+        self.publishedAt = try? container.decode(Date.self, forKey: .publishedAt)
         
         self.likeValue = 0
     }

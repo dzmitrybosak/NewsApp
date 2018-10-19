@@ -67,9 +67,7 @@ final class NewsService {
             callback(articles.compactMap({ $0 }))
         }
     }
-    
-
-    
+ 
     private func storeRemoteArticles(using articles: [Article], callback: @escaping ([Article]) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
@@ -95,26 +93,6 @@ final class NewsService {
             callback(articles)
         }
     }
-    
-    /* // Store Remote Articles
-     private func storeRemoteArticles(using articles: [Article], callback: @escaping ([Article]) -> Void) {
-        let context = coreDataManager.context
-        context.perform { [weak self] in
-            let articleEntities = self?.fetchArticleEntities(from: context) ?? []
-     
-            for articleEntity in articleEntities {
-                context.delete(articleEntity)
-            }
-     
-            for article in articles {
-                _ = ArticleEntity.create(from: article, in: context)
-            }
-     
-            try? context.save()
-     
-            callback(articles)
-        }
-     } */
     
     private func fetchArticleEntities(from context: NSManagedObjectContext) -> [ArticleEntity] {
         let fetchRequest = NSFetchRequest<ArticleEntity>(entityName: String(describing: ArticleEntity.self))

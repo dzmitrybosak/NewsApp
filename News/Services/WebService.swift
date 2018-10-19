@@ -65,6 +65,7 @@ final class WebService {
             }
             
             do {
+                strongSelf.decoder.dateDecodingStrategy = .iso8601
                 let parsedResult = try strongSelf.decoder.decode(News.self, from: data)
                 
                 // Return loaded cities and empty error.
