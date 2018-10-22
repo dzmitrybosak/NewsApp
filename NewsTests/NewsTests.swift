@@ -18,5 +18,4 @@ class NewsTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
     }
-
 }
