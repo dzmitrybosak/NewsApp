@@ -13,6 +13,7 @@ private enum Constants {
     static let imageHolder = "placeholder"
     static let cellID = "newsCell"
     static let searchField = "searchField"
+    static let cancelButton = "cancelButton"
     static let collectionViewHeader = "collectionViewHeader"
 }
 
@@ -38,7 +39,6 @@ class NewsViewController: UIViewController {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
-                //self?.configureSearchController()
             }
         }
     }
@@ -85,8 +85,8 @@ class NewsViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.collectionView.reloadData()
                 }
+                
             }
-            
         }
     }
     
@@ -119,33 +119,6 @@ class NewsViewController: UIViewController {
         setupData()
     }
     
-    /*
-    // Setup search
-    private func configureSearchController() {
-        
-        let searchResultsVC = SearchResultsVC.initialize(with: news)
-
-        let navigationController = UINavigationController(rootViewController: searchResultsVC)
-        let searchController = UISearchController(searchResultsController: navigationController)
-        
-        navigationItem.searchController = searchController
-        
-        searchController.searchResultsUpdater = searchResultsVC
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.tintColor = .lightGray
-        definesPresentationContext = true
-        
-        // Search Bar Style
-        if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: Constants.searchField) as? UITextField {
-            if let backgroundView = textFieldInsideSearchBar.subviews.first {
-                backgroundView.backgroundColor = .white
-                backgroundView.layer.cornerRadius = 10
-                backgroundView.clipsToBounds = true
-            }
-        }
-    }
-     */
-    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -155,11 +128,12 @@ class NewsViewController: UIViewController {
         
         switch segueID {
         case Segues.showArticle.rawValue:
-            guard let newsCell = sender as? NewsCell, let articleVC = segue.destination as? ArticleVC else {
+            guard let newsCell = sender as? NewsCell, let articleViewController = segue.destination as? ArticleViewController else {
                 return
             }
             
-            articleVC.article = newsCell.article
+            articleViewController.article = newsCell.article
+            articleViewController.delegate = self
             
         default:
             break
@@ -173,6 +147,18 @@ class NewsViewController: UIViewController {
         collectionView.reloadData()
     }
     
+}
+
+// MARK: -
+
+extension NewsViewController: ArticleViewControllerDelegate {
+    func didLiked(_ article: Article) {
+        guard let index = news.index(where: { $0.url == article.url } ) else {
+            return
+        }
+        
+        news[index] = article
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -206,7 +192,6 @@ extension NewsViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         filteredNews = news
-//        collectionView.reloadData()
         searchBar.setShowsCancelButton(false, animated: true)
         searchBar.text = ""
         searchBar.resignFirstResponder()
@@ -223,17 +208,27 @@ extension NewsViewController: UISearchBarDelegate {
         }
         
         searchBar.resignFirstResponder()
+        
+        if let cancelButton = searchBar.value(forKey: Constants.cancelButton) as? UIButton {
+            cancelButton.isEnabled = true
+        }
+        
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         if searchText.isEmpty {
             filteredNews = news
-//            collectionView.reloadData()
         } else {
             DispatchQueue.main.async {
                 self.newsService.newsWithPredicate(predicate: searchText, callback: { [weak self] news in
-                    self?.filteredNews = news
+                    
+                    // Sort by date
+                    let sortedNews = news.sorted(by: { (firstArticle: Article, secondArticle: Article) -> Bool in
+                        return firstArticle.publishedAt?.compare(secondArticle.publishedAt!) == .orderedDescending
+                    })
+                    
+                    self?.filteredNews = sortedNews
                 })
             }
         }

@@ -17,10 +17,9 @@ private enum Segues: String {
     case showWebView = "showWebView"
 }
 
-//private enum Like: Int {
-//    case isDisliked = -1
-//    case isLiked = 1
-//}
+protocol ArticleViewControllerDelegate: class {
+    func didLiked(_ article: Article)
+}
 
 class ArticleViewController: UIViewController {
 
@@ -28,6 +27,8 @@ class ArticleViewController: UIViewController {
     private let newsService = NewsService.shared
     
     // MARK: - Properties
+    
+    weak var delegate: ArticleViewControllerDelegate?
     
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var imageView: UIImageView!
@@ -93,16 +94,6 @@ class ArticleViewController: UIViewController {
         default:
             break
         }
-//        switch likeValue {
-//        case Like.isLiked.rawValue:
-//            likeButton.isEnabled = true
-//            dislikeButton.isEnabled = false
-//        case Like.isDisliked.rawValue:
-//            dislikeButton.isEnabled = true
-//            likeButton.isEnabled = false
-//        default:
-//            break
-//        }
     }
     
     private func likeSelected() {
@@ -110,10 +101,10 @@ class ArticleViewController: UIViewController {
             return
         }
         article.likeValue = .isLiked
-//        article.likeValue = Like.isLiked.rawValue
         
         newsService.resaveEntity(using: article) { [weak self] article in
             self?.article = article
+            self?.delegate?.didLiked(article)
         }
         
         checkLikeValue()
@@ -125,10 +116,10 @@ class ArticleViewController: UIViewController {
         }
         
         article.likeValue = .isDisliked
-//        article.likeValue = Like.isDisliked.rawValue
         
         newsService.resaveEntity(using: article) { [weak self] article in
             self?.article = article
+            self?.delegate?.didLiked(article)
         }
         
         checkLikeValue()
@@ -143,7 +134,7 @@ class ArticleViewController: UIViewController {
         
         switch segueID {
         case Segues.showWebView.rawValue:
-            guard let article = article, let destination = segue.destination as? WebVC else {
+            guard let article = article, let destination = segue.destination as? WebViewController else {
                 return
             }
             
