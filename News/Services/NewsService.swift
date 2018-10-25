@@ -42,7 +42,7 @@ final class NewsService {
             for articleEntity in articleEntities {
                 
                 if article.title == articleEntity.title {
-                    articleEntity.setValue(article.likeValue, forKey: "likeValue")
+                    articleEntity.setValue(article.likeValue.rawValue, forKey: "likeValue")
                 }
             }
             
@@ -50,6 +50,31 @@ final class NewsService {
             
             callback(article)
         }
+    }
+    
+    func newsWithPredicate(predicate: String, callback: @escaping ([Article]) -> Void) {
+        let context = coreDataManager.context
+        context.perform { [weak self] in
+            let articleEntities = self?.fetchArticleEntitiesWithPredicate(predicate: predicate) ?? []
+            
+            var articles = [Article?]()
+            for articleEntity in articleEntities {
+                articles.append(articleEntity.map())
+            }
+            
+            callback(articles.compactMap({ $0 }))
+        }
+    }
+    
+    private func fetchArticleEntitiesWithPredicate(predicate: String) -> [ArticleEntity] {
+        let context = coreDataManager.context
+        let fetchRequest = NSFetchRequest<ArticleEntity>(entityName: String(describing: ArticleEntity.self))
+        
+        let filterPredicate = NSPredicate(format: "details contains[c] %@ OR title contains[c] %@", predicate, predicate)
+        
+        fetchRequest.predicate = filterPredicate
+        
+        return (try? context.fetch(fetchRequest)) ?? []
     }
     
     // MARK: - Private methods
