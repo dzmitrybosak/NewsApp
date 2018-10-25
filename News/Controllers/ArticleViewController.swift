@@ -17,25 +17,25 @@ private enum Segues: String {
     case showWebView = "showWebView"
 }
 
-private enum Like: Int16 {
-    case isDisliked = -1
-    case isLiked = 1
-}
+//private enum Like: Int {
+//    case isDisliked = -1
+//    case isLiked = 1
+//}
 
-class ArticleVC: UIViewController {
+class ArticleViewController: UIViewController {
 
     private let dateFormatService = DateFormatService.shared
     private let newsService = NewsService.shared
     
     // MARK: - Properties
     
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var readMoreButtonOutlet: UIButton!
-    @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var dislikeButton: UIButton!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var textView: UITextView!
+    @IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var readMoreButtonOutlet: UIButton!
+    @IBOutlet private weak var likeButton: UIButton!
+    @IBOutlet private weak var dislikeButton: UIButton!
     
     var article: Article?
     
@@ -52,31 +52,29 @@ class ArticleVC: UIViewController {
             return
         }
         
-        navigationItem.title = article.name
+        navigationItem.title = article.sourceName
         titleLabel.text = article.title
         textView.text = article.description
         
-        guard let publishedAt = article.publishedAt else {
-            return
+        if let unwrapedPublishedAt = article.publishedAt {
+            dateLabel.text = dateFormatService.fromDate(unwrapedPublishedAt)
         }
         
-        dateLabel.text = dateFormatService.fromDate(publishedAt)
-        
-        guard let urlToImage = article.urlToImage else {
-            return
+        if let unwrapedURLToImage = article.urlToImage {
+            imageView.af_setImage(withURL: unwrapedURLToImage, placeholderImage: UIImage(named: Constants.imageHolder))
         }
-        
-        imageView.af_setImage(withURL: urlToImage, placeholderImage: UIImage(named: Constants.imageHolder))
         
         checkURLAndSetButton()
         checkLikeValue()
     }
     
     private func checkURLAndSetButton() {
-        if article?.url == nil {
-            readMoreButtonOutlet.isHighlighted = true
-            readMoreButtonOutlet.isUserInteractionEnabled = false
+        guard article?.url == nil else {
+            return
         }
+        
+        readMoreButtonOutlet.isHighlighted = true
+        readMoreButtonOutlet.isUserInteractionEnabled = false
     }
     
     private func checkLikeValue() {
@@ -86,34 +84,51 @@ class ArticleVC: UIViewController {
         }
         
         switch likeValue {
-        case Like.isLiked.rawValue:
+        case .isLiked:
             likeButton.isEnabled = true
             dislikeButton.isEnabled = false
-        case Like.isDisliked.rawValue:
+        case .isDisliked:
             dislikeButton.isEnabled = true
             likeButton.isEnabled = false
         default:
             break
         }
+//        switch likeValue {
+//        case Like.isLiked.rawValue:
+//            likeButton.isEnabled = true
+//            dislikeButton.isEnabled = false
+//        case Like.isDisliked.rawValue:
+//            dislikeButton.isEnabled = true
+//            likeButton.isEnabled = false
+//        default:
+//            break
+//        }
     }
     
     private func likeSelected() {
+        guard let article = article else {
+            return
+        }
+        article.likeValue = .isLiked
+//        article.likeValue = Like.isLiked.rawValue
         
-        article?.likeValue = Like.isLiked.rawValue
-        
-        newsService.resaveEntity(using: article!) { [weak self] _ in
-            _ = self?.article
+        newsService.resaveEntity(using: article) { [weak self] article in
+            self?.article = article
         }
         
         checkLikeValue()
     }
     
     private func dislikeSelected() {
+        guard let article = article else {
+            return
+        }
         
-        article?.likeValue = Like.isDisliked.rawValue
+        article.likeValue = .isDisliked
+//        article.likeValue = Like.isDisliked.rawValue
         
-        newsService.resaveEntity(using: article!) { [weak self] _ in
-            _ = self?.article
+        newsService.resaveEntity(using: article) { [weak self] article in
+            self?.article = article
         }
         
         checkLikeValue()

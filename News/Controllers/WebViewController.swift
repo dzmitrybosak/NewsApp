@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class WebVC: UIViewController {
+class WebViewController: UIViewController {
 
     // MARK: - Properties
     
@@ -89,7 +89,7 @@ class WebVC: UIViewController {
 
 // MARK: - WKNavigationDelegate
 
-extension WebVC: WKNavigationDelegate {
+extension WebViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         progressView.isHidden = true

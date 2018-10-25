@@ -13,6 +13,7 @@ private enum Constants {
     static let imageHolder = "placeholder"
     static let cellID = "newsCell"
     static let searchField = "searchField"
+    static let collectionViewHeader = "collectionViewHeader"
 }
 
 private enum Segues: String {
@@ -20,26 +21,31 @@ private enum Segues: String {
     case showWebView = "showWebView"
 }
 
-class NewsVC: UIViewController {
+class NewsViewController: UIViewController {
 
     // MARK: - Properties
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    
     private let refreshControl = UIRefreshControl()
     
     private let newsService = NewsService.shared
     private let sortService = SortService.shared
     
-    private var isLoadingViewController = false
-    
     private var news: [Article] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                self?.collectionView?.reloadData()
                 self?.activityIndicator.stopAnimating()
-                self?.configureSearchController()
+                //self?.configureSearchController()
             }
+        }
+    }
+
+    private var filteredNews: [Article] = [] {
+        didSet {
+            collectionView.reloadData()
         }
     }
     
@@ -50,21 +56,9 @@ class NewsVC: UIViewController {
         
         setupLayout()
         
-        isLoadingViewController = true
         setupData()
         
         setupRefreshControl()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // TODO: - Closure instead of this code
-        if isLoadingViewController {
-            isLoadingViewController = false
-        } else {
-            
-        }
     }
     
     // MARK: - Private instance methods
@@ -75,25 +69,38 @@ class NewsVC: UIViewController {
         collectionView.collectionViewLayout = layout
     }
     
+    // Load and sort data
+    private func loadData() {
+        DispatchQueue.global(qos: .utility).async {
+            self.newsService.news { [weak self] news in
+
+                // Sort by date
+                let sortedNews = news.sorted(by: { (firstArticle: Article, secondArticle: Article) -> Bool in
+                    return firstArticle.publishedAt?.compare(secondArticle.publishedAt!) == .orderedDescending
+                })
+
+                self?.news = sortedNews
+                self?.filteredNews = sortedNews
+                
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
+            }
+            
+        }
+    }
+    
     // Setup data
     private func setupData() {
         activityIndicator.startAnimating()
         
-        newsService.news { [weak self] news in
-            
-            // Sort by date
-            let sortedNews = news.sorted(by: { (firstArticle: Article, secondArticle: Article) -> Bool in
-                return firstArticle.publishedAt?.compare(secondArticle.publishedAt!) == .orderedDescending
-            })
-
-            self?.news = sortedNews
-        }
+        loadData()
         
-        DispatchQueue.main.async {
-            if self.refreshControl.isRefreshing == true {
-                self.activityIndicator.isHidden = true
+        DispatchQueue.main.async { [weak self] in
+            if self?.refreshControl.isRefreshing == true {
+                self?.activityIndicator.isHidden = true
             }
-            self.refreshControl.endRefreshing()
+            self?.refreshControl.endRefreshing()
         }
     }
     
@@ -112,6 +119,7 @@ class NewsVC: UIViewController {
         setupData()
     }
     
+    /*
     // Setup search
     private func configureSearchController() {
         
@@ -124,7 +132,7 @@ class NewsVC: UIViewController {
         
         searchController.searchResultsUpdater = searchResultsVC
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.tintColor = .lightGray  
+        searchController.searchBar.tintColor = .lightGray
         definesPresentationContext = true
         
         // Search Bar Style
@@ -136,6 +144,7 @@ class NewsVC: UIViewController {
             }
         }
     }
+     */
     
     // MARK: - Navigation
     
@@ -151,6 +160,7 @@ class NewsVC: UIViewController {
             }
             
             articleVC.article = newsCell.article
+            
         default:
             break
         }
@@ -159,17 +169,18 @@ class NewsVC: UIViewController {
     // MARK: - Actions
     
     @IBAction func sort(_ sender: UIBarButtonItem) {
-        news = sortService.quicksort(news)
+        filteredNews = sortService.quicksort(filteredNews)
+        collectionView.reloadData()
     }
     
 }
 
 // MARK: - UICollectionViewDataSource
 
-extension NewsVC: UICollectionViewDataSource {
+extension NewsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       return news.count
+       return filteredNews.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -178,9 +189,54 @@ extension NewsVC: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let article = news[indexPath.row]
+        let article = filteredNews[indexPath.row]
         cell.article = article
         
         return cell
     }
+}
+
+// MARK: - Search
+
+extension NewsViewController: UISearchBarDelegate {
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        filteredNews = news
+//        collectionView.reloadData()
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        guard let searchText = searchBar.text else {
+            return
+        }
+        
+        if !searchText.isEmpty {
+            collectionView.reloadData()
+        }
+        
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if searchText.isEmpty {
+            filteredNews = news
+//            collectionView.reloadData()
+        } else {
+            DispatchQueue.main.async {
+                self.newsService.newsWithPredicate(predicate: searchText, callback: { [weak self] news in
+                    self?.filteredNews = news
+                })
+            }
+        }
+    }
+    
 }
