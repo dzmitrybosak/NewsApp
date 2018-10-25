@@ -14,9 +14,9 @@ private enum Constants {
 }
 
 class NewsCell: UICollectionViewCell {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var overlay: UIView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var overlay: UIView!
     
     var article: Article? {
         didSet {
