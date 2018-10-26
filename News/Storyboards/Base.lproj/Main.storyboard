@@ -154,7 +154,7 @@
                                         </constraints>
                                     </imageView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eFR-t6-uuk">
-                                        <rect key="frame" x="0.0" y="342" width="414" height="138"/>
+                                        <rect key="frame" x="8" y="342" width="398" height="138"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="217" id="UCj-OA-bAP"/>
                                         </constraints>
@@ -202,9 +202,9 @@
                                     <constraint firstItem="MiQ-Im-ISm" firstAttribute="top" secondItem="uyi-Hq-RXN" secondAttribute="top" id="Ibq-wC-Tvi"/>
                                     <constraint firstItem="MiQ-Im-ISm" firstAttribute="centerX" secondItem="uyi-Hq-RXN" secondAttribute="centerX" id="Mzf-Wl-8SK"/>
                                     <constraint firstItem="qIa-ov-Yl8" firstAttribute="leading" secondItem="KgH-zO-0sx" secondAttribute="leading" id="P5D-8O-t7p"/>
-                                    <constraint firstItem="KgH-zO-0sx" firstAttribute="leading" secondItem="eFR-t6-uuk" secondAttribute="leading" id="Ual-fd-2Gu"/>
+                                    <constraint firstItem="KgH-zO-0sx" firstAttribute="leading" secondItem="eFR-t6-uuk" secondAttribute="leading" constant="-8" id="Ual-fd-2Gu"/>
                                     <constraint firstAttribute="trailing" secondItem="tj3-LM-4EE" secondAttribute="trailing" id="VND-Vi-4wt"/>
-                                    <constraint firstItem="KgH-zO-0sx" firstAttribute="trailing" secondItem="eFR-t6-uuk" secondAttribute="trailing" id="Zax-VM-4oh"/>
+                                    <constraint firstItem="KgH-zO-0sx" firstAttribute="trailing" secondItem="eFR-t6-uuk" secondAttribute="trailing" constant="8" id="Zax-VM-4oh"/>
                                     <constraint firstAttribute="trailing" secondItem="MiQ-Im-ISm" secondAttribute="trailing" id="cZw-AY-Ml0"/>
                                     <constraint firstItem="qIa-ov-Yl8" firstAttribute="trailing" secondItem="KgH-zO-0sx" secondAttribute="trailing" id="cd3-lF-MZc"/>
                                     <constraint firstItem="eFR-t6-uuk" firstAttribute="top" secondItem="KgH-zO-0sx" secondAttribute="bottom" constant="8" symbolic="YES" id="fbm-Da-CfV"/>
@@ -260,7 +260,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XLb-Ty-23s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1691" y="840"/>
+            <point key="canvasLocation" x="1689.8550724637682" y="839.73214285714278"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="IkT-sA-B9x">
