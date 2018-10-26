@@ -30,6 +30,10 @@ class ArticleViewController: UIViewController {
     
     weak var delegate: ArticleViewControllerDelegate?
     
+    
+    @IBOutlet weak var sourceNameLabel: UILabel!
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var lineView: UIView!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var textView: UITextView!
@@ -53,7 +57,9 @@ class ArticleViewController: UIViewController {
             return
         }
         
-        navigationItem.title = article.sourceName
+        navigationItem.title = ""
+        sourceNameLabel.text = article.sourceName
+        authorLabel.text = article.author
         titleLabel.text = article.title
         textView.text = article.description
         
