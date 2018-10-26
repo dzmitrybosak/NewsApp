@@ -49,8 +49,8 @@ class MosaicLayout: UICollectionViewLayout {
             let spacing: CGFloat = 2.0
             let numberOfRects: CGFloat = 2
             
-            let itemWidth: CGFloat = 200.0
-            let itemHeigt: CGFloat = 200.0
+            let itemWidth: CGFloat = 160.0
+            let itemHeigt: CGFloat = 160.0
                         
             var xOffset: CGFloat {
                 
