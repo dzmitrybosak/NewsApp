@@ -16,11 +16,11 @@ final class DateFormatService {
     func fromDate(_ publishedAt: Date) -> String {
 
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
+        dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .short
 
         let dateString = dateFormatter.string(from: publishedAt)
 
-        return ("Published on \(dateString)")
+        return dateString
     }
 }
