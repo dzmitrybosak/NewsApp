@@ -187,7 +187,7 @@ extension MosaicLayout {
     }
     
     private var calculatedHeightForSmallItem: CGFloat {
-        return Constants.itemHeight / Constants.numberOfItemWidthsInSegment
+        return (Constants.itemHeight / Constants.numberOfItemWidthsInSegment) - Constants.spacing
     }
     
     // Calculate every segment style.
@@ -227,16 +227,16 @@ extension MosaicLayout {
     private func calculateTwoThirdsOneThirdSegment(x: CGFloat, y: CGFloat) {
         
         let leftThirdInTwoThirdsOneThird = CGRect(x: x, y: y, width: calculatedItemWidth, height: Constants.itemHeight - Constants.spacing)
-        let rightThirdFirstInTwoThirdsOneThird = CGRect(x: leftThirdInTwoThirdsOneThird.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: calculatedHeightForSmallItem - Constants.spacing)
-        let rightThirdSecondInTwoThirdsOneThird = CGRect(x: leftThirdInTwoThirdsOneThird.maxX + Constants.spacing, y: rightThirdFirstInTwoThirdsOneThird.maxY + Constants.spacing, width: calculatedItemWidth, height: calculatedHeightForSmallItem - Constants.spacing)
+        let rightThirdFirstInTwoThirdsOneThird = CGRect(x: leftThirdInTwoThirdsOneThird.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
+        let rightThirdSecondInTwoThirdsOneThird = CGRect(x: leftThirdInTwoThirdsOneThird.maxX + Constants.spacing, y: rightThirdFirstInTwoThirdsOneThird.maxY + Constants.spacing, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
         
         segmentRects = [leftThirdInTwoThirdsOneThird, rightThirdFirstInTwoThirdsOneThird, rightThirdSecondInTwoThirdsOneThird]
 
         if availableNumberOfSegmentsInCollectionView > 1 {
 
             let leftThirdInTwoThirdsOneThirdExtra = CGRect(x: rightThirdFirstInTwoThirdsOneThird.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: Constants.itemHeight - Constants.spacing)
-            let rightThirdFirstInTwoThirdsOneThirdExtra = CGRect(x: leftThirdInTwoThirdsOneThirdExtra.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: calculatedHeightForSmallItem - Constants.spacing)
-            let rightThirdSecondInTwoThirdsOneThirdExtra = CGRect(x: leftThirdInTwoThirdsOneThirdExtra.maxX + Constants.spacing, y: rightThirdFirstInTwoThirdsOneThirdExtra.maxY + Constants.spacing, width: calculatedItemWidth, height: calculatedHeightForSmallItem - Constants.spacing)
+            let rightThirdFirstInTwoThirdsOneThirdExtra = CGRect(x: leftThirdInTwoThirdsOneThirdExtra.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
+            let rightThirdSecondInTwoThirdsOneThirdExtra = CGRect(x: leftThirdInTwoThirdsOneThirdExtra.maxX + Constants.spacing, y: rightThirdFirstInTwoThirdsOneThirdExtra.maxY + Constants.spacing, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
             
             segmentRects += [leftThirdInTwoThirdsOneThirdExtra, rightThirdFirstInTwoThirdsOneThirdExtra, rightThirdSecondInTwoThirdsOneThirdExtra]
         }
@@ -244,16 +244,16 @@ extension MosaicLayout {
     
     private func calculateOneThirdTwoThirdsSegment(x: CGFloat, y: CGFloat) {
         
-        let leftThirdFirstInOneThirdTwoThirds = CGRect(x: x, y: y, width: calculatedItemWidth, height: calculatedHeightForSmallItem - Constants.spacing)
-        let leftThirdSecondInOneThirdTwoThirds = CGRect(x: x, y: leftThirdFirstInOneThirdTwoThirds.maxY + Constants.spacing, width: calculatedItemWidth, height: calculatedHeightForSmallItem - Constants.spacing)
+        let leftThirdFirstInOneThirdTwoThirds = CGRect(x: x, y: y, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
+        let leftThirdSecondInOneThirdTwoThirds = CGRect(x: x, y: leftThirdFirstInOneThirdTwoThirds.maxY + Constants.spacing, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
         let rightThirdInOneThirdTwoThirds = CGRect(x: leftThirdFirstInOneThirdTwoThirds.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: Constants.itemHeight - Constants.spacing)
         
         segmentRects = [leftThirdFirstInOneThirdTwoThirds, leftThirdSecondInOneThirdTwoThirds, rightThirdInOneThirdTwoThirds]
         
         if availableNumberOfSegmentsInCollectionView > 1 {
 
-            let leftThirdFirstInOneThirdTwoThirdsExtra = CGRect(x: rightThirdInOneThirdTwoThirds.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: calculatedHeightForSmallItem - Constants.spacing)
-            let leftThirdSecondInOneThirdTwoThirdsExtra = CGRect(x: rightThirdInOneThirdTwoThirds.maxX + Constants.spacing, y: leftThirdFirstInOneThirdTwoThirdsExtra.maxY + Constants.spacing, width: calculatedItemWidth, height: calculatedHeightForSmallItem - Constants.spacing)
+            let leftThirdFirstInOneThirdTwoThirdsExtra = CGRect(x: rightThirdInOneThirdTwoThirds.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
+            let leftThirdSecondInOneThirdTwoThirdsExtra = CGRect(x: rightThirdInOneThirdTwoThirds.maxX + Constants.spacing, y: leftThirdFirstInOneThirdTwoThirdsExtra.maxY + Constants.spacing, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
             let rightThirdInOneThirdTwoThirdsExtra = CGRect(x: leftThirdFirstInOneThirdTwoThirdsExtra.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: Constants.itemHeight - Constants.spacing)
             
             segmentRects += [leftThirdFirstInOneThirdTwoThirdsExtra, leftThirdSecondInOneThirdTwoThirdsExtra, rightThirdInOneThirdTwoThirdsExtra]
