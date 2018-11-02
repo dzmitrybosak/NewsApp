@@ -63,7 +63,6 @@ final class MosaicLayout: UICollectionViewFlowLayout {
                 
                 if availableNumberOfSegmentsInCollectionView > 1 {
                     let offset = collectionView.bounds.minX
-                    print(offset)
                     return offset
                 } else {
                     let offset = collectionViewWidthCenter - Constants.itemWidth
