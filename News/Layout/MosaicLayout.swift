@@ -11,24 +11,24 @@ import UIKit
 final class MosaicLayout: UICollectionViewFlowLayout {
     
     private enum MosaicSegmentStyle {
-        case twoThirdsOneThird
-        case oneThirdTwoThirds
-        case fiftyFifty
+        case oneBigTwoSmall
+        case twoSmallOneBig
+        case twoBig
         case fullWidth
     }
     
     private struct Constants {
-        static let spacing: CGFloat = 2.0
-        static let itemWidth: CGFloat = 160.0
-        static let itemHeight: CGFloat = 160.0
-        
-        static let numberOfItemWidthsInSegment: CGFloat = 2
-        static let numberOfSegmentForBigScreen: CGFloat = 2
+        struct Item {
+            static let width: CGFloat = 159.0
+            static let height: CGFloat = 159.0
+        }
+        struct Container {
+            static let spacing: CGFloat = 2.0
+        }
     }
     
     private var contentBounds = CGRect.zero
     private var cachedAttributes = [UICollectionViewLayoutAttributes]()
-    private var segmentRects = [CGRect]()
     
     // Prepare Layout
     override func prepare() {
@@ -41,7 +41,6 @@ final class MosaicLayout: UICollectionViewFlowLayout {
         // Reset cached information.
         cachedAttributes.removeAll()
         contentBounds = CGRect(origin: .zero, size: collectionView.bounds.size)
-        segmentRects.removeAll()
         
         // For every item in the collection view:
         //  - Prepare the attributes.
@@ -54,37 +53,31 @@ final class MosaicLayout: UICollectionViewFlowLayout {
         var lastFrame: CGRect = .zero
         let collectionViewWidth = collectionView.bounds.size.width
         
-        var segment: MosaicSegmentStyle = .twoThirdsOneThird
+        var segment: MosaicSegmentStyle = .oneBigTwoSmall
+        
+        var segmentRects = [CGRect]()
         
         while currentIndex < count {
             
             var xOffset: CGFloat {
-                let collectionViewWidthCenter = collectionView.bounds.midX
-                
-                if availableNumberOfSegmentsInCollectionView > 1 {
-                    let offset = collectionView.bounds.minX
-                    return offset
-                } else {
-                    let offset = collectionViewWidthCenter - Constants.itemWidth
-                    return offset
-                }
+                return collectionView.bounds.midX - Constants.Item.width
             }
             
-            let yOffset = lastFrame.maxY + (Constants.spacing * 2)
+            let yOffset = lastFrame.maxY + (Constants.Container.spacing * 2)
             
             // Calculate every segment style.
             switch segment {
             case .fullWidth:
-                calculateFullWidthSegment(x: xOffset, y: yOffset)
+                segmentRects = calculateFullWidthSegment(x: xOffset, y: yOffset)
                 
-            case .fiftyFifty:
-               calculateFiftyFiftySegment(x: xOffset, y: yOffset)
+            case .twoBig:
+                segmentRects = calculateTwoBigSegment(x: xOffset, y: yOffset)
             
-            case .twoThirdsOneThird:
-                calculateTwoThirdsOneThirdSegment(x: xOffset, y: yOffset)
+            case .oneBigTwoSmall:
+                segmentRects = calculateOneBigTwoSmallSegment(x: xOffset, y: yOffset)
                 
-            case .oneThirdTwoThirds:
-                calculateOneThirdTwoThirdsSegment(x: xOffset, y: yOffset)
+            case .twoSmallOneBig:
+                segmentRects = calculateTwoSmallOneBigSegment(x: xOffset, y: yOffset)
             }
             
             // Create and cache layout attributes for calculated frames.
@@ -142,121 +135,75 @@ final class MosaicLayout: UICollectionViewFlowLayout {
 
 extension MosaicLayout {
     
-    private var rectWidth: CGFloat {
-        return (Constants.itemWidth * Constants.numberOfItemWidthsInSegment) + Constants.spacing
+    // MARK: - Calculated properties
+    
+    private var segmentWidth: CGFloat {
+        return Constants.Item.width + Constants.Container.spacing + Constants.Item.width // 320
     }
     
-    private var availableNumberOfSegmentsInCollectionView: CGFloat {
+    private var smallItemHeight: CGFloat {
+        return (Constants.Item.height - Constants.Container.spacing) / 2 // 78.5
+    }
+    
+    // MARK: - Dynamic properties // All of dynamic inside prepare()?
+    
+    private var dynamicSpacing: CGFloat {
+
+        guard let collectionView = collectionView else {
+            return 0
+        }
+
+        let collectionViewWidth = collectionView.bounds.size.width
+
+        return collectionViewWidth / segmentsWidth * numberOfSegments
+    }
+    
+    private var numberOfSegments: CGFloat {
         
         guard let collectionView = collectionView else {
             return 0
         }
         
         let collectionViewWidth = collectionView.bounds.size.width
-        let finalNumberOfSegmentsInCollectionView = collectionViewWidth / rectWidth
         
-        return finalNumberOfSegmentsInCollectionView.rounded(.down)
+        return collectionViewWidth / (segmentWidth + Constants.Container.spacing)
     }
     
-    private var numberOfItemsInTwoSegments: CGFloat {
-        return Constants.numberOfItemWidthsInSegment * Constants.numberOfSegmentForBigScreen
+    private var segmentsWidth: CGFloat {
+        return segmentWidth * numberOfSegments.rounded(.down)
     }
     
-    private var dynamicItemWidth: CGFloat {
-        
-        guard let collectionView = collectionView else {
-            return 0
-        }
-        
-        let collectionViewWidth = collectionView.bounds.size.width
-        let availableWidthOfSegmentInCollectionView = rectWidth * Constants.numberOfSegmentForBigScreen
-        let emptySpace = collectionViewWidth - availableWidthOfSegmentInCollectionView
-        let difference = emptySpace / numberOfItemsInTwoSegments
-        let finalNewItemWidth = Constants.itemWidth + difference
-        
-        return finalNewItemWidth
+    // MARK: - Methods which calculate every segment style
+    
+    private func calculateFullWidthSegment(x: CGFloat, y: CGFloat) -> [CGRect] {
+        let itemFrame = CGRect(x: x, y: y, width: segmentsWidth, height: Constants.Item.height)
+        return [itemFrame]
     }
     
-    private var calculatedItemWidth: CGFloat {
-        if availableNumberOfSegmentsInCollectionView > 1 {
-            return dynamicItemWidth - (Constants.spacing / numberOfItemsInTwoSegments)
-        } else {
-            return Constants.itemWidth - (Constants.spacing / Constants.numberOfItemWidthsInSegment)
-        }
+    private func calculateTwoBigSegment(x: CGFloat, y: CGFloat) -> [CGRect] {
+        
+        let firstItem = CGRect(x: x, y: y, width: Constants.Item.width, height: Constants.Item.height)
+        let secondItem = CGRect(x: firstItem.maxX + Constants.Container.spacing, y: y, width: Constants.Item.width, height: Constants.Item.height)
+        
+        return [firstItem, secondItem]
     }
     
-    private var calculatedHeightForSmallItem: CGFloat {
-        return (Constants.itemHeight / Constants.numberOfItemWidthsInSegment) - Constants.spacing
+    private func calculateOneBigTwoSmallSegment(x: CGFloat, y: CGFloat) -> [CGRect] {
+        
+        let leftBigItem = CGRect(x: x, y: y, width: Constants.Item.width, height: Constants.Item.height)
+        let topSmallItem = CGRect(x: leftBigItem.maxX + Constants.Container.spacing, y: y, width: Constants.Item.width, height: smallItemHeight)
+        let bottomSmallItem = CGRect(x: leftBigItem.maxX + Constants.Container.spacing, y: topSmallItem.maxY + Constants.Container.spacing, width: Constants.Item.width, height: smallItemHeight)
+        
+        return [leftBigItem, topSmallItem, bottomSmallItem]
     }
     
-    // Calculate every segment style.
-    
-    private func calculateFullWidthSegment(x: CGFloat, y: CGFloat) {
+    private func calculateTwoSmallOneBigSegment(x: CGFloat, y: CGFloat) -> [CGRect] {
         
-        let itemWidthForFullWidthSegment = (calculatedItemWidth * Constants.numberOfItemWidthsInSegment) + Constants.spacing
-        let segmentFrame = CGRect(x: x, y: y, width: itemWidthForFullWidthSegment, height: Constants.itemHeight)
+        let topSmallItem = CGRect(x: x, y: y, width: Constants.Item.width, height: smallItemHeight)
+        let bottomSmallItem = CGRect(x: x, y: topSmallItem.maxY + Constants.Container.spacing, width: Constants.Item.width, height: smallItemHeight)
+        let rightBigItem = CGRect(x: topSmallItem.maxX + Constants.Container.spacing, y: y, width: Constants.Item.width, height: Constants.Item.height)
         
-        segmentRects = [segmentFrame]
-        
-        if availableNumberOfSegmentsInCollectionView > 1 {
-
-            let itemWidthForFullWidthSegmentExtra = ((calculatedItemWidth + Constants.spacing) * Constants.numberOfItemWidthsInSegment) * Constants.numberOfSegmentForBigScreen
-            let segmentFrameExtra = CGRect(x: x, y: y, width: itemWidthForFullWidthSegmentExtra, height: Constants.itemHeight)
-
-            segmentRects = [segmentFrameExtra]
-        }
-    }
-    
-    private func calculateFiftyFiftySegment(x: CGFloat, y: CGFloat) {
-        
-        let halfFirst = CGRect(x: x, y: y, width: calculatedItemWidth, height: Constants.itemHeight)
-        let halfSecond = CGRect(x: halfFirst.maxX + Constants.spacing, y: y, width: Constants.itemWidth, height: Constants.itemHeight)
-        
-        segmentRects = [halfFirst, halfSecond]
-        
-        if availableNumberOfSegmentsInCollectionView > 1 {
-            
-            let halfFirstExtra = CGRect(x: x, y: y, width: (calculatedItemWidth * 2) + Constants.spacing, height: Constants.itemHeight)
-            let halfSecondExtra = CGRect(x: halfFirstExtra.maxX + Constants.spacing, y: y, width: (calculatedItemWidth * 2) + Constants.spacing, height: Constants.itemHeight)
-            
-            segmentRects = [halfFirstExtra, halfSecondExtra]
-        }
-    }
-    
-    private func calculateTwoThirdsOneThirdSegment(x: CGFloat, y: CGFloat) {
-        
-        let leftThirdInTwoThirdsOneThird = CGRect(x: x, y: y, width: calculatedItemWidth, height: Constants.itemHeight - Constants.spacing)
-        let rightThirdFirstInTwoThirdsOneThird = CGRect(x: leftThirdInTwoThirdsOneThird.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
-        let rightThirdSecondInTwoThirdsOneThird = CGRect(x: leftThirdInTwoThirdsOneThird.maxX + Constants.spacing, y: rightThirdFirstInTwoThirdsOneThird.maxY + Constants.spacing, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
-        
-        segmentRects = [leftThirdInTwoThirdsOneThird, rightThirdFirstInTwoThirdsOneThird, rightThirdSecondInTwoThirdsOneThird]
-
-        if availableNumberOfSegmentsInCollectionView > 1 {
-
-            let leftThirdInTwoThirdsOneThirdExtra = CGRect(x: rightThirdFirstInTwoThirdsOneThird.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: Constants.itemHeight - Constants.spacing)
-            let rightThirdFirstInTwoThirdsOneThirdExtra = CGRect(x: leftThirdInTwoThirdsOneThirdExtra.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
-            let rightThirdSecondInTwoThirdsOneThirdExtra = CGRect(x: leftThirdInTwoThirdsOneThirdExtra.maxX + Constants.spacing, y: rightThirdFirstInTwoThirdsOneThirdExtra.maxY + Constants.spacing, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
-            
-            segmentRects += [leftThirdInTwoThirdsOneThirdExtra, rightThirdFirstInTwoThirdsOneThirdExtra, rightThirdSecondInTwoThirdsOneThirdExtra]
-        }
-    }
-    
-    private func calculateOneThirdTwoThirdsSegment(x: CGFloat, y: CGFloat) {
-        
-        let leftThirdFirstInOneThirdTwoThirds = CGRect(x: x, y: y, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
-        let leftThirdSecondInOneThirdTwoThirds = CGRect(x: x, y: leftThirdFirstInOneThirdTwoThirds.maxY + Constants.spacing, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
-        let rightThirdInOneThirdTwoThirds = CGRect(x: leftThirdFirstInOneThirdTwoThirds.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: Constants.itemHeight - Constants.spacing)
-        
-        segmentRects = [leftThirdFirstInOneThirdTwoThirds, leftThirdSecondInOneThirdTwoThirds, rightThirdInOneThirdTwoThirds]
-        
-        if availableNumberOfSegmentsInCollectionView > 1 {
-
-            let leftThirdFirstInOneThirdTwoThirdsExtra = CGRect(x: rightThirdInOneThirdTwoThirds.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
-            let leftThirdSecondInOneThirdTwoThirdsExtra = CGRect(x: rightThirdInOneThirdTwoThirds.maxX + Constants.spacing, y: leftThirdFirstInOneThirdTwoThirdsExtra.maxY + Constants.spacing, width: calculatedItemWidth, height: calculatedHeightForSmallItem)
-            let rightThirdInOneThirdTwoThirdsExtra = CGRect(x: leftThirdFirstInOneThirdTwoThirdsExtra.maxX + Constants.spacing, y: y, width: calculatedItemWidth, height: Constants.itemHeight - Constants.spacing)
-            
-            segmentRects += [leftThirdFirstInOneThirdTwoThirdsExtra, leftThirdSecondInOneThirdTwoThirdsExtra, rightThirdInOneThirdTwoThirdsExtra]
-        }
+        return [topSmallItem, bottomSmallItem, rightBigItem]
     }
     
     // Determine the next segment style.
@@ -265,17 +212,17 @@ extension MosaicLayout {
         case 1:
             segment = .fullWidth
         case 2:
-            segment = .fiftyFifty
+            segment = .twoBig
         default:
             switch segment {
-            case .twoThirdsOneThird:
-                segment = .oneThirdTwoThirds
-            case .oneThirdTwoThirds:
-                segment = .twoThirdsOneThird
-            case .fiftyFifty:
+            case .oneBigTwoSmall:
+                segment = .twoSmallOneBig
+            case .twoSmallOneBig:
+                segment = .oneBigTwoSmall
+            case .twoBig:
                 segment = .fullWidth
             case .fullWidth:
-                segment = .twoThirdsOneThird
+                segment = .oneBigTwoSmall
             }
         }
     }
