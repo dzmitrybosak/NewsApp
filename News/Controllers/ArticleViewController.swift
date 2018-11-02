@@ -31,9 +31,9 @@ class ArticleViewController: UIViewController {
     weak var delegate: ArticleViewControllerDelegate?
     
     
-    @IBOutlet weak var sourceNameLabel: UILabel!
-    @IBOutlet weak var authorLabel: UILabel!
-    @IBOutlet weak var lineView: UIView!
+    @IBOutlet private weak var sourceNameLabel: UILabel!
+    @IBOutlet private weak var authorLabel: UILabel!
+    @IBOutlet private weak var lineView: UIView!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var textView: UITextView!
@@ -63,12 +63,12 @@ class ArticleViewController: UIViewController {
         titleLabel.text = article.title
         textView.text = article.description
         
-        if let unwrapedPublishedAt = article.publishedAt {
-            dateLabel.text = dateFormatService.fromDate(unwrapedPublishedAt)
+        if let publishedAt = article.publishedAt {
+            dateLabel.text = dateFormatService.fromDate(publishedAt)
         }
         
-        if let unwrapedURLToImage = article.urlToImage {
-            imageView.af_setImage(withURL: unwrapedURLToImage, placeholderImage: UIImage(named: Constants.imageHolder))
+        if let urlToImage = article.urlToImage {
+            imageView.af_setImage(withURL: urlToImage, placeholderImage: UIImage(named: Constants.imageHolder))
         }
         
         checkURLAndSetButton()

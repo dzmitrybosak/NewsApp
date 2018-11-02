@@ -71,20 +71,25 @@ class NewsViewController: UIViewController {
     
     // Load and sort data
     private func loadData() {
-        DispatchQueue.global(qos: .utility).async {
+        DispatchQueue.global(qos: .background).async {
             self.newsService.news { [weak self] news in
 
                 // Sort by date
                 let sortedNews = news.sorted(by: { (firstArticle: Article, secondArticle: Article) -> Bool in
-                    return firstArticle.publishedAt?.compare(secondArticle.publishedAt!) == .orderedDescending
+                    
+                    guard let secondArticlePublishedAt = secondArticle.publishedAt else {
+                        return false
+                    }
+                    
+                    return firstArticle.publishedAt?.compare(secondArticlePublishedAt) == .orderedDescending
                 })
 
                 self?.news = sortedNews
                 self?.filteredNews = sortedNews
                 
-                DispatchQueue.main.async {
-                    self?.collectionView.reloadData()
-                }
+                //DispatchQueue.main.async {
+                    //self?.collectionView.reloadData()
+                //}
                 
             }
         }
@@ -110,7 +115,7 @@ class NewsViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(didRefresh(_:)), for: .valueChanged)
         refreshControl.tintColor = .white
 
-        let attributedString = NSAttributedString(string: "Pull down to refresh", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+        let attributedString = NSAttributedString(string: "Pull down to refresh", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
 
         refreshControl.attributedTitle = attributedString
     }
@@ -221,15 +226,20 @@ extension NewsViewController: UISearchBarDelegate {
             filteredNews = news
         } else {
             DispatchQueue.main.async {
-                self.newsService.newsWithPredicate(predicate: searchText, callback: { [weak self] news in
+                self.newsService.newsWithPredicate(predicate: searchText) { [weak self] news in
                     
                     // Sort by date
                     let sortedNews = news.sorted(by: { (firstArticle: Article, secondArticle: Article) -> Bool in
-                        return firstArticle.publishedAt?.compare(secondArticle.publishedAt!) == .orderedDescending
+                        
+                        guard let secondArticlePublishedAt = secondArticle.publishedAt else {
+                            return false
+                        }
+                        
+                        return firstArticle.publishedAt?.compare(secondArticlePublishedAt) == .orderedDescending
                     })
                     
                     self?.filteredNews = sortedNews
-                })
+                }
             }
         }
     }

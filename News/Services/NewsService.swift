@@ -62,7 +62,7 @@ final class NewsService {
                 articles.append(articleEntity.map())
             }
             
-            callback(articles.compactMap({ $0 }))
+            callback(articles.compactMap { $0 })
         }
     }
     

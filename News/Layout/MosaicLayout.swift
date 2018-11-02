@@ -50,7 +50,7 @@ class MosaicLayout: UICollectionViewLayout {
             let numberOfRects: CGFloat = 2
             
             let itemWidth: CGFloat = 160.0
-            let itemHeigt: CGFloat = 160.0
+            let itemHeight: CGFloat = 160.0
                         
             var xOffset: CGFloat {
                 
@@ -67,51 +67,51 @@ class MosaicLayout: UICollectionViewLayout {
             switch segment {
             case .fullWidth:
                 
-                let segmentFrame = CGRect(x: xOffset, y: yOffset, width: itemWidth * 2, height: itemHeigt)
+                let segmentFrame = CGRect(x: xOffset, y: yOffset, width: itemWidth * 2, height: itemHeight)
                 segmentRects = [segmentFrame]
                 
             case .fiftyFifty:
                 
-                let halfFirst = CGRect(x: xOffset, y: yOffset, width: itemWidth - spacing, height: itemHeigt)
-                let halfSecond = CGRect(x: xOffset + itemWidth + spacing, y: yOffset, width: itemWidth - spacing, height: itemHeigt)
+                let halfFirst = CGRect(x: xOffset, y: yOffset, width: itemWidth - spacing, height: itemHeight)
+                let halfSecond = CGRect(x: xOffset + itemWidth + spacing, y: yOffset, width: itemWidth - spacing, height: itemHeight)
                 
                 segmentRects = [halfFirst, halfSecond]
                 
                 if collectionViewWidth >= (itemWidth + spacing) * 4 {
-                    let halfThird = CGRect(x: xOffset, y: yOffset, width: (itemWidth * 2) - spacing, height: itemHeigt)
-                    let halfFourth = CGRect(x: xOffset + (itemWidth * 2) + spacing, y: yOffset, width: (itemWidth * 2) - spacing, height: itemHeigt)
+                    let halfThird = CGRect(x: xOffset, y: yOffset, width: (itemWidth * 2) - spacing, height: itemHeight)
+                    let halfFourth = CGRect(x: xOffset + (itemWidth * 2) + spacing, y: yOffset, width: (itemWidth * 2) - spacing, height: itemHeight)
 
                     segmentRects = [halfThird, halfFourth]
                 }
             
             case .twoThirdsOneThird:
                 
-                let leftThirdInTwoThirdsOneThird = CGRect(x: xOffset, y: yOffset, width: itemWidth - spacing, height: itemHeigt)
-                let rightThirdFirstInTwoThirdsOneThird = CGRect(x: xOffset + itemWidth + spacing, y: yOffset, width: itemWidth - spacing, height: (itemHeigt / numberOfRects) - spacing)
-                let rightThirdSecondInTwoThirdsOneThird = CGRect(x: xOffset + itemWidth + spacing, y: yOffset + (itemHeigt / numberOfRects) + spacing, width: itemWidth - spacing, height: (itemHeigt / numberOfRects) - spacing)
+                let leftThirdInTwoThirdsOneThird = CGRect(x: xOffset, y: yOffset, width: itemWidth - spacing, height: itemHeight)
+                let rightThirdFirstInTwoThirdsOneThird = CGRect(x: xOffset + itemWidth + spacing, y: yOffset, width: itemWidth - spacing, height: (itemHeight / numberOfRects) - spacing)
+                let rightThirdSecondInTwoThirdsOneThird = CGRect(x: xOffset + itemWidth + spacing, y: yOffset + (itemHeight / numberOfRects) + spacing, width: itemWidth - spacing, height: (itemHeight / numberOfRects) - spacing)
                 
                 segmentRects = [leftThirdInTwoThirdsOneThird, rightThirdFirstInTwoThirdsOneThird, rightThirdSecondInTwoThirdsOneThird]
                 
                 if collectionViewWidth >= (itemWidth + spacing) * 4 {
-                    let leftThirdInTwoThirdsOneThirdExtra = CGRect(x: xOffset + ((itemWidth + spacing) * 2), y: yOffset, width: itemWidth - spacing, height: itemHeigt)
-                    let rightThirdFirstInTwoThirdsOneThirdExtra = CGRect(x: xOffset + ((itemWidth + spacing) * 3), y: yOffset, width: itemWidth - spacing, height: (itemHeigt / numberOfRects) - spacing)
-                    let rightThirdSecondInTwoThirdsOneThirdExtra = CGRect(x: xOffset + ((itemWidth + spacing) * 3), y: yOffset + (itemHeigt / numberOfRects) + spacing, width: itemWidth - spacing, height: (itemHeigt / numberOfRects) - spacing)
+                    let leftThirdInTwoThirdsOneThirdExtra = CGRect(x: xOffset + ((itemWidth + spacing) * 2), y: yOffset, width: itemWidth - spacing, height: itemHeight)
+                    let rightThirdFirstInTwoThirdsOneThirdExtra = CGRect(x: xOffset + ((itemWidth + spacing) * 3), y: yOffset, width: itemWidth - spacing, height: (itemHeight / numberOfRects) - spacing)
+                    let rightThirdSecondInTwoThirdsOneThirdExtra = CGRect(x: xOffset + ((itemWidth + spacing) * 3), y: yOffset + (itemHeight / numberOfRects) + spacing, width: itemWidth - spacing, height: (itemHeight / numberOfRects) - spacing)
 
                     segmentRects += [leftThirdInTwoThirdsOneThirdExtra, rightThirdFirstInTwoThirdsOneThirdExtra, rightThirdSecondInTwoThirdsOneThirdExtra]
                 }
                 
             case .oneThirdTwoThirds:
                 
-                let leftThirdFirstInOneThirdTwoThirds = CGRect(x: xOffset, y: yOffset, width: itemWidth - spacing, height: (itemHeigt / numberOfRects) - spacing)
-                let leftThirdSecondInOneThirdTwoThirds = CGRect(x: xOffset, y: yOffset + (itemHeigt / numberOfRects) + spacing, width: itemWidth - spacing, height: (itemHeigt / numberOfRects) - spacing)
-                let rightThirdInOneThirdTwoThirds = CGRect(x: xOffset + itemWidth + spacing, y: yOffset, width: itemWidth - spacing, height: itemHeigt)
+                let leftThirdFirstInOneThirdTwoThirds = CGRect(x: xOffset, y: yOffset, width: itemWidth - spacing, height: (itemHeight / numberOfRects) - spacing)
+                let leftThirdSecondInOneThirdTwoThirds = CGRect(x: xOffset, y: yOffset + (itemHeight / numberOfRects) + spacing, width: itemWidth - spacing, height: (itemHeight / numberOfRects) - spacing)
+                let rightThirdInOneThirdTwoThirds = CGRect(x: xOffset + itemWidth + spacing, y: yOffset, width: itemWidth - spacing, height: itemHeight)
                 
                 segmentRects = [leftThirdFirstInOneThirdTwoThirds, leftThirdSecondInOneThirdTwoThirds, rightThirdInOneThirdTwoThirds]
                 
                 if collectionViewWidth >= (itemWidth + spacing) * 4 {
-                    let leftThirdFirstInOneThirdTwoThirdsExtra = CGRect(x: xOffset + ((itemWidth + spacing) * 2), y: yOffset, width: itemWidth - spacing, height: (itemHeigt / numberOfRects) - spacing)
-                    let leftThirdSecondInOneThirdTwoThirdsExtra = CGRect(x: xOffset + ((itemWidth + spacing) * 2), y: yOffset + (itemHeigt / numberOfRects) + spacing, width: itemWidth - spacing, height: (itemHeigt / numberOfRects) - spacing)
-                    let rightThirdInOneThirdTwoThirdsExtra = CGRect(x: xOffset + ((itemWidth + spacing) * 3), y: yOffset, width: itemWidth - spacing, height: itemHeigt)
+                    let leftThirdFirstInOneThirdTwoThirdsExtra = CGRect(x: xOffset + ((itemWidth + spacing) * 2), y: yOffset, width: itemWidth - spacing, height: (itemHeight / numberOfRects) - spacing)
+                    let leftThirdSecondInOneThirdTwoThirdsExtra = CGRect(x: xOffset + ((itemWidth + spacing) * 2), y: yOffset + (itemHeight / numberOfRects) + spacing, width: itemWidth - spacing, height: (itemHeight / numberOfRects) - spacing)
+                    let rightThirdInOneThirdTwoThirdsExtra = CGRect(x: xOffset + ((itemWidth + spacing) * 3), y: yOffset, width: itemWidth - spacing, height: itemHeight)
 
                     segmentRects += [leftThirdFirstInOneThirdTwoThirdsExtra, leftThirdSecondInOneThirdTwoThirdsExtra, rightThirdInOneThirdTwoThirdsExtra]
                 }
