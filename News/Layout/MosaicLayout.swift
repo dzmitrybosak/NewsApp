@@ -19,8 +19,8 @@ final class MosaicLayout: UICollectionViewFlowLayout {
     
     private struct Constants {
         struct Item {
-            static let width: CGFloat = 159.0
-            static let height: CGFloat = 159.0
+            static let width: CGFloat = 128.0
+            static let height: CGFloat = 128.0
         }
         struct Container {
             static let spacing: CGFloat = 2.0
@@ -29,6 +29,7 @@ final class MosaicLayout: UICollectionViewFlowLayout {
     
     private var contentBounds = CGRect.zero
     private var cachedAttributes = [UICollectionViewLayoutAttributes]()
+    private var segmentRects = [CGRect]()
     
     // Prepare Layout
     override func prepare() {
@@ -55,29 +56,46 @@ final class MosaicLayout: UICollectionViewFlowLayout {
         
         var segment: MosaicSegmentStyle = .oneBigTwoSmall
         
-        var segmentRects = [CGRect]()
+        var availableNumberOfSegments: CGFloat {
+            return collectionViewWidth / (segmentWidth + Constants.Container.spacing)
+        }
+        
+        var segmentsWidth: CGFloat {
+            return segmentWidth * availableNumberOfSegments.rounded(.down)
+        }
         
         while currentIndex < count {
             
-            var xOffset: CGFloat {
-                return collectionView.bounds.midX - Constants.Item.width
-            }
+            segmentRects.removeAll()
             
-            let yOffset = lastFrame.maxY + (Constants.Container.spacing * 2)
+            let xOffset: CGFloat = collectionView.bounds.minX
+            let yOffset = lastFrame.maxY + Constants.Container.spacing
             
             // Calculate every segment style.
             switch segment {
-            case .fullWidth:
-                segmentRects = calculateFullWidthSegment(x: xOffset, y: yOffset)
+            case .oneBigTwoSmall:
+                
+                var lastX = xOffset
+
+                while lastX <= segmentsWidth {
+                    segmentRects += calculateOneBigTwoSmallSegment(x: lastX, y: yOffset)
+                    lastX += segmentWidth + Constants.Container.spacing
+                }
+                
+            case .twoSmallOneBig:
+                
+                var lastX = xOffset
+                
+                while lastX <= segmentsWidth {
+                    segmentRects += calculateTwoSmallOneBigSegment(x: lastX, y: yOffset)
+                    lastX += segmentWidth + Constants.Container.spacing
+                }
                 
             case .twoBig:
                 segmentRects = calculateTwoBigSegment(x: xOffset, y: yOffset)
-            
-            case .oneBigTwoSmall:
-                segmentRects = calculateOneBigTwoSmallSegment(x: xOffset, y: yOffset)
                 
-            case .twoSmallOneBig:
-                segmentRects = calculateTwoSmallOneBigSegment(x: xOffset, y: yOffset)
+            case .fullWidth:
+                segmentRects = calculateFullWidthSegment(x: xOffset, y: yOffset)
             }
             
             // Create and cache layout attributes for calculated frames.
@@ -138,45 +156,17 @@ extension MosaicLayout {
     // MARK: - Calculated properties
     
     private var segmentWidth: CGFloat {
-        return Constants.Item.width + Constants.Container.spacing + Constants.Item.width // 320
+        return Constants.Item.width + Constants.Container.spacing + Constants.Item.width
     }
     
     private var smallItemHeight: CGFloat {
-        return (Constants.Item.height - Constants.Container.spacing) / 2 // 78.5
-    }
-    
-    // MARK: - Dynamic properties // All of dynamic inside prepare()?
-    
-    private var dynamicSpacing: CGFloat {
-
-        guard let collectionView = collectionView else {
-            return 0
-        }
-
-        let collectionViewWidth = collectionView.bounds.size.width
-
-        return collectionViewWidth / segmentsWidth * numberOfSegments
-    }
-    
-    private var numberOfSegments: CGFloat {
-        
-        guard let collectionView = collectionView else {
-            return 0
-        }
-        
-        let collectionViewWidth = collectionView.bounds.size.width
-        
-        return collectionViewWidth / (segmentWidth + Constants.Container.spacing)
-    }
-    
-    private var segmentsWidth: CGFloat {
-        return segmentWidth * numberOfSegments.rounded(.down)
+        return (Constants.Item.height - Constants.Container.spacing) / 2
     }
     
     // MARK: - Methods which calculate every segment style
     
     private func calculateFullWidthSegment(x: CGFloat, y: CGFloat) -> [CGRect] {
-        let itemFrame = CGRect(x: x, y: y, width: segmentsWidth, height: Constants.Item.height)
+        let itemFrame = CGRect(x: x, y: y, width: Constants.Item.width + Constants.Container.spacing + Constants.Item.width , height: Constants.Item.height)
         return [itemFrame]
     }
     
