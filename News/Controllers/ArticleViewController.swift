@@ -9,33 +9,33 @@
 import UIKit
 import AlamofireImage
 
-private enum Constants {
-    static let imageHolder = "placeholder"
-}
-
 private enum Segues: String {
     case showWebView = "showWebView"
 }
 
-private enum Like: Int16 {
-    case isDisliked = -1
-    case isLiked = 1
+protocol ArticleViewControllerDelegate: class {
+    func didLiked(_ article: Article)
 }
 
-class ArticleVC: UIViewController {
+class ArticleViewController: UIViewController {
 
     private let dateFormatService = DateFormatService.shared
     private let newsService = NewsService.shared
     
     // MARK: - Properties
     
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var readMoreButtonOutlet: UIButton!
-    @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var dislikeButton: UIButton!
+    weak var delegate: ArticleViewControllerDelegate?
+    
+    @IBOutlet private weak var sourceNameLabel: UILabel!
+    @IBOutlet private weak var authorLabel: UILabel!
+    @IBOutlet private weak var lineView: UIView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var textView: UITextView!
+    @IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var readMoreButtonOutlet: UIButton!
+    @IBOutlet private weak var likeButton: UIButton!
+    @IBOutlet private weak var dislikeButton: UIButton!
     
     var article: Article?
     
@@ -52,31 +52,31 @@ class ArticleVC: UIViewController {
             return
         }
         
-        navigationItem.title = article.name
+        navigationItem.title = ""
+        sourceNameLabel.text = article.sourceName
+        authorLabel.text = article.author
         titleLabel.text = article.title
         textView.text = article.description
         
-        guard let publishedAt = article.publishedAt else {
-            return
+        if let publishedAt = article.publishedAt {
+            dateLabel.text = dateFormatService.fromDate(publishedAt)
         }
         
-        dateLabel.text = dateFormatService.fromDate(publishedAt)
-        
-        guard let urlToImage = article.urlToImage else {
-            return
+        if let urlToImage = article.urlToImage {
+            imageView.af_setImage(withURL: urlToImage, placeholderImage: #imageLiteral(resourceName: "placeholder"))
         }
-        
-        imageView.af_setImage(withURL: urlToImage, placeholderImage: UIImage(named: Constants.imageHolder))
         
         checkURLAndSetButton()
         checkLikeValue()
     }
     
     private func checkURLAndSetButton() {
-        if article?.url == nil {
-            readMoreButtonOutlet.isHighlighted = true
-            readMoreButtonOutlet.isUserInteractionEnabled = false
+        guard article?.url == nil else {
+            return
         }
+        
+        readMoreButtonOutlet.isHighlighted = true
+        readMoreButtonOutlet.isUserInteractionEnabled = false
     }
     
     private func checkLikeValue() {
@@ -86,10 +86,10 @@ class ArticleVC: UIViewController {
         }
         
         switch likeValue {
-        case Like.isLiked.rawValue:
+        case .isLiked:
             likeButton.isEnabled = true
             dislikeButton.isEnabled = false
-        case Like.isDisliked.rawValue:
+        case .isDisliked:
             dislikeButton.isEnabled = true
             likeButton.isEnabled = false
         default:
@@ -98,22 +98,29 @@ class ArticleVC: UIViewController {
     }
     
     private func likeSelected() {
+        guard let article = article else {
+            return
+        }
+        article.likeValue = .isLiked
         
-        article?.likeValue = Like.isLiked.rawValue
-        
-        newsService.resaveEntity(using: article!) { [weak self] _ in
-            _ = self?.article
+        newsService.resaveEntity(using: article) { [weak self] article in
+            self?.article = article
+            self?.delegate?.didLiked(article)
         }
         
         checkLikeValue()
     }
     
     private func dislikeSelected() {
+        guard let article = article else {
+            return
+        }
         
-        article?.likeValue = Like.isDisliked.rawValue
+        article.likeValue = .isDisliked
         
-        newsService.resaveEntity(using: article!) { [weak self] _ in
-            _ = self?.article
+        newsService.resaveEntity(using: article) { [weak self] article in
+            self?.article = article
+            self?.delegate?.didLiked(article)
         }
         
         checkLikeValue()
@@ -128,7 +135,7 @@ class ArticleVC: UIViewController {
         
         switch segueID {
         case Segues.showWebView.rawValue:
-            guard let article = article, let destination = segue.destination as? WebVC else {
+            guard let article = article, let destination = segue.destination as? WebViewController else {
                 return
             }
             

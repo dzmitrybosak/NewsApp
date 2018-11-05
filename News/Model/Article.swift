@@ -8,10 +8,12 @@
 
 import Foundation
 
-struct Article: Decodable {
+class Article: Decodable {
     
-    var name: String?
-    var id: String?
+    // MARK: - Properties
+    
+    var sourceName: String?
+    var sourceID: String?
 
     var author: String?
     var title: String?
@@ -19,13 +21,20 @@ struct Article: Decodable {
     var url: URL?
     var urlToImage: URL?
     var publishedAt: Date?
+    var likeValue: Like
     
-    var likeValue: Int16
+    enum Like: Int {
+        case isLiked = 1
+        case noLike = 0
+        case isDisliked = -1
+    }
     
-    enum CodingKeys: CodingKey {
+    // MARK: - Keys for decoding
+    
+    enum CodingKeys: String, CodingKey {
         case source
-        case id
-        case name
+        case sourceID = "id"
+        case sourceName = "name"
         
         case author
         case title
@@ -34,13 +43,27 @@ struct Article: Decodable {
         case urlToImage
         case publishedAt
     }
+    
+    // MARK: - Initialization
+    
+    init() {
+        self.sourceName = ""
+        self.sourceID = ""
+        self.author = ""
+        self.title = ""
+        self.description = ""
+        self.url = URL(string: "")
+        self.urlToImage = URL(string: "")
+        self.publishedAt = Date()
+        self.likeValue = Like.noLike
+    }
 
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         let source = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: .source)
-        self.id = try? source.decode(String.self, forKey: .id)
-        self.name = try? source.decode(String.self, forKey: .name)
+        self.sourceID = try? source.decode(String.self, forKey: .sourceID)
+        self.sourceName = try? source.decode(String.self, forKey: .sourceName)
         
         self.author = try? container.decode(String.self, forKey: .author)
         self.title = try? container.decode(String.self, forKey: .title)
@@ -49,6 +72,6 @@ struct Article: Decodable {
         self.urlToImage = try? container.decode(URL.self, forKey: .urlToImage)
         self.publishedAt = try? container.decode(Date.self, forKey: .publishedAt)
         
-        self.likeValue = 0
+        self.likeValue = Like.noLike
     }
 }

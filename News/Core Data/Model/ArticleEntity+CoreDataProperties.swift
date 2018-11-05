@@ -10,8 +10,8 @@
 import CoreData
 
 extension ArticleEntity {
-    @NSManaged var id: String?
-    @NSManaged var name: String?
+    @NSManaged var sourceID: String?
+    @NSManaged var sourceName: String?
     
     @NSManaged var author: String?
     @NSManaged var title: String?
@@ -20,5 +20,5 @@ extension ArticleEntity {
     @NSManaged var urlToImage: String?
     @NSManaged var publishedAt: Date?
     
-    @NSManaged var likeValue: Int16
+    @NSManaged var likeValue: Int
 }

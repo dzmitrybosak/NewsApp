@@ -9,14 +9,10 @@
 import UIKit
 import AlamofireImage
 
-private enum Constants {
-    static let imageHolder = "placeholder"
-}
-
 class NewsCell: UICollectionViewCell {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var overlay: UIView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var overlay: UIView!
     
     var article: Article? {
         didSet {
@@ -31,13 +27,13 @@ class NewsCell: UICollectionViewCell {
             return
         }
         
-        imageView.af_setImage(withURL: urlToImage, placeholderImage: UIImage(named: Constants.imageHolder))
+        imageView.af_setImage(withURL: urlToImage, placeholderImage: #imageLiteral(resourceName: "placeholder"))
     }
     
     override func prepareForReuse() {
         titleLabel.text = nil
         imageView.af_cancelImageRequest()
-        imageView.image = UIImage(named: Constants.imageHolder)
+        imageView.image = #imageLiteral(resourceName: "placeholder")
     }
     
 }
