@@ -22,14 +22,16 @@ final class NewsService {
     
     // Get News
     func news(callback: @escaping ([Article]) -> Void) {
-        newsWebService.getNews { [weak self] (remoteArticles, error) in
-            if let _ = error {
-                self?.fetchLocalArticles(callback: callback)
-                return
-            }
+        DispatchQueue.global(qos: .utility).async {
+            self.newsWebService.getNews { [weak self] (remoteArticles, error) in
+                if let _ = error {
+                    self?.fetchLocalArticles(callback: callback)
+                    return
+                }
             
-            self?.storeRemoteArticles(using: remoteArticles, callback: callback)
-            self?.fetchLocalArticles(callback: callback)
+                self?.storeRemoteArticles(using: remoteArticles, callback: callback)
+                self?.fetchLocalArticles(callback: callback)
+            }
         }
     }
     
@@ -56,11 +58,7 @@ final class NewsService {
         let context = coreDataManager.context
         context.perform { [weak self] in
             let articleEntities = self?.fetchArticleEntitiesWithPredicate(predicate: predicate) ?? []
-            
-            var articles = [Article?]()
-            for articleEntity in articleEntities {
-                articles.append(articleEntity.map())
-            }
+            let articles = articleEntities.map { $0.map() }
             
             callback(articles.compactMap { $0 })
         }
@@ -83,11 +81,7 @@ final class NewsService {
         let context = coreDataManager.context
         context.perform { [weak self] in
             let articleEntities = self?.fetchArticleEntities(from: context) ?? []
-            
-            var articles = [Article?]()
-            for articleEntity in articleEntities {
-                articles.append(articleEntity.map())
-            }
+            let articles = articleEntities.map { $0.map() }
             
             callback(articles.compactMap({ $0 }))
         }

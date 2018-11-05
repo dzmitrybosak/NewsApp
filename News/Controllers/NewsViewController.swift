@@ -9,12 +9,9 @@
 import UIKit
 import AlamofireImage
 
-private enum Constants {
-    static let imageHolder = "placeholder"
+private struct Constants {
     static let cellID = "newsCell"
-    static let searchField = "searchField"
     static let cancelButton = "cancelButton"
-    static let collectionViewHeader = "collectionViewHeader"
 }
 
 private enum Segues: String {
@@ -71,27 +68,13 @@ class NewsViewController: UIViewController {
     
     // Load and sort data
     private func loadData() {
-        DispatchQueue.global(qos: .background).async {
-            self.newsService.news { [weak self] news in
+        self.newsService.news { [weak self] news in
 
-                // Sort by date
-                let sortedNews = news.sorted(by: { (firstArticle: Article, secondArticle: Article) -> Bool in
-                    
-                    guard let secondArticlePublishedAt = secondArticle.publishedAt else {
-                        return false
-                    }
-                    
-                    return firstArticle.publishedAt?.compare(secondArticlePublishedAt) == .orderedDescending
-                })
+            // Sort by date
+            let sortedNews = news.sorted { $0.publishedAt?.compare($1.publishedAt ?? Date()) == .orderedDescending }
 
-                self?.news = sortedNews
-                self?.filteredNews = sortedNews
-                
-                //DispatchQueue.main.async {
-                    //self?.collectionView.reloadData()
-                //}
-                
-            }
+            self?.news = sortedNews
+            self?.filteredNews = sortedNews
         }
     }
     
@@ -229,15 +212,8 @@ extension NewsViewController: UISearchBarDelegate {
                 self.newsService.newsWithPredicate(predicate: searchText) { [weak self] news in
                     
                     // Sort by date
-                    let sortedNews = news.sorted(by: { (firstArticle: Article, secondArticle: Article) -> Bool in
-                        
-                        guard let secondArticlePublishedAt = secondArticle.publishedAt else {
-                            return false
-                        }
-                        
-                        return firstArticle.publishedAt?.compare(secondArticlePublishedAt) == .orderedDescending
-                    })
-                    
+                    let sortedNews = news.sorted { $0.publishedAt?.compare($1.publishedAt ?? Date()) == .orderedDescending }
+
                     self?.filteredNews = sortedNews
                 }
             }

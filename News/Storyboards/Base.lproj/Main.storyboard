@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nKA-24-187">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nKA-24-187">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -142,17 +142,25 @@
                                                 <rect key="frame" x="8" y="638" width="398" height="42"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Chp-Em-724">
-                                                        <rect key="frame" x="150" y="-1.5" width="98" height="45"/>
+                                                        <rect key="frame" x="145" y="-4" width="108" height="50"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LlE-dP-UZP">
-                                                                <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="50" id="Iz6-3h-qeb"/>
+                                                                    <constraint firstAttribute="width" constant="50" id="bMW-bE-k7U"/>
+                                                                </constraints>
                                                                 <state key="normal" image="like"/>
                                                                 <connections>
                                                                     <action selector="likeButtonPressed:" destination="0Pi-lH-dqs" eventType="touchUpInside" id="P4Q-7I-0FE"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tIW-Rc-cUn">
-                                                                <rect key="frame" x="53" y="0.0" width="45" height="45"/>
+                                                                <rect key="frame" x="58" y="0.0" width="50" height="50"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="50" id="K6W-sN-6cS"/>
+                                                                    <constraint firstAttribute="width" constant="50" id="eJQ-N0-4zY"/>
+                                                                </constraints>
                                                                 <state key="normal" image="dislike"/>
                                                                 <connections>
                                                                     <action selector="dislikeButtonPressed:" destination="0Pi-lH-dqs" eventType="touchUpInside" id="LkP-md-25q"/>
@@ -414,8 +422,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="dislike" width="45" height="45"/>
-        <image name="like" width="45" height="45"/>
+        <image name="dislike" width="90" height="90"/>
+        <image name="like" width="90" height="90"/>
         <image name="placeholder" width="600" height="400"/>
         <image name="safari" width="28" height="28"/>
         <image name="sort" width="24" height="24"/>

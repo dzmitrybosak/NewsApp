@@ -9,10 +9,6 @@
 import UIKit
 import AlamofireImage
 
-private enum Constants {
-    static let imageHolder = "placeholder"
-}
-
 private enum Segues: String {
     case showWebView = "showWebView"
 }
@@ -29,7 +25,6 @@ class ArticleViewController: UIViewController {
     // MARK: - Properties
     
     weak var delegate: ArticleViewControllerDelegate?
-    
     
     @IBOutlet private weak var sourceNameLabel: UILabel!
     @IBOutlet private weak var authorLabel: UILabel!
@@ -68,7 +63,7 @@ class ArticleViewController: UIViewController {
         }
         
         if let urlToImage = article.urlToImage {
-            imageView.af_setImage(withURL: urlToImage, placeholderImage: UIImage(named: Constants.imageHolder))
+            imageView.af_setImage(withURL: urlToImage, placeholderImage: #imageLiteral(resourceName: "placeholder"))
         }
         
         checkURLAndSetButton()
