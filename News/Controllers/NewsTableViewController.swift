@@ -24,7 +24,7 @@ class NewsTableViewController: UITableViewController {
     
     @IBOutlet private weak var tableSearchBar: UISearchBar!
     
-    private var activityIndicator: UIActivityIndicatorView?
+    private weak var activityIndicator: UIActivityIndicatorView?
     
     private let newsService = NewsService.shared
     private let sortService = SortService.shared
@@ -33,6 +33,7 @@ class NewsTableViewController: UITableViewController {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.activityIndicator?.stopAnimating()
+                self?.tableView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -59,13 +60,9 @@ class NewsTableViewController: UITableViewController {
     
     // Load and sort data
     private func loadData() {
-        self.newsService.news { [weak self] news in
-
-            // Sort by date
-            let sortedNews = news.sorted { $0.publishedAt?.compare($1.publishedAt ?? Date()) == .orderedDescending }
-
-            self?.news = sortedNews
-            self?.filteredNews = sortedNews
+        newsService.news { [weak self] news in
+            self?.news = news
+            self?.filteredNews = news
         }
     }
     
@@ -74,35 +71,28 @@ class NewsTableViewController: UITableViewController {
         activityIndicator?.startAnimating()
         
         loadData()
-        
-        DispatchQueue.main.async { [weak self] in
-            if self?.tableView.refreshControl?.isRefreshing == true {
-                self?.activityIndicator?.isHidden = true
-            }
-            self?.tableView.refreshControl?.endRefreshing()
-        }
     }
     
     private func addActivityIndicator() {
-
-        activityIndicator = UIActivityIndicatorView()
-        
-        guard let activityIndicator = activityIndicator else {
-            return
-        }
-        
+        let activityIndicator = UIActivityIndicatorView()
         view.addSubview(activityIndicator)
-        activityIndicator.center = CGPoint(x: view.center.x, y: view.center.y)
+        
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+        
+        self.activityIndicator = activityIndicator
     }
     
     // Setup Refresh Control
     private func setupRefreshControl() {
+        // bug when large navigation title
         tableView.refreshControl?.addTarget(self, action: #selector(didRefresh(_:)), for: .valueChanged)
         tableView.refreshControl?.tintColor = .white
     }
 
     @objc private func didRefresh(_ sender: Any) {
-        setupData()
+        loadData()
     }
     
     // MARK: - TableViewDataSource
@@ -204,12 +194,8 @@ extension NewsTableViewController: UISearchBarDelegate {
             filteredNews = news
         } else {
             DispatchQueue.main.async {
-                self.newsService.newsWithPredicate(predicate: searchText) { [weak self] news in
-                    
-                    // Sort by date
-                    let sortedNews = news.sorted { $0.publishedAt?.compare($1.publishedAt ?? Date()) == .orderedDescending }
-
-                    self?.filteredNews = sortedNews
+                self.newsService.sortedNewsWithPredicate(predicate: searchText) { [weak self] news in
+                    self?.filteredNews = news
                 }
             }
         }

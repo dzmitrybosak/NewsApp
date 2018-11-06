@@ -184,7 +184,7 @@
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="sLi-1u-vpF" secondAttribute="bottom" constant="20" id="3hh-da-a0c"/>
                                         <constraint firstAttribute="trailing" secondItem="8IY-wd-I03" secondAttribute="trailing" constant="8" id="KaT-oA-5eG"/>
                                         <constraint firstAttribute="trailing" secondItem="sLi-1u-vpF" secondAttribute="trailing" constant="20" id="Ox9-WA-QWR"/>
-                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="aZS-bw-shA" secondAttribute="bottom" constant="20" id="Qcw-nb-zNj"/>
+                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="aZS-bw-shA" secondAttribute="bottom" priority="999" constant="20" id="Qcw-nb-zNj"/>
                                         <constraint firstItem="8IY-wd-I03" firstAttribute="top" secondItem="TQ9-Cs-5VS" secondAttribute="top" constant="20" id="RG0-Yh-U1G"/>
                                         <constraint firstItem="8IY-wd-I03" firstAttribute="leading" secondItem="TQ9-Cs-5VS" secondAttribute="leading" constant="20" id="WDe-h5-1tX"/>
                                         <constraint firstItem="sLi-1u-vpF" firstAttribute="leading" secondItem="aZS-bw-shA" secondAttribute="trailing" constant="8" id="ahi-NN-Akc"/>
@@ -536,8 +536,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lCx-iv-jpQ" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="1Op-ri-wXX">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="1Op-ri-wXX">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
