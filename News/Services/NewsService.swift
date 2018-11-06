@@ -54,13 +54,23 @@ final class NewsService {
         }
     }
     
+    func sortedNewsWithPredicate(predicate: String, callback: @escaping ([Article]) -> Void) {
+        let context = coreDataManager.context
+        context.perform { [weak self] in
+            let articleEntities = self?.fetchArticleEntitiesWithPredicate(predicate: predicate) ?? []
+            let articles = articleEntities.compactMap { $0.toArticle() }.sorted { $0.publishedAt?.compare($1.publishedAt ?? Date()) == .orderedDescending }
+            
+            callback(articles)
+        }
+    }
+    
     func newsWithPredicate(predicate: String, callback: @escaping ([Article]) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
             let articleEntities = self?.fetchArticleEntitiesWithPredicate(predicate: predicate) ?? []
-            let articles = articleEntities.map { $0.map() }
+            let articles = articleEntities.compactMap { $0.toArticle() }
             
-            callback(articles.compactMap { $0 })
+            callback(articles)
         }
     }
     
@@ -81,9 +91,9 @@ final class NewsService {
         let context = coreDataManager.context
         context.perform { [weak self] in
             let articleEntities = self?.fetchArticleEntities(from: context) ?? []
-            let articles = articleEntities.map { $0.map() }
+            let articles = articleEntities.compactMap { $0.toArticle() }.sorted { $0.publishedAt?.compare($1.publishedAt ?? Date()) == .orderedDescending }
             
-            callback(articles.compactMap({ $0 }))
+            callback(articles)
         }
     }
  
