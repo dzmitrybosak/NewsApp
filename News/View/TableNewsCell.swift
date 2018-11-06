@@ -34,6 +34,8 @@ class TableNewsCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         titleLabel.text = nil
         imageCellView.af_cancelImageRequest()
         imageCellView.image = #imageLiteral(resourceName: "placeholder")

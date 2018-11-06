@@ -31,6 +31,8 @@ class NewsCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         titleLabel.text = nil
         imageView.af_cancelImageRequest()
         imageView.image = #imageLiteral(resourceName: "placeholder")
