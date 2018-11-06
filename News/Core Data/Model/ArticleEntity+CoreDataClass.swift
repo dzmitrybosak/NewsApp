@@ -28,7 +28,7 @@ public class ArticleEntity: NSManagedObject {
         return articleEntity
     }
     
-    func map() -> Article? {
+    func toArticle() -> Article? {
         return Article(from: self)
     }
 }
