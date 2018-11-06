@@ -122,6 +122,14 @@ class NewsTableViewController: UITableViewController {
         return cell
     }
     
+    // MARK: - Actions
+    
+    @IBAction func sort(_ sender: UIBarButtonItem) {
+        filteredNews = sortService.quicksort(filteredNews)
+        tableView.reloadData()
+    }
+    
+    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

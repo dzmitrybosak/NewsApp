@@ -207,8 +207,15 @@
                             <outlet property="delegate" destination="IhG-tL-mQ9" id="kAt-qM-GbG"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="News" id="fCh-7I-Yem"/>
+                    <navigationItem key="navigationItem" title="News" id="fCh-7I-Yem">
+                        <barButtonItem key="rightBarButtonItem" image="sort" landscapeImage="sort" largeContentSizeImage="sort" id="dt9-g0-c3o">
+                            <connections>
+                                <action selector="sort:" destination="IhG-tL-mQ9" id="WD0-UV-EkF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="8ti-HU-OZQ">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <attributedString key="attributedTitle">
                             <fragment content="Pull down to refresh">
