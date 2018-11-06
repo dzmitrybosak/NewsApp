@@ -16,7 +16,6 @@ private struct Constants {
 
 private enum Segues: String {
     case showArticle = "showArticle"
-    case showWebView = "showWebView"
 }
 
 class NewsViewController: UIViewController {
@@ -137,7 +136,7 @@ class NewsViewController: UIViewController {
     
 }
 
-// MARK: -
+// MARK: - ArticleViewControllerDelegate
 
 extension NewsViewController: ArticleViewControllerDelegate {
     func didLiked(_ article: Article) {
