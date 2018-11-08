@@ -1,5 +1,5 @@
 //
-//  NewsVC.swift
+//  NewsTableViewController.swift
 //  News
 //
 //  Created by Dzmitry Bosak on 9/11/18.
@@ -25,6 +25,7 @@ class NewsTableViewController: UITableViewController {
     @IBOutlet private weak var tableSearchBar: UISearchBar!
     
     private weak var activityIndicator: UIActivityIndicatorView?
+    private weak var tableFooterView: UIView?
     
     private let newsService = NewsService.shared
     private let sortService = SortService.shared
@@ -54,9 +55,18 @@ class NewsTableViewController: UITableViewController {
         setupData()
         
         setupRefreshControl()
+        
+        hideSeparatorForEmptyCells()
     }
     
-    // MARK: - Private instance methods
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        // Force reload tableView for update cell's height after device rotation
+        tableView.reloadData()
+    }
+    
+    // MARK: - Private methods
     
     // Load and sort data
     private func loadData() {
@@ -86,13 +96,19 @@ class NewsTableViewController: UITableViewController {
     
     // Setup Refresh Control
     private func setupRefreshControl() {
-        // bug when large navigation title
         tableView.refreshControl?.addTarget(self, action: #selector(didRefresh(_:)), for: .valueChanged)
         tableView.refreshControl?.tintColor = .white
     }
 
     @objc private func didRefresh(_ sender: Any) {
         loadData()
+    }
+    
+    // Hide separator for empty cells
+    private func hideSeparatorForEmptyCells() {
+        let tableFooterView = UIView(frame: .zero)
+        self.tableFooterView = tableFooterView
+        tableView.tableFooterView = self.tableFooterView
     }
     
     // MARK: - TableViewDataSource
@@ -106,10 +122,17 @@ class NewsTableViewController: UITableViewController {
             return UITableViewCell()
         }
         
+        // Set selection background color
+        cell.selectedBackgroundView = cell.setSelectionColor()
+        
         let article = filteredNews[indexPath.row]
         cell.article = article
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: - Actions
@@ -118,7 +141,6 @@ class NewsTableViewController: UITableViewController {
         filteredNews = sortService.quicksort(filteredNews)
         tableView.reloadData()
     }
-    
     
     // MARK: - Navigation
     
@@ -155,7 +177,7 @@ extension NewsTableViewController: ArticleViewControllerDelegate {
     }
 }
 
-// MARK: - Search
+// MARK: - UISearchBarDelegate
 
 extension NewsTableViewController: UISearchBarDelegate {
     
@@ -182,7 +204,7 @@ extension NewsTableViewController: UISearchBarDelegate {
         
         searchBar.resignFirstResponder()
         
-        if let cancelButton = searchBar.value(forKey: Constants.cancelButton) as? UIButton {
+        if let cancelButton = tableSearchBar.value(forKey: Constants.cancelButton) as? UIButton {
             cancelButton.isEnabled = true
         }
         
