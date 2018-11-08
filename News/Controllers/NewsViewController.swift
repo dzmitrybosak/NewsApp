@@ -1,5 +1,5 @@
 //
-//  NewsVC.swift
+//  NewsViewController.swift
 //  News
 //
 //  Created by Dzmitry Bosak on 9/11/18.
@@ -57,7 +57,7 @@ class NewsViewController: UIViewController {
         setupRefreshControl()
     }
     
-    // MARK: - Private instance methods
+    // MARK: - Private methods
     
     // Set Collection View Layout
     private func setupLayout() {
@@ -169,7 +169,7 @@ extension NewsViewController: UICollectionViewDataSource {
     }
 }
 
-// MARK: - Search
+// MARK: - UISearchBarDelegate
 
 extension NewsViewController: UISearchBarDelegate {
     
