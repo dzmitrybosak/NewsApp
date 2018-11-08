@@ -39,5 +39,13 @@ class TableNewsCell: UITableViewCell {
         titleLabel.text = nil
         imageCellView.af_cancelImageRequest()
         imageCellView.image = #imageLiteral(resourceName: "placeholder")
+        selectedBackgroundView = nil
     }
+    
+    func setSelectionColor() -> UIView {
+        let selectionView = UIView()
+        selectionView.backgroundColor = #colorLiteral(red: 0.2745098039, green: 0.2745098039, blue: 0.2745098039, alpha: 1)
+        return selectionView
+    }
+    
 }
