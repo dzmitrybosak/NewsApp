@@ -149,7 +149,7 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableNewsCell" rowHeight="139" id="WRD-Qa-CWR" customClass="TableNewsCell" customModule="News" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" indentationWidth="10" reuseIdentifier="TableNewsCell" rowHeight="139" id="WRD-Qa-CWR" customClass="TableNewsCell" customModule="News" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="78" width="414" height="139"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WRD-Qa-CWR" id="TQ9-Cs-5VS">
@@ -208,6 +208,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="News" id="fCh-7I-Yem">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="e5G-iB-uKm">
+                            <connections>
+                                <action selector="edit:" destination="IhG-tL-mQ9" id="sgj-YY-hVf"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="sort" landscapeImage="sort" largeContentSizeImage="sort" id="dt9-g0-c3o">
                             <connections>
                                 <action selector="sort:" destination="IhG-tL-mQ9" id="WD0-UV-EkF"/>
@@ -267,6 +272,7 @@
                         </attributedString>
                     </refreshControl>
                     <connections>
+                        <outlet property="editButton" destination="e5G-iB-uKm" id="x7F-7T-I3M"/>
                         <outlet property="tableSearchBar" destination="rBt-lQ-746" id="4bh-qq-Z7m"/>
                     </connections>
                 </tableViewController>

@@ -23,9 +23,9 @@ class NewsTableViewController: UITableViewController {
     // MARK: - Properties
     
     @IBOutlet private weak var tableSearchBar: UISearchBar!
+    @IBOutlet private weak var editButton: UIBarButtonItem!
     
     private weak var activityIndicator: UIActivityIndicatorView?
-    private weak var tableFooterView: UIView?
     
     private let newsService = NewsService.shared
     private let sortService = SortService.shared
@@ -64,11 +64,6 @@ class NewsTableViewController: UITableViewController {
         
         // Force reload tableView for update cell's height after device rotation
         tableView.reloadData()
-    }
-    
-    // Enable cancelButton in searchBar when scrollView will begin dragging
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        enableCancelButton(in: tableSearchBar)
     }
     
     // MARK: - Private methods
@@ -111,12 +106,55 @@ class NewsTableViewController: UITableViewController {
     
     // Hide separator for empty cells
     private func hideSeparatorForEmptyCells() {
-        let tableFooterView = UIView(frame: .zero)
-        self.tableFooterView = tableFooterView
-        tableView.tableFooterView = self.tableFooterView
+        tableView.tableFooterView = UIView(frame: .zero)
     }
     
-    // MARK: - TableViewDataSource
+    // MARK: - Actions
+    
+    @IBAction func sort(_ sender: UIBarButtonItem) {
+        filteredNews = sortService.quicksort(filteredNews)
+        tableView.reloadData()
+    }
+    
+    @IBAction func edit(_ sender: UIBarButtonItem) {
+        if tableView.isEditing == true {
+            tableView.isEditing = false
+            editButton.title = "Edit"
+        } else {
+            tableView.isEditing = true
+            editButton.title = "Done"
+        }
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let segueID = segue.identifier else {
+            return
+        }
+
+        switch segueID {
+        case Segues.showArticle.rawValue:
+            guard let newsCell = sender as? TableNewsCell,
+                  let index = tableView.indexPath(for: newsCell),
+                  let articleViewController = segue.destination as? ArticleViewController
+            else {
+                return
+            }
+
+            articleViewController.article = filteredNews[index.row]
+            articleViewController.delegate = self
+
+        default:
+            break
+        }
+    }
+    
+}
+
+// MARK: - UITableViewDataSource & UITableViewDelegate
+
+extension NewsTableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredNews.count
@@ -127,11 +165,8 @@ class NewsTableViewController: UITableViewController {
             return UITableViewCell()
         }
         
-        // Set selection background color
-        cell.selectedBackgroundView = cell.setSelectionColor()
-        
         let article = filteredNews[indexPath.row]
-        cell.article = article
+        cell.configure(with: article)
         
         return cell
     }
@@ -140,34 +175,10 @@ class NewsTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    // MARK: - Actions
-    
-    @IBAction func sort(_ sender: UIBarButtonItem) {
-        filteredNews = sortService.quicksort(filteredNews)
-        tableView.reloadData()
+    // Enable cancelButton in searchBar when scrollView will begin dragging
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        enableCancelButton(in: tableSearchBar)
     }
-    
-    // MARK: - Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let segueID = segue.identifier else {
-            return
-        }
-        
-        switch segueID {
-        case Segues.showArticle.rawValue:
-            guard let newsCell = sender as? TableNewsCell, let articleViewController = segue.destination as? ArticleViewController else {
-                return
-            }
-            
-            articleViewController.article = newsCell.article
-            articleViewController.delegate = self
-            
-        default:
-            break
-        }
-    }
-    
 }
 
 // MARK: - ArticleViewControllerDelegate
@@ -185,6 +196,14 @@ extension NewsTableViewController: ArticleViewControllerDelegate {
 // MARK: - UISearchBarDelegate
 
 extension NewsTableViewController: UISearchBarDelegate {
+    
+    private func enableCancelButton(in searchBar: UISearchBar) {
+        guard let cancelButton = searchBar.value(forKey: Constants.cancelButton) as? UIButton else {
+            return
+        }
+        
+        cancelButton.isEnabled = true
+    }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
@@ -223,14 +242,6 @@ extension NewsTableViewController: UISearchBarDelegate {
                 }
             }
         }
-    }
-    
-    private func enableCancelButton(in searchBar: UISearchBar) {
-        guard let cancelButton = searchBar.value(forKey: Constants.cancelButton) as? UIButton else {
-            return
-        }
-        
-        cancelButton.isEnabled = true
     }
     
 }
