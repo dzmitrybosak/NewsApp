@@ -66,6 +66,11 @@ class NewsTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    // Enable cancelButton in searchBar when scrollView will begin dragging
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        enableCancelButton(in: tableSearchBar)
+    }
+    
     // MARK: - Private methods
     
     // Load and sort data
@@ -204,10 +209,7 @@ extension NewsTableViewController: UISearchBarDelegate {
         
         searchBar.resignFirstResponder()
         
-        if let cancelButton = tableSearchBar.value(forKey: Constants.cancelButton) as? UIButton {
-            cancelButton.isEnabled = true
-        }
-        
+        enableCancelButton(in: searchBar)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -221,6 +223,14 @@ extension NewsTableViewController: UISearchBarDelegate {
                 }
             }
         }
+    }
+    
+    private func enableCancelButton(in searchBar: UISearchBar) {
+        guard let cancelButton = searchBar.value(forKey: Constants.cancelButton) as? UIButton else {
+            return
+        }
+        
+        cancelButton.isEnabled = true
     }
     
 }
