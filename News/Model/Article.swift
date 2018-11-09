@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Article: Decodable {
+final class Article: Decodable {
     
     // MARK: - Properties
     

@@ -91,13 +91,20 @@ final class NewsService {
     
     // MARK: - Private methods
     
+//    private func fetchArticleEntity(with url: String) -> [ArticleEntity] {
+//        let context = coreDataManager.context
+//        let fetchRequest = NSFetchRequest<ArticleEntity>(entityName: String(describing: ArticleEntity.self))
+//
+//        fetchRequest.predicate = NSPredicate(format: "url = %@", url)
+//
+//        return (try? context.fetch(fetchRequest)) ?? []
+//    }
+    
     private func fetchArticleEntitiesWithPredicate(predicate: String) -> [ArticleEntity] {
         let context = coreDataManager.context
         let fetchRequest = NSFetchRequest<ArticleEntity>(entityName: String(describing: ArticleEntity.self))
         
-        let filterPredicate = NSPredicate(format: "details contains[c] %@ OR title contains[c] %@", predicate, predicate)
-        
-        fetchRequest.predicate = filterPredicate
+        fetchRequest.predicate = NSPredicate(format: "details contains[c] %@ OR title contains[c] %@", predicate, predicate)
         
         return (try? context.fetch(fetchRequest)) ?? []
     }

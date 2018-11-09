@@ -8,7 +8,7 @@
 
 import Foundation
 
-class News: Decodable {
+final class News: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case news = "articles"
