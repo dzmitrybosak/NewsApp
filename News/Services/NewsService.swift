@@ -74,6 +74,23 @@ final class NewsService {
         }
     }
     
+    func removeEntity(with article: Article) {
+        let context = coreDataManager.context
+        context.perform { [weak self] in
+            let articleEntities = self?.fetchArticleEntities(from: context) ?? []
+            
+            for entity in articleEntities {
+                if entity.url == article.url?.absoluteString {
+                    context.delete(entity)
+                }
+            }
+            
+            try? context.save()
+        }
+    }
+    
+    // MARK: - Private methods
+    
     private func fetchArticleEntitiesWithPredicate(predicate: String) -> [ArticleEntity] {
         let context = coreDataManager.context
         let fetchRequest = NSFetchRequest<ArticleEntity>(entityName: String(describing: ArticleEntity.self))
@@ -84,8 +101,6 @@ final class NewsService {
         
         return (try? context.fetch(fetchRequest)) ?? []
     }
-    
-    // MARK: - Private methods
     
     private func fetchLocalArticles(callback: @escaping ([Article]) -> Void) {
         let context = coreDataManager.context

@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -227,46 +228,7 @@
                                 <attributes>
                                     <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <font key="NSFont" size="15" name="HelveticaNeue"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                        <tabStops>
-                                            <textTab alignment="left" location="28">
-                                                <options/>
-                                            </textTab>
-                                            <textTab alignment="left" location="56">
-                                                <options/>
-                                            </textTab>
-                                            <textTab alignment="left" location="84">
-                                                <options/>
-                                            </textTab>
-                                            <textTab alignment="left" location="112">
-                                                <options/>
-                                            </textTab>
-                                            <textTab alignment="left" location="140">
-                                                <options/>
-                                            </textTab>
-                                            <textTab alignment="left" location="168">
-                                                <options/>
-                                            </textTab>
-                                            <textTab alignment="left" location="196">
-                                                <options/>
-                                            </textTab>
-                                            <textTab alignment="left" location="224">
-                                                <options/>
-                                            </textTab>
-                                            <textTab alignment="left" location="252">
-                                                <options/>
-                                            </textTab>
-                                            <textTab alignment="left" location="280">
-                                                <options/>
-                                            </textTab>
-                                            <textTab alignment="left" location="308">
-                                                <options/>
-                                            </textTab>
-                                            <textTab alignment="left" location="336">
-                                                <options/>
-                                            </textTab>
-                                        </tabStops>
-                                    </paragraphStyle>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                 </attributes>
                             </fragment>
                         </attributedString>
@@ -279,6 +241,56 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X9z-Bi-gSe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="947.82608695652186" y="1531.4732142857142"/>
+        </scene>
+        <!--News-->
+        <scene sceneID="5e3-Cp-5EA">
+            <objects>
+                <viewController id="2ws-A7-PWo" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5Fo-BS-Zzq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="Meq-AS-iXm">
+                                <rect key="frame" x="0.0" y="140" width="414" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="t0b-1E-PrN"/>
+                                </constraints>
+                                <color key="barTintColor" name="BackgroundColor"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IDv-ff-sww">
+                                <rect key="frame" x="0.0" y="196" width="414" height="700"/>
+                                <color key="backgroundColor" name="BackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="120" id="TGn-pP-zHP">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="120"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TGn-pP-zHP" id="XLc-mx-4lk">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="119.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" name="BackgroundColor"/>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Meq-AS-iXm" firstAttribute="trailing" secondItem="lwu-J3-l8Z" secondAttribute="trailing" id="7qt-sr-1ja"/>
+                            <constraint firstItem="IDv-ff-sww" firstAttribute="leading" secondItem="lwu-J3-l8Z" secondAttribute="leading" id="G4Y-Jg-ajK"/>
+                            <constraint firstItem="Meq-AS-iXm" firstAttribute="top" secondItem="lwu-J3-l8Z" secondAttribute="top" id="IU5-nr-AIJ"/>
+                            <constraint firstItem="IDv-ff-sww" firstAttribute="trailing" secondItem="lwu-J3-l8Z" secondAttribute="trailing" id="Vki-Kl-8gG"/>
+                            <constraint firstItem="IDv-ff-sww" firstAttribute="top" secondItem="Meq-AS-iXm" secondAttribute="bottom" id="Ycb-Qx-RUn"/>
+                            <constraint firstItem="Meq-AS-iXm" firstAttribute="leading" secondItem="lwu-J3-l8Z" secondAttribute="leading" id="bwk-Qz-AGJ"/>
+                            <constraint firstAttribute="bottom" secondItem="IDv-ff-sww" secondAttribute="bottom" id="d0b-e2-kpv"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="lwu-J3-l8Z"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="News" id="Ma1-np-QoI"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eBJ-hC-xTV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="947.82608695652186" y="2209.8214285714284"/>
         </scene>
         <!--Reuters-->
         <scene sceneID="CQT-hj-UxG">
@@ -605,6 +617,31 @@
             </objects>
             <point key="canvasLocation" x="241" y="1532"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="K1L-bz-bK6">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cWW-Cl-hPh" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="1wD-5Z-1Uz">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" name="BackgroundColor"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="2ws-A7-PWo" kind="relationship" relationship="rootViewController" id="0gZ-T0-hUz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AVH-eG-pXL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="241" y="2212"/>
+        </scene>
     </scenes>
     <resources>
         <image name="dislike" width="90" height="90"/>
@@ -612,5 +649,8 @@
         <image name="placeholder" width="600" height="400"/>
         <image name="safari" width="28" height="28"/>
         <image name="sort" width="24" height="24"/>
+        <namedColor name="BackgroundColor">
+            <color red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

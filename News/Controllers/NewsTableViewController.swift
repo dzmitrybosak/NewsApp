@@ -109,21 +109,31 @@ class NewsTableViewController: UITableViewController {
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
-    // MARK: - Actions
+    // MARK: - Methods for buttons
     
-    @IBAction func sort(_ sender: UIBarButtonItem) {
+    private func sortButtonPressed() {
         filteredNews = sortService.quicksort(filteredNews)
-        tableView.reloadData()
     }
     
-    @IBAction func edit(_ sender: UIBarButtonItem) {
+    private func editButtonPressed() {
         if tableView.isEditing == true {
             tableView.isEditing = false
             editButton.title = "Edit"
+            loadData()
         } else {
             tableView.isEditing = true
             editButton.title = "Done"
         }
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func sort(_ sender: UIBarButtonItem) {
+        sortButtonPressed()
+    }
+    
+    @IBAction func edit(_ sender: UIBarButtonItem) {
+        editButtonPressed()
     }
     
     // MARK: - Navigation
@@ -179,6 +189,18 @@ extension NewsTableViewController {
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         enableCancelButton(in: tableSearchBar)
     }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        let article = filteredNews[indexPath.row]
+        
+        if editingStyle == .delete {
+            news.remove(at: indexPath.row)
+            filteredNews.remove(at: indexPath.row)
+            newsService.removeEntity(with: article)
+        }
+    }
+    
 }
 
 // MARK: - ArticleViewControllerDelegate
