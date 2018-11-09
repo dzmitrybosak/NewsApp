@@ -11,9 +11,19 @@ import AlamofireImage
 
 final class TableNewsCell: UITableViewCell {
 
+    // MARK: - Properties
+    
     @IBOutlet private weak var sourceLabel: UILabel!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var imageCellView: UIImageView!
+    
+    // MARK: - Main methods
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupSelectionColor()
+        setupCornerRadius(for: imageCellView)
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -21,23 +31,38 @@ final class TableNewsCell: UITableViewCell {
         imageCellView.af_cancelImageRequest()
     }
     
+    // Configure cell
     func configure(with article: Article) {
+        setupText(from: article)
+        setupImage(from: article)
+    }
+    
+    // MARK: - Private methods
+    
+    private func setupText(from article: Article) {
         sourceLabel.text = article.sourceName
         titleLabel.text = article.title
-        
-        imageCellView.layer.cornerRadius = 5
+    }
+    
+    private func setupImage(from article: Article) {
         
         if let urlToImage = article.urlToImage {
             imageCellView.af_setImage(withURL: urlToImage, placeholderImage: #imageLiteral(resourceName: "placeholder"))
-        }
-        else {
+        } else {
             imageCellView.image = #imageLiteral(resourceName: "placeholder")
         }
-        
-        // Set selection background color
+
+    }
+    
+    private func setupCornerRadius(for imageView: UIImageView) {
+        imageView.layer.cornerRadius = 5
+        imageView.layer.masksToBounds = true
+    }
+    
+    // Setup selection background color
+    private func setupSelectionColor() {
         let selectionView = UIView()
         selectionView.backgroundColor = #colorLiteral(red: 0.2745098039, green: 0.2745098039, blue: 0.2745098039, alpha: 1)
         selectedBackgroundView = selectionView
     }
-    
 }
