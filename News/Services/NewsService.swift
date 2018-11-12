@@ -91,15 +91,6 @@ final class NewsService {
     
     // MARK: - Private methods
     
-//    private func fetchArticleEntity(with url: String) -> [ArticleEntity] {
-//        let context = coreDataManager.context
-//        let fetchRequest = NSFetchRequest<ArticleEntity>(entityName: String(describing: ArticleEntity.self))
-//
-//        fetchRequest.predicate = NSPredicate(format: "url = %@", url)
-//
-//        return (try? context.fetch(fetchRequest)) ?? []
-//    }
-    
     private func fetchArticleEntitiesWithPredicate(predicate: String) -> [ArticleEntity] {
         let context = coreDataManager.context
         let fetchRequest = NSFetchRequest<ArticleEntity>(entityName: String(describing: ArticleEntity.self))
