@@ -39,11 +39,7 @@ class NewsTableViewController: UITableViewController {
         }
     }
 
-    private var filteredNews: [Article] = [] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    private var filteredNews: [Article] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -194,10 +190,16 @@ extension NewsTableViewController {
         
         let article = filteredNews[indexPath.row]
         
+        guard let url = article.url?.absoluteString else {
+            return
+        }
+        
         if editingStyle == .delete {
             news.remove(at: indexPath.row)
             filteredNews.remove(at: indexPath.row)
-            newsService.removeEntity(with: article)
+            newsService.removeEntity(with: url)
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     

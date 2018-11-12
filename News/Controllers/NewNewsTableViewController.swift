@@ -40,11 +40,7 @@ class NewNewsTableViewController: UIViewController {
         }
     }
     
-    private var filteredNews: [Article] = [] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    private var filteredNews: [Article] = []
     
     // MARK: - UIViewController's methods
     
@@ -78,6 +74,7 @@ class NewNewsTableViewController: UIViewController {
         newsService.news { [weak self] news in
             self?.news = news
             self?.filteredNews = news
+            self?.tableView.reloadData()
         }
     }
     
@@ -195,11 +192,15 @@ extension NewNewsTableViewController: UITableViewDataSource {
         
         let article = filteredNews[indexPath.row]
         
+        guard let url = article.url?.absoluteString else {
+            return
+        }
+        
         if editingStyle == .delete {
             news.remove(at: indexPath.row)
             filteredNews.remove(at: indexPath.row)
-            newsService.removeEntity(with: article)
-            
+            newsService.removeEntity(with: url)
+
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
@@ -254,6 +255,7 @@ extension NewNewsTableViewController: UISearchBarDelegate {
         searchBar.setShowsCancelButton(false, animated: true)
         searchBar.text = ""
         searchBar.resignFirstResponder()
+        tableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -282,6 +284,7 @@ extension NewNewsTableViewController: UISearchBarDelegate {
                 }
             }
         }
+        tableView.reloadData()
     }
     
 }
