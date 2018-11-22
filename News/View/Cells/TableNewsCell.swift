@@ -13,7 +13,6 @@ final class TableNewsCell: UITableViewCell {
 
     // MARK: - Properties
     
-    @IBOutlet private weak var sourceLabel: UILabel!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var imageCellView: UIImageView!
     
@@ -27,7 +26,6 @@ final class TableNewsCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-
         imageCellView.af_cancelImageRequest()
     }
     
@@ -40,7 +38,6 @@ final class TableNewsCell: UITableViewCell {
     // MARK: - Private methods
     
     private func setupText(from article: Article) {
-        sourceLabel.text = article.sourceName
         titleLabel.text = article.title
     }
     
@@ -62,7 +59,7 @@ final class TableNewsCell: UITableViewCell {
     // Setup selection background color
     private func setupSelectionColor() {
         let selectionView = UIView()
-        selectionView.backgroundColor = #colorLiteral(red: 0.2745098039, green: 0.2745098039, blue: 0.2745098039, alpha: 1)
+        selectionView.backgroundColor = #colorLiteral(red: 0.200000003, green: 0.200000003, blue: 0.200000003, alpha: 1)
         selectedBackgroundView = selectionView
     }
 }

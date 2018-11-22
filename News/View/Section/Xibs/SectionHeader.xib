@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SectionHeader" customModule="News" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lSU-VP-P5H">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reutersg" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K7q-TE-ieG">
+                            <rect key="frame" x="20" y="2.5" width="78" height="25"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBlack" family="Helvetica Neue" pointSize="21"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" name="Cell Background Color"/>
+                    <constraints>
+                        <constraint firstItem="K7q-TE-ieG" firstAttribute="centerY" secondItem="lSU-VP-P5H" secondAttribute="centerY" id="BE7-KW-TYw"/>
+                        <constraint firstItem="K7q-TE-ieG" firstAttribute="leading" secondItem="lSU-VP-P5H" secondAttribute="leading" constant="20" id="UgX-ME-qIb"/>
+                        <constraint firstAttribute="height" priority="999" constant="30" id="kNY-OZ-7M9"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="K7q-TE-ieG" secondAttribute="trailing" constant="20" id="rPS-Cq-ueK"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstItem="lSU-VP-P5H" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="3Q2-oT-M1V"/>
+                <constraint firstItem="lSU-VP-P5H" firstAttribute="top" relation="greaterThanOrEqual" secondItem="vUN-kp-3ea" secondAttribute="top" id="KIv-4y-gc7"/>
+                <constraint firstItem="lSU-VP-P5H" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="kOF-Sh-AGa"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="lSU-VP-P5H" secondAttribute="trailing" id="qDq-8G-CdT"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="headerLabel" destination="K7q-TE-ieG" id="pVe-2D-t5o"/>
+            </connections>
+            <point key="canvasLocation" x="132" y="-132.23388305847078"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="Cell Background Color">
+            <color red="0.11372549019607843" green="0.11372549019607843" blue="0.11372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

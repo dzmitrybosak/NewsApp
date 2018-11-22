@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SectionFooter" customModule="News" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DeA-Mj-6ak">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="News count by source: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6PY-TQ-Xt5">
+                            <rect key="frame" x="20" y="5" width="157" height="20"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="555" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ng-hQ-JCt">
+                            <rect key="frame" x="181" y="5" width="24.5" height="20"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="6PY-TQ-Xt5" firstAttribute="leading" secondItem="DeA-Mj-6ak" secondAttribute="leading" constant="20" id="0qF-DP-T18"/>
+                        <constraint firstItem="9ng-hQ-JCt" firstAttribute="leading" secondItem="6PY-TQ-Xt5" secondAttribute="trailing" constant="4" id="4Gl-pN-LLS"/>
+                        <constraint firstAttribute="height" constant="30" id="Bgu-TE-6Fp"/>
+                        <constraint firstItem="9ng-hQ-JCt" firstAttribute="centerY" secondItem="DeA-Mj-6ak" secondAttribute="centerY" id="LT1-XE-I8T"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9ng-hQ-JCt" secondAttribute="trailing" constant="20" id="OHo-Ub-Rt6"/>
+                        <constraint firstItem="6PY-TQ-Xt5" firstAttribute="centerY" secondItem="DeA-Mj-6ak" secondAttribute="centerY" id="de4-nQ-xsP"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstItem="DeA-Mj-6ak" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="041-di-gvE"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="DeA-Mj-6ak" secondAttribute="bottom" id="35X-UQ-6ek"/>
+                <constraint firstItem="DeA-Mj-6ak" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="CUW-i5-tOA"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="DeA-Mj-6ak" secondAttribute="trailing" id="b3Z-xU-j9k"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="countLabel" destination="9ng-hQ-JCt" id="lg3-MK-NHq"/>
+                <outlet property="footerLabel" destination="6PY-TQ-Xt5" id="YfE-QF-zww"/>
+            </connections>
+        </view>
+    </objects>
+</document>
