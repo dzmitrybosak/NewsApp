@@ -7,10 +7,13 @@
 //
 
 import UIKit
-import AlamofireImage
+
+struct Section {
+    static let header = "SectionHeader"
+    static let footer = "SectionFooter"
+}
 
 private struct Constants {
-    static let cellID = "TableNewsCell"
     static let cancelButton = "cancelButton"
 }
 
@@ -20,7 +23,7 @@ private enum Segues: String {
 
 class NewNewsTableViewController: UIViewController {
 
-    // MARK: - Properties
+    // MARK: - Outlets & Views
     
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var searchBar: UISearchBar!
@@ -28,10 +31,12 @@ class NewNewsTableViewController: UIViewController {
     
     private weak var activityIndicator: UIActivityIndicatorView?
     
-    private let newsService = NewsService.shared
-    private let sortService = SortService.shared
+    // MARK: - Properties
     
-    private var news: [Article] = [] {
+    private let newsDataSource = NewsDataSource()
+    private let newsTableViewDelegate = NewsTableViewDelegate()
+    
+    private var newsDidLoad: Bool = false {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.activityIndicator?.stopAnimating()
@@ -40,24 +45,20 @@ class NewNewsTableViewController: UIViewController {
         }
     }
     
-    private var filteredNews: [Article] = []
-    
     // MARK: - UIViewController's methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addActivityIndicator()
+        setupActivityIndicator()
         
-        tableView.dataSource = self
-        tableView.delegate = self
-        searchBar.delegate = self
+        registerNibs()
+        setupRefreshControl()
+        hideSeparatorForEmptyCells()
+        
+        setupSearchBarDelegate()
         
         setupData()
-        
-        setupRefreshControl()
-        
-        hideSeparatorForEmptyCells()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -67,25 +68,85 @@ class NewNewsTableViewController: UIViewController {
         tableView.reloadData()
     }
     
-    // MARK: - Private methods
+    // MARK: - Data methods
     
-    // Load and sort data
-    private func loadData() {
-        newsService.news { [weak self] news in
-            self?.news = news
-            self?.filteredNews = news
-            self?.tableView.reloadData()
-        }
+    // Setup DataSource & Delegate for TableView
+    private func setupDataSource(for tableView: UITableView) {
+        tableView.dataSource = newsDataSource
+        tableView.delegate = newsTableViewDelegate
     }
     
     // Setup data
     private func setupData() {
         activityIndicator?.startAnimating()
-        
+        setupDataSource(for: tableView)
         loadData()
     }
     
-    private func addActivityIndicator() {
+    // Load data
+    private func loadData() {
+        newsDataSource.loadData { [weak self] newsDidLoad in
+            //self?.newsDidLoad = true
+            self?.newsDidLoad = newsDidLoad
+            self?.tableView.reloadData()
+        }
+    }
+    
+    // MARK: - Buttons methods
+    
+    private func editButtonPressed() {
+        if tableView.isEditing == true {
+            tableView.isEditing = false
+            editButton.title = "Edit"
+            loadData()
+        } else {
+            tableView.isEditing = true
+            editButton.title = "Done"
+        }
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func edit(_ sender: UIBarButtonItem) {
+        editButtonPressed()
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let segueID = segue.identifier else {
+            return
+        }
+        
+        switch segueID {
+        case Segues.showArticle.rawValue:
+            guard let newsCell = sender as? TableNewsCell,
+                let index = tableView.indexPath(for: newsCell),
+                let articleViewController = segue.destination as? ArticleViewController
+                else {
+                    return
+            }
+            articleViewController.article = newsDataSource.filteredNewsBySource[index.section].news?[index.row]
+            articleViewController.delegate = newsDataSource
+            
+        default:
+            break
+        }
+    }
+    
+}
+
+// MARK: - View methods
+
+extension NewNewsTableViewController {
+    
+    // Enable cancelButton in searchBar when scrollView will begin dragging
+    private func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        enableCancelButton(in: searchBar)
+    }
+
+    // Setup Activity Indicator
+    private func setupActivityIndicator() {
         let activityIndicator = UIActivityIndicatorView()
         view.addSubview(activityIndicator)
         
@@ -94,6 +155,21 @@ class NewNewsTableViewController: UIViewController {
         activityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
         
         self.activityIndicator = activityIndicator
+    }
+
+}
+
+// MARK: - TableView methods
+
+extension NewNewsTableViewController {
+
+    // Register nib files
+    private func registerNibs() {
+        let sectionHeaderNib = UINib(nibName: Section.header, bundle: nil)
+        tableView.register(sectionHeaderNib, forHeaderFooterViewReuseIdentifier: Section.header)
+        
+        let sectionFooterNib = UINib(nibName: Section.footer, bundle: nil)
+        tableView.register(sectionFooterNib, forHeaderFooterViewReuseIdentifier: Section.footer)
     }
     
     // Setup Refresh Control
@@ -116,127 +192,16 @@ class NewNewsTableViewController: UIViewController {
         tableView.tableFooterView = UIView(frame: .zero)
     }
     
-    // MARK: - Methods for buttons
-    
-    private func sortButtonPressed() {
-        filteredNews = sortService.quicksort(filteredNews)
-    }
-    
-    private func editButtonPressed() {
-        if tableView.isEditing == true {
-            tableView.isEditing = false
-            editButton.title = "Edit"
-            loadData()
-        } else {
-            tableView.isEditing = true
-            editButton.title = "Done"
-        }
-    }
-    
-    // MARK: - Actions
-    
-    @IBAction func sort(_ sender: UIBarButtonItem) {
-        sortButtonPressed()
-    }
-    
-    @IBAction func edit(_ sender: UIBarButtonItem) {
-        editButtonPressed()
-    }
-    
-    // MARK: - Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let segueID = segue.identifier else {
-            return
-        }
-        
-        switch segueID {
-        case Segues.showArticle.rawValue:
-            guard let newsCell = sender as? TableNewsCell,
-                let index = tableView.indexPath(for: newsCell),
-                let articleViewController = segue.destination as? ArticleViewController
-                else {
-                    return
-            }
-            
-            articleViewController.article = filteredNews[index.row]
-            articleViewController.delegate = self
-            
-        default:
-            break
-        }
-    }
-    
-}
-
-// MARK: - UITableViewDataSource
-
-extension NewNewsTableViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredNews.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellID, for: indexPath) as? TableNewsCell else {
-            return UITableViewCell()
-        }
-        
-        let article = filteredNews[indexPath.row]
-        cell.configure(with: article)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        let article = filteredNews[indexPath.row]
-        
-        guard let url = article.url?.absoluteString else {
-            return
-        }
-        
-        if editingStyle == .delete {
-            news.remove(at: indexPath.row)
-            filteredNews.remove(at: indexPath.row)
-            newsService.removeEntity(with: url)
-
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-    }
-    
-}
-
-// MARK: - UITableViewDelegate
-
-extension NewNewsTableViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    // Enable cancelButton in searchBar when scrollView will begin dragging
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        enableCancelButton(in: searchBar)
-    }
-    
-}
-
-// MARK: - ArticleViewControllerDelegate
-
-extension NewNewsTableViewController: ArticleViewControllerDelegate {
-    func didLiked(_ article: Article) {
-        guard let index = news.index(where: { $0.url == article.url } ) else {
-            return
-        }
-        
-        news[index] = article
-    }
 }
 
 // MARK: - UISearchBarDelegate
 
 extension NewNewsTableViewController: UISearchBarDelegate {
+    
+    // Setup Search Bar Delegate
+    private func setupSearchBarDelegate() {
+        searchBar.delegate = self
+    }
     
     private func enableCancelButton(in searchBar: UISearchBar) {
         guard let cancelButton = searchBar.value(forKey: Constants.cancelButton) as? UIButton else {
@@ -251,7 +216,8 @@ extension NewNewsTableViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        filteredNews = news
+        newsDataSource.filteredNewsBySource = newsDataSource.newsBySource
+        
         searchBar.setShowsCancelButton(false, animated: true)
         searchBar.text = ""
         searchBar.resignFirstResponder()
@@ -276,15 +242,13 @@ extension NewNewsTableViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         if searchText.isEmpty {
-            filteredNews = news
+            newsDataSource.filteredNewsBySource = newsDataSource.newsBySource
+            tableView.reloadData()
         } else {
-            DispatchQueue.main.async {
-                self.newsService.sortedNewsWithPredicate(predicate: searchText) { [weak self] news in
-                    self?.filteredNews = news
-                }
+            newsDataSource.getItems(with: searchText) { [weak self] in
+                self?.tableView.reloadData()
             }
         }
-        tableView.reloadData()
     }
     
 }

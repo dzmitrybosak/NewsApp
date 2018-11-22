@@ -35,7 +35,15 @@ final class NewsService {
         }
     }
     
-    // Resave Entity
+    // Get dictionary of news sorted by sources
+    func newsBySectionAndValues(callback: @escaping ([NewsObjects]) -> Void) {
+        news { [weak self] news in
+            let newsDictionary = self?.newsDictionary(from: news) ?? []
+            callback(newsDictionary)
+        }
+    }
+    
+    // Resave entity
     func resaveEntity(using article: Article, callback: @escaping (Article) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
@@ -54,6 +62,18 @@ final class NewsService {
         }
     }
     
+    // Fetch news dictionary from CoreData with predicate
+    func newsDictionaryWithPredicate(predicate: String, callback: @escaping ([NewsObjects]) -> Void) {
+        let context = coreDataManager.context
+        context.perform { [weak self] in
+            let articleEntities = self?.fetchArticleEntitiesWithPredicate(predicate: predicate) ?? []
+            let newsBySource = self?.newsDictionary(from: articleEntities.compactMap { $0.toArticle()} ) ?? []
+            
+            callback(newsBySource)
+        }
+    }
+    
+    // Fetch sorted news array by title from CoreData with predicate
     func sortedNewsWithPredicate(predicate: String, callback: @escaping ([Article]) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
@@ -64,16 +84,18 @@ final class NewsService {
         }
     }
     
+    // Fetch news array from CoreData with predicate
     func newsWithPredicate(predicate: String, callback: @escaping ([Article]) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
             let articleEntities = self?.fetchArticleEntitiesWithPredicate(predicate: predicate) ?? []
             let articles = articleEntities.compactMap { $0.toArticle() }
-            
+
             callback(articles)
         }
     }
     
+    // Remove entity
     func removeEntity(with url: String) {
         let context = coreDataManager.context
         context.perform { [weak self] in
@@ -88,6 +110,25 @@ final class NewsService {
     }
     
     // MARK: - Private methods
+    
+    private func newsDictionary(from array: [Article]) -> [NewsObjects] {
+        let newsBySource = Dictionary(grouping: array, by: { $0.sourceName })
+        
+        var newsObjects = [NewsObjects]()
+        
+        // неправильно работает. почему?
+//        newsBySource.forEach { key, value in
+//            newsObjects.append(NewsObjects(sectionName: key, sectionObjects: value))
+//        }
+        
+        for (key, value) in newsBySource {
+            newsObjects.append(NewsObjects(sectionName: key, sectionObjects: value))
+        }
+        
+        let sortedNewsObjectsByKeys = newsObjects.sorted { $0.sourceName?.compare($1.sourceName ?? "") == .orderedAscending }
+        
+        return sortedNewsObjectsByKeys
+    }
     
     private func fetchArticleEntity(with url: String) -> [ArticleEntity] {
         let context = coreDataManager.context
