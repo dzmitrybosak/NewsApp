@@ -98,7 +98,6 @@ class NewNewsTableViewController: UIViewController {
         if tableView.isEditing == true {
             tableView.isEditing = false
             editButton.title = "Edit"
-            loadData()
         } else {
             tableView.isEditing = true
             editButton.title = "Done"

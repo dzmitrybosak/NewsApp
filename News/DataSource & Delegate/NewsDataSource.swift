@@ -62,7 +62,7 @@ final class NewsDataSource: NSObject {
         }
         
         newsBySource.remove(at: indexPath.row)
-        filteredNewsBySource.remove(at: indexPath.row)
+        filteredNewsBySource[indexPath.section].news?.remove(at: indexPath.row)
         newsService.removeEntity(with: url)
     }
     
@@ -104,7 +104,7 @@ extension NewsDataSource: UITableViewDataSource {
         switch editingStyle {
         case .delete:
             removeItem(at: indexPath)
-//            tableView.deleteRows(at: [indexPath], with: .left)
+            tableView.deleteRows(at: [indexPath], with: .left)
         default:
             break
         }
