@@ -30,7 +30,7 @@ final class NewsDataSource: NSObject {
     var newsBySource: [NewsObjects] = []
     var filteredNewsBySource: [NewsObjects] = []
     
-    // MARK: - Main methods
+    // MARK: - Methods
     
     // Load data
     func loadData(completion: @escaping (Bool) -> Void) {
@@ -43,13 +43,27 @@ final class NewsDataSource: NSObject {
         }
     }
     
-    // Get items with predicate for search
+    // Get articles with predicate for search
     func getItems(with predicate: String, completion: @escaping () -> Void) {
         newsService.newsDictionaryWithPredicate(predicate: predicate) { [weak self] news in
             self?.filteredNewsBySource = news
             
             completion()
         }
+    }
+    
+    // MARK: - Private methods
+    
+    // Remove article at indexPath
+    private func removeItem(at indexPath: IndexPath) {
+        
+        guard let url = filteredNewsBySource[indexPath.section].news?[indexPath.row].url?.absoluteString else {
+            return
+        }
+        
+        newsBySource.remove(at: indexPath.row)
+        filteredNewsBySource.remove(at: indexPath.row)
+        newsService.removeEntity(with: url)
     }
     
 }
@@ -76,7 +90,7 @@ extension NewsDataSource: UITableViewDataSource {
     // Cell for row
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableNewsCell.reuseIdentifier, for: indexPath) as? TableNewsCell,
-            let article = filteredNewsBySource[indexPath.section].news?[indexPath.row] else {
+              let article = filteredNewsBySource[indexPath.section].news?[indexPath.row] else {
                 return UITableViewCell()
         }
         
@@ -87,16 +101,10 @@ extension NewsDataSource: UITableViewDataSource {
     
     // Editing cell style
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        guard let url = filteredNewsBySource[indexPath.section].news?[indexPath.row].url?.absoluteString else {
-            return
-        }
-        
         switch editingStyle {
         case .delete:
-            filteredNewsBySource.remove(at: indexPath.row)
-            newsService.removeEntity(with: url)
-//          tableView.deleteRows(at: [indexPath], with: .left)
+            removeItem(at: indexPath)
+//            tableView.deleteRows(at: [indexPath], with: .left)
         default:
             break
         }
@@ -107,12 +115,9 @@ extension NewsDataSource: UITableViewDataSource {
 
 extension NewsDataSource: ArticleViewControllerDelegate {
     func didLiked(_ article: Article) {
-        /*guard let index = news.index(where: { $0.url == article.url } ) else {
-         return
-         }
-         news[index] = article*/
-        
-//        let arraysInArray = newsBySource.map { $0.news }
+        let section = newsBySource.index(where: { $0.sourceName == article.sourceName } ) ?? 0
+        let row = newsBySource[section].news?.index(where: { $0.url == article.url } ) ?? 0
+        newsBySource[section].news?[row].likeValue = article.likeValue
     }
 }
 
