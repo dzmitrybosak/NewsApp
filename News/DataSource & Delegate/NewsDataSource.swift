@@ -20,21 +20,13 @@ final class NewsDataSource: NSObject, UITableViewDataSource {
     
     // MARK: - Initialization
     
-//    init(_ newsService: NewsService = NewsService.shared, _ newsTableViewDelegate: NewsTableViewDelegate = NewsTableViewDelegate()) {
-//        self.newsService = newsService
-//        self.newsTableViewDelegate = newsTableViewDelegate
-//        super.init()
-//        self.newsTableViewDelegate.delegate = self
-//    }
-//    private let newsTableViewDelegate: NewsTableViewDelegate
-
     init(_ newsService: NewsService = NewsService.shared) {
         self.newsService = newsService
         super.init()
     }
-
+    
     // MARK: - Properties
-
+    
     private let newsService: NewsService
     
     private var newsDidLoad: Bool = false
@@ -102,11 +94,11 @@ final class NewsDataSource: NSObject, UITableViewDataSource {
         
         switch editingStyle {
         case .delete:
-            filteredNewsBySource.remove(at: indexPath.row)
+            //newsBySource.remove(at: indexPath.row)
             filteredNewsBySource.remove(at: indexPath.row)
             
             newsService.removeEntity(with: url)
-            //tableView.deleteRows(at: [indexPath], with: .left)
+        //            tableView.deleteRows(at: [indexPath], with: .left)
         default:
             break
         }
@@ -122,7 +114,7 @@ extension NewsDataSource: ArticleViewControllerDelegate {
          }
          news[index] = article*/
         
-//        let arraysInArray = newsBySource.map { $0.news }
+        //        let arraysInArray = newsBySource.map { $0.news }
     }
 }
 

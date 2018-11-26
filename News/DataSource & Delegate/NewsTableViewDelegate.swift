@@ -12,22 +12,20 @@ final class NewsTableViewDelegate: NSObject, UITableViewDelegate  {
     
     // MARK: - Initialization
     
-//    init(_ dataSource: NewsDataSource = NewsDataSource()) {
-//        self.dataSource = dataSource
-//        self.delegate = self.dataSource
-//
-//        super.init()
-//
-//    }
+    init(_ dataSource: NewsDataSource = NewsDataSource()) {
+        self.dataSource = dataSource
+        self.headersDataSource = self.dataSource
+        super.init()
+    }
     
     // MARK: - Properties
     
-//    private let dataSource: NewsDataSource
+    private let dataSource: NewsDataSource
     
-    weak var delegate: NewsHeadersDataSource?
+    weak var headersDataSource: NewsHeadersDataSource?
     
     // MARK: - UITableViewDelegate methods
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -40,7 +38,7 @@ final class NewsTableViewDelegate: NSObject, UITableViewDelegate  {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: Section.header) as? SectionHeader,
-              let sourceName = delegate?.getHeader(by: section) else {
+            let sourceName = headersDataSource?.getHeader(by: section) else {
                 return UIView()
         }
         
@@ -49,23 +47,23 @@ final class NewsTableViewDelegate: NSObject, UITableViewDelegate  {
         return view
     }
     
-     //Footer
+    //Footer
     /*func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 30
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-    
-        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: Section.footer) as? SectionFooter,
-            let sectionObjects = filteredNewsBySource[section].news else {
-                return UIView()
-            }
-    
-        let newsCount = "\(sectionObjects.count)"
-    
-        view.configure(with: newsCount)
-    
-        return view
-    }*/
+     return 30
+     }
+     
+     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+     
+     guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: Section.footer) as? SectionFooter,
+     let sectionObjects = filteredNewsBySource[section].news else {
+     return UIView()
+     }
+     
+     let newsCount = "\(sectionObjects.count)"
+     
+     view.configure(with: newsCount)
+     
+     return view
+     }*/
     
 }

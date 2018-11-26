@@ -74,6 +74,7 @@ class NewNewsTableViewController: UIViewController {
     private func setupDataSource(for tableView: UITableView) {
         tableView.dataSource = newsDataSource
         tableView.delegate = newsTableViewDelegate
+        newsTableViewDelegate.headersDataSource = newsDataSource
     }
     
     // Setup data
