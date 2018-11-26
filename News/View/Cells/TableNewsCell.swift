@@ -11,6 +11,10 @@ import AlamofireImage
 
 final class TableNewsCell: UITableViewCell {
 
+    class var reuseIdentifier: String {
+        return "TableNewsCell"
+    }
+    
     // MARK: - Properties
     
     @IBOutlet private weak var titleLabel: UILabel!

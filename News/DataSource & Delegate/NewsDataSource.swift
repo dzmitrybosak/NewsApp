@@ -12,21 +12,16 @@ protocol NewsHeadersDataSource: class {
     func getHeader(by section: Int) -> String
 }
 
-final class NewsDataSource: NSObject, UITableViewDataSource {
+final class NewsDataSource: NSObject {
     
     // MARK: - Initialization
     
-    init(_ newsService: NewsService = NewsService.shared, _ reusableCell: ReusableCell = ReusableCell()) {
+    init(_ newsService: NewsService = NewsService.shared) {
         self.newsService = newsService
-        self.reusableCell = reusableCell
-        self.reusableCellProtocol = reusableCell
         super.init()
     }
     
     // MARK: - Properties
-    
-    weak var reusableCellProtocol: ReusableCellProtocol?
-    private let reusableCell: ReusableCell
     
     private let newsService: NewsService
     
@@ -57,7 +52,11 @@ final class NewsDataSource: NSObject, UITableViewDataSource {
         }
     }
     
-    // MARK: - UITableViewDataSource methods
+}
+
+// MARK: - UITableViewDataSource
+
+extension NewsDataSource: UITableViewDataSource {
     
     // Number of sections
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -76,8 +75,8 @@ final class NewsDataSource: NSObject, UITableViewDataSource {
     
     // Cell for row
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: reusableCell.reuseIdentifier, for: indexPath) as? TableNewsCell,
-              let article = filteredNewsBySource[indexPath.section].news?[indexPath.row] else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableNewsCell.reuseIdentifier, for: indexPath) as? TableNewsCell,
+            let article = filteredNewsBySource[indexPath.section].news?[indexPath.row] else {
                 return UITableViewCell()
         }
         
@@ -97,7 +96,7 @@ final class NewsDataSource: NSObject, UITableViewDataSource {
         case .delete:
             filteredNewsBySource.remove(at: indexPath.row)
             newsService.removeEntity(with: url)
-//            tableView.deleteRows(at: [indexPath], with: .left)
+//          tableView.deleteRows(at: [indexPath], with: .left)
         default:
             break
         }
