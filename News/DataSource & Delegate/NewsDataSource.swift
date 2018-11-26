@@ -14,18 +14,19 @@ protocol NewsHeadersDataSource: class {
 
 final class NewsDataSource: NSObject, UITableViewDataSource {
     
-    private struct Constants {
-        static let cell = "TableNewsCell"
-    }
-    
     // MARK: - Initialization
     
-    init(_ newsService: NewsService = NewsService.shared) {
+    init(_ newsService: NewsService = NewsService.shared, _ reusableCell: ReusableCell = ReusableCell()) {
         self.newsService = newsService
+        self.reusableCell = reusableCell
+        self.reusableCellProtocol = reusableCell
         super.init()
     }
     
     // MARK: - Properties
+    
+    weak var reusableCellProtocol: ReusableCellProtocol?
+    private let reusableCell: ReusableCell
     
     private let newsService: NewsService
     
@@ -75,8 +76,8 @@ final class NewsDataSource: NSObject, UITableViewDataSource {
     
     // Cell for row
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cell, for: indexPath) as? TableNewsCell,
-            let article = filteredNewsBySource[indexPath.section].news?[indexPath.row] else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: reusableCell.reuseIdentifier, for: indexPath) as? TableNewsCell,
+              let article = filteredNewsBySource[indexPath.section].news?[indexPath.row] else {
                 return UITableViewCell()
         }
         
@@ -94,11 +95,9 @@ final class NewsDataSource: NSObject, UITableViewDataSource {
         
         switch editingStyle {
         case .delete:
-            //newsBySource.remove(at: indexPath.row)
             filteredNewsBySource.remove(at: indexPath.row)
-            
             newsService.removeEntity(with: url)
-        //            tableView.deleteRows(at: [indexPath], with: .left)
+//            tableView.deleteRows(at: [indexPath], with: .left)
         default:
             break
         }
@@ -114,7 +113,7 @@ extension NewsDataSource: ArticleViewControllerDelegate {
          }
          news[index] = article*/
         
-        //        let arraysInArray = newsBySource.map { $0.news }
+//        let arraysInArray = newsBySource.map { $0.news }
     }
 }
 

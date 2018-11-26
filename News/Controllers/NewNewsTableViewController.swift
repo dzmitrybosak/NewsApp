@@ -87,7 +87,6 @@ class NewNewsTableViewController: UIViewController {
     // Load data
     private func loadData() {
         newsDataSource.loadData { [weak self] newsDidLoad in
-            //self?.newsDidLoad = true
             self?.newsDidLoad = newsDidLoad
             self?.tableView.reloadData()
         }
