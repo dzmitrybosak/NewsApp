@@ -54,6 +54,13 @@ final class NewsDataSource: NSObject {
     
     // MARK: - Private methods
     
+    // Update newsBySource array after deleting row
+    private func reloadData() {
+        newsService.newsBySectionAndValues { [weak self] newsObjects in
+            self?.newsBySource = newsObjects
+        }
+    }
+    
     // Remove article at indexPath
     private func removeItem(at indexPath: IndexPath) {
         
@@ -62,6 +69,8 @@ final class NewsDataSource: NSObject {
         }
         
         newsBySource.remove(at: indexPath.row)
+        reloadData()
+        
         filteredNewsBySource[indexPath.section].news?.remove(at: indexPath.row)
         newsService.removeEntity(with: url)
     }
