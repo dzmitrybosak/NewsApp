@@ -12,7 +12,7 @@ final class NewsTableViewDelegate: NSObject, UITableViewDelegate  {
     
     // MARK: - Initialization
     
-    init(_ dataSource: NewsDataSource = NewsDataSource()) {
+    init(dataSource: NewsDataSource = NewsDataSource()) {
         self.dataSource = dataSource
         self.headersDataSource = self.dataSource
         super.init()
@@ -46,24 +46,5 @@ final class NewsTableViewDelegate: NSObject, UITableViewDelegate  {
 
         return view
     }
-    
-    //Footer
-    /*func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-     return 30
-     }
-     
-     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-     
-     guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: Section.footer) as? SectionFooter,
-     let sectionObjects = filteredNewsBySource[section].news else {
-     return UIView()
-     }
-     
-     let newsCount = "\(sectionObjects.count)"
-     
-     view.configure(with: newsCount)
-     
-     return view
-     }*/
     
 }

@@ -1,5 +1,5 @@
 //
-//  NewsObjects.swift
+//  NewsObject.swift
 //  News
 //
 //  Created by Dzmitry Bosak on 11/13/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class NewsObjects {
+final class NewsObject {
     
     // MARK: - Properties
     

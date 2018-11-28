@@ -36,7 +36,7 @@ final class NewsService {
     }
     
     // Get dictionary of news sorted by sources
-    func newsBySectionAndValues(callback: @escaping ([NewsObjects]) -> Void) {
+    func newsBySectionAndValues(callback: @escaping ([NewsObject]) -> Void) {
         news { [weak self] news in
             let newsDictionary = self?.newsDictionary(from: news) ?? []
             callback(newsDictionary)
@@ -63,7 +63,7 @@ final class NewsService {
     }
     
     // Fetch news dictionary from CoreData with predicate
-    func newsDictionaryWithPredicate(predicate: String, callback: @escaping ([NewsObjects]) -> Void) {
+    func newsDictionaryWithPredicate(predicate: String, callback: @escaping ([NewsObject]) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
             let articleEntities = self?.fetchArticleEntitiesWithPredicate(predicate: predicate) ?? []
@@ -111,18 +111,13 @@ final class NewsService {
     
     // MARK: - Private methods
     
-    private func newsDictionary(from array: [Article]) -> [NewsObjects] {
+    private func newsDictionary(from array: [Article]) -> [NewsObject] {
         let newsBySource = Dictionary(grouping: array, by: { $0.sourceName })
         
-        var newsObjects = [NewsObjects]()
-        
-        // неправильно работает. почему?
-//        newsBySource.forEach { key, value in
-//            newsObjects.append(NewsObjects(sectionName: key, sectionObjects: value))
-//        }
+        var newsObjects = [NewsObject]()
         
         for (key, value) in newsBySource {
-            newsObjects.append(NewsObjects(sectionName: key, sectionObjects: value))
+            newsObjects.append(NewsObject(sectionName: key, sectionObjects: value))
         }
         
         let sortedNewsObjectsByKeys = newsObjects.sorted { $0.sourceName?.compare($1.sourceName ?? "") == .orderedAscending }

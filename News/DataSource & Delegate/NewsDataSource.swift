@@ -16,7 +16,7 @@ final class NewsDataSource: NSObject {
     
     // MARK: - Initialization
     
-    init(_ newsService: NewsService = NewsService.shared) {
+    init(newsService: NewsService = NewsService.shared) {
         self.newsService = newsService
         super.init()
     }
@@ -25,10 +25,8 @@ final class NewsDataSource: NSObject {
     
     private let newsService: NewsService
     
-    private var newsDidLoad: Bool = false
-    
-    var newsBySource: [NewsObjects] = []
-    var filteredNewsBySource: [NewsObjects] = []
+    var newsBySource: [NewsObject] = []
+    var filteredNewsBySource: [NewsObject] = []
     
     // MARK: - Methods
     
@@ -37,9 +35,8 @@ final class NewsDataSource: NSObject {
         newsService.newsBySectionAndValues { [weak self] newsObject in
             self?.newsBySource = newsObject
             self?.filteredNewsBySource = self?.newsBySource ?? []
-            self?.newsDidLoad = true
             
-            completion(self?.newsDidLoad ?? false)
+            completion(true)
         }
     }
     
@@ -76,6 +73,7 @@ final class NewsDataSource: NSObject {
     }
     
 }
+
 
 // MARK: - UITableViewDataSource
 
@@ -118,22 +116,27 @@ extension NewsDataSource: UITableViewDataSource {
             break
         }
     }
+    
 }
 
 // MARK: - ArticleViewControllerDelegate
 
 extension NewsDataSource: ArticleViewControllerDelegate {
+    
     func didLiked(_ article: Article) {
         let section = newsBySource.index(where: { $0.sourceName == article.sourceName } ) ?? 0
         let row = newsBySource[section].news?.index(where: { $0.url == article.url } ) ?? 0
         newsBySource[section].news?[row].likeValue = article.likeValue
     }
+    
 }
 
 // MARK: - NewsHeadersDataSource
 
 extension NewsDataSource: NewsHeadersDataSource {
+    
     func getHeader(by section: Int) -> String {
         return filteredNewsBySource[section].sourceName ?? "Unknown source"
     }
+    
 }
