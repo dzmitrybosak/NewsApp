@@ -1,5 +1,5 @@
 //
-//  NewsVC.swift
+//  NewsViewController.swift
 //  News
 //
 //  Created by Dzmitry Bosak on 9/11/18.
@@ -16,7 +16,6 @@ private struct Constants {
 
 private enum Segues: String {
     case showArticle = "showArticle"
-    case showWebView = "showWebView"
 }
 
 class NewsViewController: UIViewController {
@@ -58,7 +57,7 @@ class NewsViewController: UIViewController {
         setupRefreshControl()
     }
     
-    // MARK: - Private instance methods
+    // MARK: - Private methods
     
     // Set Collection View Layout
     private func setupLayout() {
@@ -137,7 +136,7 @@ class NewsViewController: UIViewController {
     
 }
 
-// MARK: -
+// MARK: - ArticleViewControllerDelegate
 
 extension NewsViewController: ArticleViewControllerDelegate {
     func didLiked(_ article: Article) {
@@ -170,7 +169,7 @@ extension NewsViewController: UICollectionViewDataSource {
     }
 }
 
-// MARK: - Search
+// MARK: - UISearchBarDelegate
 
 extension NewsViewController: UISearchBarDelegate {
     

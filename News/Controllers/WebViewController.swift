@@ -1,5 +1,5 @@
 //
-//  WebVC.swift
+//  WebViewController.swift
 //  News
 //
 //  Created by Dzmitry Bosak on 9/6/18.

@@ -1,5 +1,5 @@
 //
-//  ArticleVC.swift
+//  ArticleViewController.swift
 //  News
 //
 //  Created by Dzmitry Bosak on 9/3/18.

@@ -31,21 +31,22 @@ public class ArticleEntity: NSManagedObject {
     func toArticle() -> Article? {
         return Article(from: self)
     }
+    
 }
 
 private extension Article {
     
     convenience init?(from entity: ArticleEntity) {
         self.init()
-        self.sourceID = entity.sourceID ?? ""
-        self.sourceName = entity.sourceName ?? ""
-        self.author = entity.author ?? ""
-        self.title = entity.title ?? ""
-        self.description = entity.details ?? ""
-        self.url = URL(string: entity.url ?? "")
-        self.urlToImage = URL(string: entity.urlToImage ?? "")
-        self.publishedAt = entity.publishedAt ?? nil
+        sourceID = entity.sourceID ?? ""
+        sourceName = entity.sourceName ?? ""
+        author = entity.author ?? ""
+        title = entity.title ?? ""
+        description = entity.details ?? ""
+        url = URL(string: entity.url ?? "")
+        urlToImage = URL(string: entity.urlToImage ?? "")
+        publishedAt = entity.publishedAt ?? nil
         
-        self.likeValue = Article.Like(rawValue: entity.likeValue) ?? .noLike
+        likeValue = Article.Like(rawValue: entity.likeValue) ?? .noLike
     }
 }
