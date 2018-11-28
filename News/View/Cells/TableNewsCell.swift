@@ -9,7 +9,7 @@
 import UIKit
 import AlamofireImage
 
-final class TableNewsCell: UITableViewCell {
+class TableNewsCell: UITableViewCell {
 
     class var reuseIdentifier: String {
         return "TableNewsCell"
@@ -41,11 +41,11 @@ final class TableNewsCell: UITableViewCell {
     
     // MARK: - Private methods
     
-    private func setupText(from article: Article) {
+    func setupText(from article: Article) {
         titleLabel.text = article.title
     }
     
-    private func setupImage(from article: Article) {
+    func setupImage(from article: Article) {
         
         if let urlToImage = article.urlToImage {
             imageCellView.af_setImage(withURL: urlToImage, placeholderImage: #imageLiteral(resourceName: "placeholder"))
@@ -55,7 +55,7 @@ final class TableNewsCell: UITableViewCell {
 
     }
     
-    private func setupCornerRadius(for imageView: UIImageView) {
+    func setupCornerRadius(for imageView: UIImageView) {
         imageView.layer.cornerRadius = 5
         imageView.layer.masksToBounds = true
     }
