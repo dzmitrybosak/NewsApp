@@ -36,15 +36,6 @@ class NewNewsTableViewController: UIViewController {
     private let newsDataSource = NewsDataSource()
     private let newsTableViewDelegate = NewsTableViewDelegate()
     
-    private var newsDidLoad: Bool = false {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                self?.activityIndicator?.stopAnimating()
-                self?.tableView.refreshControl?.endRefreshing()
-            }
-        }
-    }
-    
     // MARK: - UIViewController's methods
     
     override func viewDidLoad() {
@@ -86,8 +77,13 @@ class NewNewsTableViewController: UIViewController {
     
     // Load data
     private func loadData() {
-        newsDataSource.loadData { [weak self] newsDidLoad in
-            self?.newsDidLoad = newsDidLoad
+        newsDataSource.loadData { [weak self] in
+            
+            DispatchQueue.main.async {
+                self?.activityIndicator?.stopAnimating()
+                self?.tableView.refreshControl?.endRefreshing()
+            }
+            
             self?.tableView.reloadData()
         }
     }
@@ -166,9 +162,6 @@ extension NewNewsTableViewController {
     private func registerNibs() {
         let sectionHeaderNib = UINib(nibName: Section.header, bundle: nil)
         tableView.register(sectionHeaderNib, forHeaderFooterViewReuseIdentifier: Section.header)
-        
-        let sectionFooterNib = UINib(nibName: Section.footer, bundle: nil)
-        tableView.register(sectionFooterNib, forHeaderFooterViewReuseIdentifier: Section.footer)
     }
     
     // Setup Refresh Control

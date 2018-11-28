@@ -31,12 +31,12 @@ final class NewsDataSource: NSObject {
     // MARK: - Methods
     
     // Load data
-    func loadData(completion: @escaping (Bool) -> Void) {
+    func loadData(completion: @escaping () -> Void) {
         newsService.newsBySectionAndValues { [weak self] newsObject in
             self?.newsBySource = newsObject
             self?.filteredNewsBySource = self?.newsBySource ?? []
             
-            completion(true)
+            completion()
         }
     }
     
