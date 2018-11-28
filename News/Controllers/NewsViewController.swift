@@ -211,8 +211,8 @@ extension NewsViewController: UISearchBarDelegate {
                 self.newsService.newsWithPredicate(predicate: searchText) { [weak self] news in
                     
                     // Sort by date
-                    let sortedNews = news.sorted { $0.publishedAt?.compare($1.publishedAt ?? Date()) == .orderedDescending }
-
+                    let sortedNews = news.sorted { ($0.publishedAt ?? Date()) < ($1.publishedAt ?? Date()) }
+                    
                     self?.filteredNews = sortedNews
                 }
             }
