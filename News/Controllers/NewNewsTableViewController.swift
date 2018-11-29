@@ -102,8 +102,13 @@ class NewNewsTableViewController: UIViewController {
     
     // MARK: - Actions
     
-    @IBAction func edit(_ sender: UIBarButtonItem) {
+    @IBAction private func edit(_ sender: UIBarButtonItem) {
         editButtonPressed()
+    }
+    
+    @IBAction private func top(_ sender: UIBarButtonItem) {
+        let topAtricleViewController = ArticlePreviewViewController()
+        present(topAtricleViewController, animated: true, completion: nil)
     }
     
     // MARK: - Navigation

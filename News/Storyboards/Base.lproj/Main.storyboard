@@ -326,6 +326,12 @@
                                 <action selector="edit:" destination="2ws-A7-PWo" id="9N8-K0-3PG"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Top" id="HMo-Na-V6D">
+                            <connections>
+                                <action selector="top:" destination="2ws-A7-PWo" id="TcD-HT-i8a"/>
+                                <segue destination="0DR-hg-S4y" kind="presentation" modalTransitionStyle="crossDissolve" id="sag-dU-mka"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="editButton" destination="lYP-Gp-F4l" id="R02-cc-XMY"/>
@@ -336,6 +342,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eBJ-hC-xTV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="947.82608695652186" y="2209.8214285714284"/>
+        </scene>
+        <!--Article Preview View Controller-->
+        <scene sceneID="55g-G0-GDM">
+            <objects>
+                <viewController modalPresentationStyle="overCurrentContext" id="0DR-hg-S4y" customClass="ArticlePreviewViewController" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OtI-nM-xzX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="iLM-KW-37e"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FTB-VU-UFp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1915" y="2223"/>
         </scene>
         <!--Reuters-->
         <scene sceneID="CQT-hj-UxG">

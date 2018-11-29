@@ -40,6 +40,16 @@ final class NewsDataSource: NSObject {
         }
     }
     
+    func loadTopArticle(callback: @escaping (Article) -> Void) {
+        newsService.news { news in
+            guard let article = news.first else {
+                return
+            }
+            
+            callback(article)
+        }
+    }
+    
     // Get articles with predicate for search
     func getItems(with predicate: String, completion: @escaping () -> Void) {
         newsService.newsDictionaryWithPredicate(predicate: predicate) { [weak self] news in

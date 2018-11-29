@@ -1,5 +1,5 @@
 //
-//  TopArticleCell.swift
+//  ArticlePreviewView.swift
 //  News
 //
 //  Created by Dzmitry Bosak on 11/27/18.
@@ -9,10 +9,16 @@
 import UIKit
 import AlamofireImage
 
-final class TopArticleCell: TableNewsCell {
+protocol Configure: class {
+    func configure(with: Article)
+}
+
+final class ArticlePreviewView: TableNewsCell, Configure {
+    
+    // MARK: - Class method
     
     class func instanceFromNib() -> UIView {
-        return UINib(nibName: "TopArticleScreen", bundle: nil).instantiate(withOwner: nil, options: nil).first as? UIView ?? UIView()
+        return UINib(nibName: "ArticlePreviewView", bundle: nil).instantiate(withOwner: nil, options: nil).first as? UIView ?? UIView()
     }
     
     // MARK: - Outlets
@@ -22,10 +28,6 @@ final class TopArticleCell: TableNewsCell {
     @IBOutlet private weak var descriptionArticleLabel: UILabel!
     @IBOutlet private weak var imageArticleView: UIImageView!
     @IBOutlet private weak var cancelButton: UIButton!
-    
-    // TODO: - Tap Gesture Recognizer
-    
-    // TODO: - Service or ViewController or Service + ViewController
     
     // MARK: - Overrided methods
     
@@ -80,9 +82,13 @@ final class TopArticleCell: TableNewsCell {
         view.layer.shadowOpacity = 0.7
     }
     
-    // For actions
+    // MARK: - Methods for navigation
     
-    private func dismissArticle() {
+    func openArticle() {
+        
+    }
+    
+    func dismissArticle() {
         
     }
     
@@ -91,8 +97,5 @@ final class TopArticleCell: TableNewsCell {
     @IBAction func closeArticle(_ sender: UIButton) {
         dismissArticle()
     }
-
-    // MARK: - Navigation
-    // TODO: - Push or smth to ArticleViewController
     
 }
