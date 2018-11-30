@@ -9,11 +9,11 @@
 import UIKit
 import AlamofireImage
 
-protocol Configure: class {
+protocol Configuration: class {
     func configure(with: Article)
 }
 
-final class ArticlePreviewView: TableNewsCell, Configure {
+final class ArticlePreviewView: TableNewsCell, Configuration {
     
     // MARK: - Class method
     
@@ -32,9 +32,7 @@ final class ArticlePreviewView: TableNewsCell, Configure {
     // MARK: - Overrided methods
     
     override func awakeFromNib() {
-        setupCornerRadius(for: backgroundArticleView)
-        setupShadow(for: backgroundArticleView)
-        setupRoundedButton(for: cancelButton)
+        configureView()
     }
     
     override func prepareForReuse() {
@@ -70,6 +68,12 @@ final class ArticlePreviewView: TableNewsCell, Configure {
     
     // For views
     
+    private func configureView() {
+        setupCornerRadius(for: backgroundArticleView)
+        setupShadow(for: backgroundArticleView)
+        setupRoundedButton(for: cancelButton)
+    }
+    
     private func setupRoundedButton(for button: UIButton) {
         button.layer.cornerRadius = button.bounds.size.width / 2.0
         button.clipsToBounds = true
@@ -82,20 +86,9 @@ final class ArticlePreviewView: TableNewsCell, Configure {
         view.layer.shadowOpacity = 0.7
     }
     
-    // MARK: - Methods for navigation
-    
-    func openArticle() {
-        
-    }
-    
-    func dismissArticle() {
-        
-    }
-    
     // MARK: - Actions
     
     @IBAction func closeArticle(_ sender: UIButton) {
-        dismissArticle()
     }
     
 }

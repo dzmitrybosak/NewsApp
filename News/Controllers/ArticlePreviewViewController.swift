@@ -10,29 +10,25 @@ import UIKit
 
 final class ArticlePreviewViewController: UIViewController {
     
+    // MARK: - Outlets
+    
+    @IBOutlet private weak var articlePreviewView: UIView!
+    
     // MARK: - Properties
-    
-    private let newsDataSource = NewsDataSource()
-    
-    weak var configure: Configure?
-    
+
+    weak var configuration: Configuration?
+
     // MARK: - UIViewController methods
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         setupData()
-        setupNib()
     }
     
     // MARK: - Private methods
     
-    private func setupConfigure() {
-        let articlePreviewView = ArticlePreviewView()
-        configure = articlePreviewView
-    }
-    
-    private func setupNib() {
+    private func addArticlePreviewSubview() {
         let topArticleView = ArticlePreviewView.instanceFromNib()
         view.addSubview(topArticleView)
         
@@ -43,17 +39,22 @@ final class ArticlePreviewViewController: UIViewController {
         topArticleView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     
-    private func loadArticle(callback: @escaping (Article) -> Void) {
+    func loadArticle(callback: @escaping (Article) -> Void) {
+        let newsDataSource = NewsDataSource()
+
         newsDataSource.loadTopArticle { article in
             callback(article)
         }
     }
     
     private func setupData() {
-        setupConfigure()
-        
         loadArticle { [weak self] topArticle in
-            self?.configure?.configure(with: topArticle)
+           
+            guard let configure = self?.view as? Configuration else {
+                return
+            }
+            
+            configure.configure(with: topArticle)
         }
     }
     
