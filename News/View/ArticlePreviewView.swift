@@ -13,16 +13,36 @@ protocol Configuration: class {
     func configure(with: Article)
 }
 
-final class ArticlePreviewView: TableNewsCell, Configuration {
+final class ArticlePreviewView: UIView, Configuration {
+    
+    init() {
+        super.init(frame: CGRect.zero)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        Bundle.main.loadNibNamed(String(describing: ArticlePreviewView.self), owner: self, options: nil)
+        addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            view.leadingAnchor.constraint(equalTo: leadingAnchor),
+            view.topAnchor.constraint(equalTo: topAnchor),
+            view.bottomAnchor.constraint(equalTo: bottomAnchor),
+            view.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+    }
     
     // MARK: - Class method
     
-    class func instanceFromNib() -> UIView {
-        return UINib(nibName: "ArticlePreviewView", bundle: nil).instantiate(withOwner: nil, options: nil).first as? UIView ?? UIView()
-    }
+//    class func instanceFromNib() -> UIView {
+//        return UINib(nibName: String(describing: ArticlePreviewView.self), bundle: nil).instantiate(withOwner: nil, options: nil).first as? UIView ?? UIView()
+//    }
     
     // MARK: - Outlets
     
+    @IBOutlet private weak var view: UIView!
     @IBOutlet private weak var backgroundArticleView: UIView!
     @IBOutlet private weak var titleArticleLabel: UILabel!
     @IBOutlet private weak var descriptionArticleLabel: UILabel!
@@ -32,24 +52,26 @@ final class ArticlePreviewView: TableNewsCell, Configuration {
     // MARK: - Overrided methods
     
     override func awakeFromNib() {
+        super.awakeFromNib()
+        
         configureView()
     }
     
-    override func prepareForReuse() {
-        imageArticleView.af_cancelImageRequest()
-    }
-    
-    override func configure(with article: Article) {
+    func configure(with article: Article) {
         setupText(from: article)
         setupImage(from: article)
     }
     
-    override func setupText(from article: Article) {
+    // MARK: - Private methods
+    
+    // For data
+    
+    private func setupText(from article: Article) {
         titleArticleLabel.text = article.title
         descriptionArticleLabel.text = article.description
     }
     
-    override func setupImage(from article: Article) {
+    private func setupImage(from article: Article) {
         
         if let urlToImage = article.urlToImage {
             imageArticleView.af_setImage(withURL: urlToImage, placeholderImage: #imageLiteral(resourceName: "placeholder"))
@@ -59,19 +81,17 @@ final class ArticlePreviewView: TableNewsCell, Configuration {
         
     }
     
-    override func setupCornerRadius(for view: UIView) {
-        view.layer.cornerRadius = 20
-        view.layer.masksToBounds = true
-    }
-    
-    // MARK: - Private methods
-    
     // For views
     
     private func configureView() {
         setupCornerRadius(for: backgroundArticleView)
         setupShadow(for: backgroundArticleView)
         setupRoundedButton(for: cancelButton)
+    }
+    
+    private func setupCornerRadius(for view: UIView) {
+        view.layer.cornerRadius = 20
+        view.layer.masksToBounds = true
     }
     
     private func setupRoundedButton(for button: UIButton) {
@@ -89,6 +109,7 @@ final class ArticlePreviewView: TableNewsCell, Configuration {
     // MARK: - Actions
     
     @IBAction func closeArticle(_ sender: UIButton) {
+        print("Close")
     }
     
 }
