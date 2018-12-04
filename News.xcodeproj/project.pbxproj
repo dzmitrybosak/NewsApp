@@ -175,7 +175,7 @@
 				403F0C36213D040E0098FFE2 /* ArticleViewController.swift */,
 				40DC36832140F6EC000C599C /* WebViewController.swift */,
 				D1E3320121AE90D20016BB50 /* ArticlePreviewViewController.swift */,
-				D11BF6E821B53566005D556C /* Xibs */,
+				D1A0C5FB21B14E9200539C03 /* ArticlePreviewViewController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -214,7 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				D1E331FF21AD6A690016BB50 /* ArticlePreviewView.swift */,
-				D10B728321AFD26F00F5ED52 /* Xibs */,
+				D193E89C21AD436B0076DD65 /* ArticlePreviewView.xib */,
 				D1FC94E2219D74C9000BE216 /* Cells */,
 				D1FC94E1219D74AD000BE216 /* Section */,
 			);
@@ -263,22 +263,6 @@
 				40EF5160213E8F380018E75A /* CoreDataManager.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		D10B728321AFD26F00F5ED52 /* Xibs */ = {
-			isa = PBXGroup;
-			children = (
-				D193E89C21AD436B0076DD65 /* ArticlePreviewView.xib */,
-			);
-			path = Xibs;
-			sourceTree = "<group>";
-		};
-		D11BF6E821B53566005D556C /* Xibs */ = {
-			isa = PBXGroup;
-			children = (
-				D1A0C5FB21B14E9200539C03 /* ArticlePreviewViewController.xib */,
-			);
-			path = Xibs;
 			sourceTree = "<group>";
 		};
 		D19AD494219EC84E00E6073E /* DataSource & Delegate */ = {

@@ -15,39 +15,27 @@ protocol Configuration: class {
 
 final class ArticlePreviewView: UIView, Configuration {
     
-    init() {
-        super.init(frame: CGRect.zero)
+    // MARK: - Initialization
+    
+    convenience init() {
+        self.init(frame: .zero)
     }
-
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        Bundle.main.loadNibNamed(String(describing: ArticlePreviewView.self), owner: self, options: nil)
-        addSubview(view)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            view.leadingAnchor.constraint(equalTo: leadingAnchor),
-            view.topAnchor.constraint(equalTo: topAnchor),
-            view.bottomAnchor.constraint(equalTo: bottomAnchor),
-            view.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ])
     }
-    
-    // MARK: - Class method
-    
-//    class func instanceFromNib() -> UIView {
-//        return UINib(nibName: String(describing: ArticlePreviewView.self), bundle: nil).instantiate(withOwner: nil, options: nil).first as? UIView ?? UIView()
-//    }
     
     // MARK: - Outlets
     
-    @IBOutlet private weak var view: UIView!
     @IBOutlet private weak var backgroundArticleView: UIView!
     @IBOutlet private weak var titleArticleLabel: UILabel!
     @IBOutlet private weak var descriptionArticleLabel: UILabel!
     @IBOutlet private weak var imageArticleView: UIImageView!
-    @IBOutlet private weak var cancelButton: UIButton!
+    @IBOutlet private weak var closeButton: UIButton!
     
     // MARK: - Overrided methods
     
@@ -83,10 +71,15 @@ final class ArticlePreviewView: UIView, Configuration {
     
     // For views
     
-    private func configureView() {
+    func configureView() {
+        
+        titleArticleLabel.text = nil
+        descriptionArticleLabel.text = nil
+        imageArticleView.image = nil
+        
         setupCornerRadius(for: backgroundArticleView)
         setupShadow(for: backgroundArticleView)
-        setupRoundedButton(for: cancelButton)
+        setupRoundedButton(for: closeButton)
     }
     
     private func setupCornerRadius(for view: UIView) {
@@ -110,6 +103,18 @@ final class ArticlePreviewView: UIView, Configuration {
     
     @IBAction func closeArticle(_ sender: UIButton) {
         print("Close")
+    }
+    
+}
+
+extension UIView {
+    
+    // Loads instance from nib with the same name
+    func loadNib() -> UIView {
+        let bundle = Bundle(for: type(of: self))
+        let nibName = type(of: self).description().components(separatedBy: ".").last!
+        let nib = UINib(nibName: nibName, bundle: bundle)
+        return nib.instantiate(withOwner: self, options: nil).first as! UIView
     }
     
 }

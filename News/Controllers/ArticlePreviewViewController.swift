@@ -10,11 +10,7 @@ import UIKit
 
 final class ArticlePreviewViewController: UIViewController {
 
-    // MARK: - Properties
-
-    weak var configuration: Configuration?
-
-    // MARK: - UIViewController methods
+    // MARK: - Initialization
     
     init() {
         super.init(nibName: String(describing: ArticlePreviewViewController.self), bundle: nil)
@@ -24,24 +20,31 @@ final class ArticlePreviewViewController: UIViewController {
         super.init(coder: aDecoder)
     }
     
+    // MARK: - Properties
+
+    weak var configuration: Configuration?
+    
+    // MARK: - UIViewController methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         addArticlePreviewSubview()
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-    }
     
     // MARK: - Private methods
-    
+
     private func addArticlePreviewSubview() {
-        let articlePreviewView = ArticlePreviewView()
-        view.addSubview(articlePreviewView)
-        articlePreviewView.translatesAutoresizingMaskIntoConstraints = false
         
+        guard let articlePreviewView = ArticlePreviewView().loadNib() as? ArticlePreviewView else {
+            return
+        }
+        
+        setupData(for: articlePreviewView)
+        
+        view.addSubview(articlePreviewView)
+        
+        articlePreviewView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             articlePreviewView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             articlePreviewView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -49,18 +52,6 @@ final class ArticlePreviewViewController: UIViewController {
             articlePreviewView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
-
-    
-//    private func addArticlePreviewSubview() {
-//        let topArticleView = ArticlePreviewView.instanceFromNib()
-//        view.addSubview(topArticleView)
-//
-//        topArticleView.translatesAutoresizingMaskIntoConstraints = false
-//        topArticleView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-//        topArticleView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-//        topArticleView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//        topArticleView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//    }
     
     private func loadArticle(callback: @escaping (Article) -> Void) {
         let newsDataSource = NewsDataSource()
@@ -70,10 +61,10 @@ final class ArticlePreviewViewController: UIViewController {
         }
     }
     
-    private func setupData() {
-        loadArticle { [weak self] topArticle in
+    private func setupData(for view: UIView) {
+        loadArticle { topArticle in
             
-            guard let configure = self?.view as? Configuration else {
+            guard let configure = view as? Configuration else {
                 return
             }
 

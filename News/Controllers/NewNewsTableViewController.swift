@@ -102,6 +102,8 @@ class NewNewsTableViewController: UIViewController {
     
     private func topButtonPressed() {
         let articlePreviewViewController = ArticlePreviewViewController()
+        articlePreviewViewController.modalPresentationStyle = .overCurrentContext
+        articlePreviewViewController.modalTransitionStyle = .crossDissolve
         present(articlePreviewViewController, animated: true)
     }
     
