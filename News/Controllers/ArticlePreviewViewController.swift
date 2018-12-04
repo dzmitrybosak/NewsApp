@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol Action: class {
+    func openArticle()
+    func close()
+}
+
 final class ArticlePreviewViewController: UIViewController {
 
     // MARK: - Initialization
@@ -40,6 +45,8 @@ final class ArticlePreviewViewController: UIViewController {
             return
         }
         
+        articlePreviewView.action = self
+        
         setupData(for: articlePreviewView)
         
         view.addSubview(articlePreviewView)
@@ -70,6 +77,20 @@ final class ArticlePreviewViewController: UIViewController {
 
             configure.configure(with: topArticle)
         }
+    }
+    
+}
+
+// MARK: - Action Protocol
+
+extension ArticlePreviewViewController: Action {
+    
+    func openArticle() {
+        print("open")
+    }
+    
+    func close() {
+        dismiss(animated: true, completion: nil)
     }
     
 }

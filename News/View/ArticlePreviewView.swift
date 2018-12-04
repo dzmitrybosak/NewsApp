@@ -29,6 +29,10 @@ final class ArticlePreviewView: UIView, Configuration {
         super.init(coder: aDecoder)
     }
     
+    // MARK: - Properties
+    
+    weak var action: Action?
+    
     // MARK: - Outlets
     
     @IBOutlet private weak var backgroundArticleView: UIView!
@@ -72,7 +76,6 @@ final class ArticlePreviewView: UIView, Configuration {
     // For views
     
     func configureView() {
-        
         titleArticleLabel.text = nil
         descriptionArticleLabel.text = nil
         imageArticleView.image = nil
@@ -101,11 +104,17 @@ final class ArticlePreviewView: UIView, Configuration {
     
     // MARK: - Actions
     
+    @IBAction func toArticle(_ sender: UIButton) {
+        action?.openArticle()
+    }
+    
     @IBAction func closeArticle(_ sender: UIButton) {
-        print("Close")
+        action?.close()
     }
     
 }
+
+// MARK: - UIView
 
 extension UIView {
     
