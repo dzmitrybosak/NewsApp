@@ -86,11 +86,17 @@ final class ArticlePreviewViewController: UIViewController {
 extension ArticlePreviewViewController: Action {
     
     func openArticle() {
-        print("open")
+        print("open tapped")
+        dismiss(animated: true)
+        openArticleViewController()
+    }
+    
+    private func openArticleViewController() {
+        
     }
     
     func close() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
     
 }

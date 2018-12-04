@@ -147,13 +147,13 @@ class ArticleViewController: UIViewController {
     
     // MARK: - Actions
     
-    @IBAction func likeButtonPressed(_ sender: UIButton) {
+    @IBAction private func likeButtonPressed(_ sender: UIButton) {
         likeSelected()
     }
     
-    @IBAction func dislikeButtonPressed(_ sender: UIButton) {
+    @IBAction private func dislikeButtonPressed(_ sender: UIButton) {
         dislikeSelected()
     }
     
-    @IBAction func readMoreButton(_ sender: UIButton) {}
+    @IBAction private func readMoreButton(_ sender: UIButton) {}
 }
