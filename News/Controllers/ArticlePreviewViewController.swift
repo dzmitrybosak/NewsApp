@@ -89,27 +89,35 @@ final class ArticlePreviewViewController: UIViewController {
 extension ArticlePreviewViewController: Action {
     
     func openArticle() {
-        dismiss(animated: true)
         openArticleViewController()
+    }
+    
+    func close() {
+        dismiss(animated: true)
     }
     
     private func openArticleViewController() {
         
         guard let topArticle = article,
-              let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController,
               let articleViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ArticleVC") as? ArticleViewController
-        else {
-            return
+            else {
+                return
         }
-
+        
         articleViewController.article = topArticle
         
+        navigationController?.pushViewController(articleViewController, animated: true)
         
-        navigationController.pushViewController(articleViewController, animated: true)
+        articleViewController.navigationController?.navigationBar.isHidden = false
+        articleViewController.navigationItem.hidesBackButton = true
+        
+        let closeBarButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(popToRoot))
+        articleViewController.navigationItem.setRightBarButton(closeBarButton, animated: true)
     }
-    
-    func close() {
-        dismiss(animated: true)
+
+    @objc private func popToRoot(sender: UIBarButtonItem) {
+        navigationController?.popToRootViewController(animated: true)
+        navigationController?.navigationBar.isHidden = true
     }
     
 }
