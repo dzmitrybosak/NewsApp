@@ -29,6 +29,8 @@ final class ArticlePreviewViewController: UIViewController {
 
     weak var configuration: Configuration?
     
+    private var article: Article?
+    
     // MARK: - UIViewController methods
     
     override func viewDidLoad() {
@@ -64,6 +66,7 @@ final class ArticlePreviewViewController: UIViewController {
         let newsDataSource = NewsDataSource()
 
         newsDataSource.loadTopArticle { article in
+            self.article = article
             callback(article)
         }
     }
@@ -86,13 +89,23 @@ final class ArticlePreviewViewController: UIViewController {
 extension ArticlePreviewViewController: Action {
     
     func openArticle() {
-        print("open tapped")
         dismiss(animated: true)
         openArticleViewController()
     }
     
     private func openArticleViewController() {
         
+        guard let topArticle = article,
+              let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController,
+              let articleViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ArticleVC") as? ArticleViewController
+        else {
+            return
+        }
+
+        articleViewController.article = topArticle
+        
+        
+        navigationController.pushViewController(articleViewController, animated: true)
     }
     
     func close() {

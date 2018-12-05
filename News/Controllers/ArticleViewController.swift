@@ -18,13 +18,8 @@ protocol ArticleViewControllerDelegate: class {
 }
 
 class ArticleViewController: UIViewController {
-
-    private let dateFormatService = DateFormatService.shared
-    private let newsService = NewsService.shared
     
-    // MARK: - Properties
-    
-    weak var delegate: ArticleViewControllerDelegate?
+    // MARK: - Outlets
     
     @IBOutlet private weak var sourceNameLabel: UILabel!
     @IBOutlet private weak var authorLabel: UILabel!
@@ -37,7 +32,16 @@ class ArticleViewController: UIViewController {
     @IBOutlet private weak var likeButton: UIButton!
     @IBOutlet private weak var dislikeButton: UIButton!
     
+    // MARK: - Properties
+    
+    private let dateFormatService = DateFormatService.shared
+    private let newsService = NewsService.shared
+    
+    weak var delegate: ArticleViewControllerDelegate?
+    
     var article: Article?
+    
+    // MARK: - UIViewController methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
