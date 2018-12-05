@@ -41,8 +41,10 @@ final class NewsDataSource: NSObject {
     }
     
     func loadTopArticle(callback: @escaping (Article) -> Void) {
-        newsService.news { news in
-            guard let article = news.first else {
+        newsService.newsBySectionAndValues { newsObject in
+            let topArticle = newsObject.compactMap { $0.news?.first }.sorted { $0.publishedAt?.compare($1.publishedAt ?? Date()) == .orderedDescending }.first
+            
+            guard let article = topArticle else {
                 return
             }
             
