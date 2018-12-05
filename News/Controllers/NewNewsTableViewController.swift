@@ -88,20 +88,6 @@ class NewNewsTableViewController: UIViewController {
         }
     }
     
-    private func presentArticlePreview() {
-        let articlePreviewViewController = ArticlePreviewViewController()
-        let navigationController = UINavigationController(rootViewController: articlePreviewViewController)
-        navigationController.modalPresentationStyle = .overCurrentContext
-        navigationController.modalTransitionStyle = .crossDissolve
-        navigationController.navigationBar.isHidden = true
-
-        navigationController.navigationBar.barTintColor = #colorLiteral(red: 0.1568627451, green: 0.1568627451, blue: 0.1568627451, alpha: 1)
-        navigationController.navigationBar.backgroundColor = #colorLiteral(red: 0.1568627451, green: 0.1568627451, blue: 0.1568627451, alpha: 1)
-        navigationController.navigationBar.tintColor = .white
-
-        present(navigationController, animated: true)
-    }
-    
     // MARK: - Buttons methods
     
     private func editButtonPressed() {
@@ -118,10 +104,6 @@ class NewNewsTableViewController: UIViewController {
     
     @IBAction private func edit(_ sender: UIBarButtonItem) {
         editButtonPressed()
-    }
-    
-    @IBAction private func top(_ sender: UIBarButtonItem) {
-        presentArticlePreview()
     }
     
     // MARK: - Navigation

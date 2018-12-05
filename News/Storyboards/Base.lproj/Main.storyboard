@@ -326,11 +326,6 @@
                                 <action selector="edit:" destination="2ws-A7-PWo" id="9N8-K0-3PG"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Top" id="HMo-Na-V6D">
-                            <connections>
-                                <action selector="top:" destination="2ws-A7-PWo" id="TcD-HT-i8a"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="editButton" destination="lYP-Gp-F4l" id="R02-cc-XMY"/>

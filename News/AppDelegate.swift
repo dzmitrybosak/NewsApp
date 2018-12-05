@@ -16,6 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        guard let rootViewController = window?.rootViewController else {
+            return true
+        }
+        
+        PreviewService.shared.presentByTimer(in: rootViewController)
+        
         return true
     }
 
