@@ -21,7 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
         
-        PreviewService.shared.presentByTimer(in: rootViewController)
+//        let navigationController = UINavigationController(rootViewController: UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() ?? rootViewController)
+//        window?.rootViewController = navigationController
+        PreviewService.shared.presentByTimer(in: rootViewController )
         
         return true
     }

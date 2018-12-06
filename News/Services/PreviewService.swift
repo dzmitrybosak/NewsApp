@@ -19,8 +19,8 @@ final class PreviewService {
     
     private var timer: Timer?
     
-    private let minInterval: TimeInterval = 15
-    private let maxInterval: TimeInterval = 45
+    private let minInterval: TimeInterval = 3
+    private let maxInterval: TimeInterval = 5
     
     // MARK: - Main method
     
@@ -38,18 +38,18 @@ final class PreviewService {
         return randomValue
     }
     
-    private func presentArticlePreview(in rootViewController: UIViewController) {
+    private func presentArticlePreview(in root: UIViewController) {
         let articlePreviewViewController = ArticlePreviewViewController()
         let navigationController = UINavigationController(rootViewController: articlePreviewViewController)
-        navigationController.modalPresentationStyle = .overCurrentContext
-        navigationController.modalTransitionStyle = .crossDissolve
-        navigationController.navigationBar.isHidden = true
-        
-        navigationController.navigationBar.barTintColor = #colorLiteral(red: 0.1568627451, green: 0.1568627451, blue: 0.1568627451, alpha: 1)
-        navigationController.navigationBar.backgroundColor = #colorLiteral(red: 0.1568627451, green: 0.1568627451, blue: 0.1568627451, alpha: 1)
-        navigationController.navigationBar.tintColor = .white
-        
-        rootViewController.present(navigationController, animated: true)
+//        navigationController.modalPresentationStyle = .overCurrentContext
+//        navigationController.modalTransitionStyle = .crossDissolve
+//        navigationController.navigationBar.isHidden = true
+//
+//        navigationController.navigationBar.barTintColor = #colorLiteral(red: 0.1568627451, green: 0.1568627451, blue: 0.1568627451, alpha: 1)
+//        navigationController.navigationBar.backgroundColor = #colorLiteral(red: 0.1568627451, green: 0.1568627451, blue: 0.1568627451, alpha: 1)
+//        navigationController.navigationBar.tintColor = .white
+
+            root.present(articlePreviewViewController, animated: true)
     }
     
 }

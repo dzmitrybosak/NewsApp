@@ -45,6 +45,11 @@ final class ArticlePreviewViewController: UIViewController {
         addArticlePreviewSubview()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
     // MARK: - Private methods
 
     private func addArticlePreviewSubview() {

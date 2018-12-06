@@ -335,7 +335,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eBJ-hC-xTV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="947.82608695652186" y="2209.8214285714284"/>
+            <point key="canvasLocation" x="948" y="2202"/>
         </scene>
         <!--Reuters-->
         <scene sceneID="CQT-hj-UxG">
@@ -682,7 +682,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="2ws-A7-PWo" kind="relationship" relationship="rootViewController" id="0gZ-T0-hUz"/>
+                        <segue destination="2ws-A7-PWo" kind="relationship" relationship="rootViewController" id="lkQ-cu-0Jf"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AVH-eG-pXL" userLabel="First Responder" sceneMemberID="firstResponder"/>
