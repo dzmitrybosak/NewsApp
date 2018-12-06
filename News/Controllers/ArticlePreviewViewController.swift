@@ -17,9 +17,13 @@ final class ArticlePreviewViewController: UIViewController {
 
     // MARK: - Initialization
     
-    init() {
-        self.newsDataSource = NewsDataSource.shared
-        self.delegate = self.newsDataSource
+    convenience init() {
+        self.init(newsDataSource: NewsDataSource.shared, delegate: NewsDataSource.shared)
+    }
+    
+    init(newsDataSource: NewsDataSource, delegate: ArticleViewControllerDelegate) {
+        self.newsDataSource = newsDataSource
+        self.delegate = delegate
         super.init(nibName: String(describing: ArticlePreviewViewController.self), bundle: nil)
     }
     
