@@ -12,7 +12,7 @@ final class NewsTableViewDelegate: NSObject, UITableViewDelegate  {
     
     // MARK: - Initialization
     
-    init(dataSource: NewsDataSource = NewsDataSource()) {
+    init(dataSource: NewsDataSource = NewsDataSource.shared) {
         self.dataSource = dataSource
         self.headersDataSource = self.dataSource
         super.init()

@@ -33,7 +33,7 @@ class NewNewsTableViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let newsDataSource = NewsDataSource()
+    private let newsDataSource = NewsDataSource.shared
     private let newsTableViewDelegate = NewsTableViewDelegate()
     
     // MARK: - UIViewController's methods

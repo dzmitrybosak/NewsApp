@@ -18,16 +18,22 @@ final class ArticlePreviewViewController: UIViewController {
     // MARK: - Initialization
     
     init() {
+        self.newsDataSource = NewsDataSource.shared
+        self.delegate = self.newsDataSource
         super.init(nibName: String(describing: ArticlePreviewViewController.self), bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
+        self.newsDataSource = NewsDataSource.shared
         super.init(coder: aDecoder)
     }
     
     // MARK: - Properties
+    
+    private let newsDataSource: NewsDataSource
 
     weak var configuration: Configuration?
+    weak var delegate: ArticleViewControllerDelegate?
     
     private var article: Article?
     
@@ -48,7 +54,7 @@ final class ArticlePreviewViewController: UIViewController {
         }
         
         articlePreviewView.action = self
-        
+
         setupData(for: articlePreviewView)
         
         view.addSubview(articlePreviewView)
@@ -62,9 +68,7 @@ final class ArticlePreviewViewController: UIViewController {
         ])
     }
     
-    private func loadArticle(callback: @escaping (Article) -> Void) {
-        let newsDataSource = NewsDataSource()
-
+    private func loadArticle(callback: @escaping (Article) -> Void) {        
         newsDataSource.loadTopArticle { article in
             self.article = article
             callback(article)
@@ -93,6 +97,13 @@ extension ArticlePreviewViewController: Action {
     }
     
     func close() {
+        
+        guard let article = article else {
+            return
+        }
+        
+        delegate?.didLiked(article)
+        
         dismiss(animated: true)
     }
     

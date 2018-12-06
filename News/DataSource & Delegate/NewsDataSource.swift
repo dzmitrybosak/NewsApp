@@ -14,6 +14,10 @@ protocol NewsHeadersDataSource: class {
 
 final class NewsDataSource: NSObject {
     
+    // MARK: - Singleton
+    
+    static let shared = NewsDataSource()
+    
     // MARK: - Initialization
     
     init(newsService: NewsService = NewsService.shared) {
