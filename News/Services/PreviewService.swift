@@ -19,8 +19,8 @@ final class PreviewService {
     
     private var timer: Timer?
     
-    private var minInterval: TimeInterval = 15
-    private var maxInterval: TimeInterval = 45
+    private let minInterval: TimeInterval = 15
+    private let maxInterval: TimeInterval = 45
     
     // MARK: - Main method
     
