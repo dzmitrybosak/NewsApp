@@ -26,6 +26,12 @@ final class PreviewService {
     
     func presentByTimer(in rootViewController: UIViewController) {
         timer = Timer.scheduledTimer(withTimeInterval: random(from: minInterval, to: maxInterval), repeats: true) { [weak self] _ in
+            
+            // Present ViewController only if it doesn't exist
+            guard rootViewController.presentedViewController == rootViewController.navigationController else {
+                return
+            }
+            
             self?.presentArticlePreview(in: rootViewController)
         }
     }
