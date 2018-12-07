@@ -33,7 +33,7 @@ class NewNewsTableViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let newsDataSource = NewsDataSource()
+    private let newsDataSource = NewsDataSource.shared
     private let newsTableViewDelegate = NewsTableViewDelegate()
     
     // MARK: - UIViewController's methods
@@ -102,7 +102,7 @@ class NewNewsTableViewController: UIViewController {
     
     // MARK: - Actions
     
-    @IBAction func edit(_ sender: UIBarButtonItem) {
+    @IBAction private func edit(_ sender: UIBarButtonItem) {
         editButtonPressed()
     }
     

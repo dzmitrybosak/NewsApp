@@ -14,6 +14,10 @@ protocol NewsHeadersDataSource: class {
 
 final class NewsDataSource: NSObject {
     
+    // MARK: - Singleton
+    
+    static let shared = NewsDataSource()
+    
     // MARK: - Initialization
     
     init(newsService: NewsService = NewsService.shared) {
@@ -37,6 +41,18 @@ final class NewsDataSource: NSObject {
             self?.filteredNewsBySource = self?.newsBySource ?? []
             
             completion()
+        }
+    }
+    
+    func loadTopArticle(callback: @escaping (Article) -> Void) {
+        newsService.newsBySectionAndValues { newsObject in
+            let topArticle = newsObject.compactMap { $0.news?.first }.sorted { $0.publishedAt?.compare($1.publishedAt ?? Date()) == .orderedDescending }.first
+            
+            guard let article = topArticle else {
+                return
+            }
+            
+            callback(article)
         }
     }
     
