@@ -5,4 +5,6 @@ use_frameworks!
 target 'News' do
     pod 'Alamofire', '~> 4.7'
     pod 'AlamofireImage', '~> 3.3'
+    pod 'ReactiveCocoa', '~> 8.0.2'
+    pod 'ReactiveSwift', '~> 4.0'
 end

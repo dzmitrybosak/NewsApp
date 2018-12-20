@@ -148,8 +148,8 @@ class NewsTableViewController: UITableViewController {
                 return
             }
 
-            articleViewController.article = filteredNews[index.row]
-            articleViewController.delegate = self
+//            articleViewController.article = filteredNews[index.row]
+//            articleViewController.delegate = self
 
         default:
             break
@@ -172,7 +172,7 @@ extension NewsTableViewController {
         }
         
         let article = filteredNews[indexPath.row]
-        cell.configure(with: article)
+//        cell.configure(with: article)
         
         return cell
     }
@@ -207,7 +207,7 @@ extension NewsTableViewController {
 
 // MARK: - ArticleViewControllerDelegate
 
-extension NewsTableViewController: ArticleViewControllerDelegate {
+extension NewsTableViewController: ArticleViewModelDelegate {
     func didLiked(_ article: Article) {
         guard let index = news.index(where: { $0.url == article.url } ) else {
             return

@@ -21,7 +21,7 @@ final class ArticlePreviewViewController: UIViewController {
         self.init(newsDataSource: NewsDataSource.shared, delegate: NewsDataSource.shared)
     }
     
-    init(newsDataSource: NewsDataSource, delegate: ArticleViewControllerDelegate) {
+    init(newsDataSource: NewsDataSource, delegate: ArticleViewModelDelegate) {
         self.newsDataSource = newsDataSource
         self.delegate = delegate
         super.init(nibName: String(describing: ArticlePreviewViewController.self), bundle: nil)
@@ -37,7 +37,7 @@ final class ArticlePreviewViewController: UIViewController {
     private let newsDataSource: NewsDataSource
 
     weak var configuration: Configuration?
-    weak var delegate: ArticleViewControllerDelegate?
+    weak var delegate: ArticleViewModelDelegate?
     
     private var article: Article?
     
@@ -119,7 +119,7 @@ extension ArticlePreviewViewController: Action {
                 return
         }
         
-        articleViewController.article = topArticle
+        articleViewController.viewModel?.article = topArticle
         
         navigationController?.pushViewController(articleViewController, animated: true)
         

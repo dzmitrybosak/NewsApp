@@ -119,8 +119,8 @@ class NewsViewController: UIViewController {
                 return
             }
             
-            articleViewController.article = newsCell.article
-            articleViewController.delegate = self
+//            articleViewController.article = newsCell.article
+//            articleViewController.delegate = self
             
         default:
             break
@@ -138,7 +138,7 @@ class NewsViewController: UIViewController {
 
 // MARK: - ArticleViewControllerDelegate
 
-extension NewsViewController: ArticleViewControllerDelegate {
+extension NewsViewController: ArticleViewModelDelegate {
     func didLiked(_ article: Article) {
         guard let index = news.index(where: { $0.url == article.url } ) else {
             return

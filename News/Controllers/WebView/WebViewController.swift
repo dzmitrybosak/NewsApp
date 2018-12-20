@@ -9,7 +9,11 @@
 import UIKit
 import WebKit
 
-class WebViewController: UIViewController {
+protocol WebViewModelProtocol {
+    var url: URL? { get set }
+}
+
+class WebViewController: UIViewController, WebViewModelProtocol {
 
     // MARK: - Properties
     

@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct Section {
+    static let header = "SectionHeader"
+    static let footer = "SectionFooter"
+}
+
 protocol NewsHeadersDataSource: class {
     func getHeader(by section: Int) -> String
 }
@@ -117,7 +122,9 @@ extension NewsDataSource: UITableViewDataSource {
                 return UITableViewCell()
         }
         
-        cell.configure(with: article)
+        cell.viewModel = NewsCellViewModel()
+        cell.viewModel?.configureData(with: article)
+        cell.setupData()
         
         return cell
     }
@@ -135,9 +142,9 @@ extension NewsDataSource: UITableViewDataSource {
     
 }
 
-// MARK: - ArticleViewControllerDelegate
+// MARK: - ArticleViewModelDelegate
 
-extension NewsDataSource: ArticleViewControllerDelegate {
+extension NewsDataSource: ArticleViewModelDelegate {
     
     func didLiked(_ article: Article) {
         let section = newsBySource.index(where: { $0.sourceName == article.sourceName } ) ?? 0
