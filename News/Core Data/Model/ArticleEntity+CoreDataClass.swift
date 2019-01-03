@@ -12,7 +12,7 @@ import CoreData
 @objc(ArticleEntity)
 public class ArticleEntity: NSManagedObject {
 
-    class func create(from article: Article, in context: NSManagedObjectContext) -> ArticleEntity? {
+    class func create(from article: ArticleModel, in context: NSManagedObjectContext) -> ArticleEntity? {
         let articleEntity = NSEntityDescription.insertNewObject(forEntityName: String(describing: ArticleEntity.self), into: context) as? ArticleEntity
         articleEntity?.sourceID = article.sourceID
         articleEntity?.sourceName = article.sourceName
@@ -28,7 +28,7 @@ public class ArticleEntity: NSManagedObject {
         return articleEntity
     }
     
-    func toArticle() -> Article? {
+    func toArticle() -> ArticleModel? {
         return Article(from: self)
     }
     

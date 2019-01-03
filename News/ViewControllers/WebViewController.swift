@@ -24,15 +24,16 @@ class WebViewController: UIViewController, WebViewModelProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        webView.navigationDelegate = self
         
-        setupWebView()
+        print("It's need to make xib instead of storyboard")
+        
+        //webView.navigationDelegate = self
+        //setupWebView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
+//        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
     }
 
     private func setupWebView() {

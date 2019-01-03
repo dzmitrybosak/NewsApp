@@ -18,7 +18,8 @@ final class ArticlePreviewViewController: UIViewController {
     // MARK: - Initialization
     
     convenience init() {
-        self.init(newsDataSource: NewsDataSource.shared, delegate: NewsDataSource.shared)
+        //self.init(newsDataSource: NewsDataSource.shared, delegate: NewsDataSource.shared)
+        self.init(newsDataSource: NewsDataSource(), delegate: NewsDataSource())
     }
     
     init(newsDataSource: NewsDataSource, delegate: ArticleViewModelDelegate) {
@@ -28,8 +29,7 @@ final class ArticlePreviewViewController: UIViewController {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.newsDataSource = NewsDataSource.shared
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Properties
@@ -39,7 +39,7 @@ final class ArticlePreviewViewController: UIViewController {
     weak var configuration: Configuration?
     weak var delegate: ArticleViewModelDelegate?
     
-    private var article: Article?
+    private var article: ArticleModel?
     
     // MARK: - UIViewController methods
     
@@ -72,7 +72,7 @@ final class ArticlePreviewViewController: UIViewController {
         ])
     }
     
-    private func loadArticle(callback: @escaping (Article) -> Void) {        
+    private func loadArticle(callback: @escaping (ArticleModel) -> Void) {
         newsDataSource.loadTopArticle { article in
             self.article = article
             callback(article)
@@ -119,7 +119,7 @@ extension ArticlePreviewViewController: Action {
                 return
         }
         
-        articleViewController.viewModel?.article = topArticle
+        articleViewController.viewModel.article = topArticle
         
         navigationController?.pushViewController(articleViewController, animated: true)
         

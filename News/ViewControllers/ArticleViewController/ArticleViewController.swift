@@ -13,15 +13,15 @@ class ArticleViewController: UIViewController {
     
     // MARK: - Initialization
     
-    init(viewModel: ArticleViewModelProtocol = ArticleViewModel(), router: ArticleRouterProtocol = ArticleViewRouter()) {
+    init(dateFormatService: DateFormatService, viewModel: ArticleViewModelProtocol) {
+        self.dateFormatService = dateFormatService
         self.viewModel = viewModel
-        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
-        viewModel = ArticleViewModel()
-        router = ArticleViewRouter()
+        dateFormatService = DateFormatService.shared
+        viewModel = ArticleViewModel(newsService: NewsService(), router: ArticleViewRouter())
         super.init(coder: aDecoder)
     }
     
@@ -40,15 +40,16 @@ class ArticleViewController: UIViewController {
     
     // MARK: - Properties
     
-    var viewModel: ArticleViewModelProtocol?
-    var router: ArticleRouterProtocol?
+    var viewModel: ArticleViewModelProtocol
+    private let dateFormatService: DateFormatService
+
     
     // MARK: - UIViewController methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        router?.viewModel = viewModel
+        viewModel.router.viewController = self
         
         setupData()
     }
@@ -57,24 +58,30 @@ class ArticleViewController: UIViewController {
     
     private func setupData() {
         navigationItem.title = ""
-        sourceNameLabel.text = viewModel?.sourceName
-        authorLabel.text = viewModel?.author
-        titleLabel.text = viewModel?.title
-        textView.text = viewModel?.description
-        dateLabel.text = viewModel?.date
         
-        guard let imageURL = viewModel?.imageURL else {
+        guard let article = viewModel.article else {
             return
         }
-        
-        imageView.af_setImage(withURL: imageURL, placeholderImage: #imageLiteral(resourceName: "placeholder"))
-        
+
+        sourceNameLabel.text = article.sourceName
+        authorLabel.text = article.author
+        titleLabel.text = article.title
+        textView.text = article.description
+
         setupReadMoreButton()
         checkLikeValue()
+
+        if let publishedAt = article.publishedAt {
+            dateLabel.text = dateFormatService.fromDate(publishedAt)
+        }
+
+        if let imageURL = article.urlToImage {
+            imageView.af_setImage(withURL: imageURL, placeholderImage: #imageLiteral(resourceName: "placeholder"))
+        }
     }
     
     private func setupReadMoreButton() {
-        guard viewModel?.url == nil else {
+        guard viewModel.article?.url == nil else {
             return
         }
         
@@ -83,7 +90,7 @@ class ArticleViewController: UIViewController {
     }
     
     private func checkLikeValue() {
-        guard let likeValue = viewModel?.article?.likeValue else {
+        guard let likeValue = viewModel.article?.likeValue else {
             return
         }
         
@@ -98,27 +105,30 @@ class ArticleViewController: UIViewController {
             break
         }
     }
-    
-    // MARK: - Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        router?.perform(segue, sender)
-    }
-    
+
     // MARK: - Actions
     
     @IBAction private func likeButtonPressed(_ sender: UIButton) {
-        viewModel?.likeSelected { [weak self] in
+        viewModel.likeSelected { [weak self] in
             self?.checkLikeValue()
         }
         
     }
     
     @IBAction private func dislikeButtonPressed(_ sender: UIButton) {
-        viewModel?.dislikeSelected { [weak self] in
+        viewModel.dislikeSelected { [weak self] in
             self?.checkLikeValue()
         }
     }
     
-    @IBAction private func readMoreButton(_ sender: UIButton) {}
+    @IBAction private func readMoreButton(_ sender: UIButton) {
+        
+        guard let url = viewModel.article?.url else {
+            return
+        }
+        
+        print(url)
+        
+        viewModel.router.openWebViewController(with: url)
+    }
 }

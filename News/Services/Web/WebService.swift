@@ -14,10 +14,7 @@ private enum Constants {
     static let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=97d1c467a9584168a55584355bc778a8"
 }
 
-// Type alias with parameters: array of cities and optional error (if it will be).
-typealias NewsCallback = (_ news: [Article], _ error: Error?) -> Void
-
-final class WebService {
+final class WebService: NewsServiceProtocol {
 
     // MARK: - Properties
     static let shared = WebService()

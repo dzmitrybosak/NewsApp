@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class Article: Decodable {
+final class Article: ArticleModel, Decodable {
     
     // MARK: - Properties
     
@@ -45,6 +45,19 @@ final class Article: Decodable {
     }
     
     // MARK: - Initialization
+    
+    convenience init(sourceName: String?, sourceID: String?, author: String?, title: String?, description: String?, url: URL?, urlToImage: URL?, publishedAt: Date?, likeValue: Article.Like) {
+        self.init()
+        self.sourceName = sourceName
+        self.sourceID = sourceID
+        self.author = author
+        self.title = title
+        self.description = description
+        self.url = url
+        self.urlToImage = urlToImage
+        self.publishedAt = publishedAt
+        self.likeValue = likeValue
+    }
     
     init() {
         self.sourceName = ""

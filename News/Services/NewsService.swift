@@ -10,18 +10,17 @@ import CoreData
 
 final class NewsService {
     
-    // MARK: - Singletons
+    init(newsWebService: NewsServiceProtocol = StubService()) {
+        self.newsWebService = newsWebService
+    }
     
-    private let newsWebService = WebService.shared
+    private let newsWebService: NewsServiceProtocol
     private let coreDataManager = CoreDataManager.shared
-    
-    static let shared = NewsService()
-    private init() { }
-    
+        
     // MARK: - Main methods
     
     // Get News
-    func news(callback: @escaping ([Article]) -> Void) {
+    func news(callback: @escaping ([ArticleModel]) -> Void) {
         DispatchQueue.global(qos: .utility).async {
             self.newsWebService.getNews { [weak self] (remoteArticles, error) in
                 if let _ = error {
@@ -44,7 +43,7 @@ final class NewsService {
     }
     
     // Resave entity
-    func resaveEntity(using article: Article, callback: @escaping (Article) -> Void) {
+    func resaveEntity(using article: ArticleModel, callback: @escaping (ArticleModel) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
             let articleEntities = self?.fetchArticleEntities(from: context) ?? []
@@ -74,7 +73,7 @@ final class NewsService {
     }
     
     // Fetch sorted news array by title from CoreData with predicate
-    func sortedNewsWithPredicate(predicate: String, callback: @escaping ([Article]) -> Void) {
+    func sortedNewsWithPredicate(predicate: String, callback: @escaping ([ArticleModel]) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
             let articleEntities = self?.fetchArticleEntitiesWithPredicate(predicate: predicate) ?? []
@@ -85,7 +84,7 @@ final class NewsService {
     }
     
     // Fetch news array from CoreData with predicate
-    func newsWithPredicate(predicate: String, callback: @escaping ([Article]) -> Void) {
+    func newsWithPredicate(predicate: String, callback: @escaping ([ArticleModel]) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
             let articleEntities = self?.fetchArticleEntitiesWithPredicate(predicate: predicate) ?? []
@@ -111,7 +110,7 @@ final class NewsService {
     
     // MARK: - Private methods
     
-    private func newsDictionary(from array: [Article]) -> [NewsObject] {
+    private func newsDictionary(from array: [ArticleModel]) -> [NewsObject] {
         let newsBySource = Dictionary(grouping: array, by: { $0.sourceName })
         
         var newsObjects = [NewsObject]()
@@ -143,7 +142,7 @@ final class NewsService {
         return (try? context.fetch(fetchRequest)) ?? []
     }
     
-    private func fetchLocalArticles(callback: @escaping ([Article]) -> Void) {
+    private func fetchLocalArticles(callback: @escaping ([ArticleModel]) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
             let articleEntities = self?.fetchArticleEntities(from: context) ?? []
@@ -153,7 +152,7 @@ final class NewsService {
         }
     }
  
-    private func storeRemoteArticles(using articles: [Article], callback: @escaping ([Article]) -> Void) {
+    private func storeRemoteArticles(using articles: [ArticleModel], callback: @escaping ([ArticleModel]) -> Void) {
         let context = coreDataManager.context
         context.perform { [weak self] in
             let articleEntities = self?.fetchArticleEntities(from: context) ?? []

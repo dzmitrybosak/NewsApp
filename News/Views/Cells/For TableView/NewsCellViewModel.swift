@@ -11,7 +11,7 @@ import UIKit
 protocol NewsCellViewModelProtocol {
     var title: String? { get }
     var imageURL: URL? { get }
-    func configureData(with article: Article)
+    func configureData(with article: ArticleModel)
 }
 
 final class NewsCellViewModel: NewsCellViewModelProtocol {
@@ -23,18 +23,18 @@ final class NewsCellViewModel: NewsCellViewModelProtocol {
     
     // MARK: - Main method
     
-    func configureData(with article: Article) {
+    func configureData(with article: ArticleModel) {
         setupText(from: article)
         setupImageURL(from: article)
     }
     
     // MARK: - Private methods
     
-    private func setupText(from article: Article) {
+    private func setupText(from article: ArticleModel) {
         title = article.title
     }
     
-    private func setupImageURL(from article: Article) {
+    private func setupImageURL(from article: ArticleModel) {
         imageURL = article.urlToImage
     }
     

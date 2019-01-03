@@ -8,26 +8,23 @@
 
 import UIKit
 
+protocol ItemSelectable: class {
+    func didSelectItem(at indexPath: IndexPath)
+}
+
 final class NewsTableViewDelegate: NSObject, UITableViewDelegate  {
-    
-    // MARK: - Initialization
-    
-    init(dataSource: NewsDataSource = NewsDataSource.shared) {
-        self.dataSource = dataSource
-        self.headersDataSource = self.dataSource
-        super.init()
-    }
     
     // MARK: - Properties
     
-    private let dataSource: NewsDataSource
+    weak var viewModel: ItemSelectable?
     
-    weak var headersDataSource: NewsHeadersDataSource?
+    weak var dataSourceDelegate: DataSourceDelegate?
     
     // MARK: - UITableViewDelegate methods
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        viewModel?.didSelectItem(at: indexPath)
     }
     
     // Header
@@ -38,7 +35,7 @@ final class NewsTableViewDelegate: NSObject, UITableViewDelegate  {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: Section.header) as? SectionHeader,
-            let sourceName = headersDataSource?.getHeader(by: section) else {
+            let sourceName = dataSourceDelegate?.getHeader(by: section) else {
                 return UIView()
         }
         

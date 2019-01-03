@@ -13,18 +13,12 @@ final class NewsObject {
     // MARK: - Properties
     
     var sourceName: String?
-    var news: [Article]?
+    var news: [ArticleModel]?
     
     // MARK: - Initialization
     
-    init(sectionName: String?, sectionObjects: [Article]?) {
+    init(sectionName: String?, sectionObjects: [ArticleModel]? = [StubArticle]()) {
         self.sourceName = sectionName
         self.news = sectionObjects
     }
-    
-    init() {
-        self.sourceName = nil
-        self.news = nil
-    }
-    
 }
