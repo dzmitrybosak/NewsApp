@@ -9,18 +9,18 @@
 import UIKit
 
 protocol NewNewsTableViewModelProtocol {
-    var router: Router { get set }
+    var router: Router { get }
     var tableViewDelegate: TableViewDelegate? { get set }
     var dataSourceService: DataSourceService { get }
     func loadData(completion: @escaping () -> Void)
-    func setupDataSource()
+    func setupDataSourceDelegate()
 }
 
 final class NewNewsTableViewModel: NSObject, NewNewsTableViewModelProtocol {
     
     // MARK: - Initialization
     
-    init(dataSourceService: DataSourceService = DataSourceService(), router: Router = NewsTableViewControllerRouter()) {
+    init(dataSourceService: DataSourceService = DataSourceService(), router: Router = MainRouter()) {
         self.dataSourceService = dataSourceService
         self.router = router
         self.dataSourceService.delegate.dataSourceDelegate = self.dataSourceService.dataSource
@@ -30,7 +30,7 @@ final class NewNewsTableViewModel: NSObject, NewNewsTableViewModelProtocol {
     
     let dataSourceService: DataSourceService
     
-    var router: Router
+    let router: Router
     
     var tableViewDelegate: TableViewDelegate?
     
@@ -42,11 +42,10 @@ final class NewNewsTableViewModel: NSObject, NewNewsTableViewModelProtocol {
         }
     }
     
-    func setupDataSource() {
-        tableViewDelegate?.tableView.dataSource = dataSourceService.dataSource
-        tableViewDelegate?.tableView.delegate = dataSourceService.delegate
+    func setupDataSourceDelegate() {
         dataSourceService.delegate.viewModel = self
     }
+    
 }
 
 // MARK: - UISearchBarDelegate
@@ -119,7 +118,7 @@ extension NewNewsTableViewModel: ItemSelectable {
         
         let newsService = dataSourceService.dataSource.newsService
         
-        router.openArticleViewController(with: article, with: newsService)
+        router.perform(route: .articleViewController(article, newsService))
     }
     
 }

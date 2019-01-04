@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class DataSourceService {
+public final class DataSourceService {
     init(dataSource: NewsDataSource = NewsDataSource(), delegate: NewsTableViewDelegate = NewsTableViewDelegate()) {
         self.dataSource = dataSource
         self.delegate = delegate

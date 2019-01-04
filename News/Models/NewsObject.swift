@@ -8,11 +8,11 @@
 
 import Foundation
 
-final class NewsObject {
+public final class NewsObject {
     
     // MARK: - Properties
     
-    var sourceName: String?
+    let sourceName: String?
     var news: [ArticleModel]?
     
     // MARK: - Initialization

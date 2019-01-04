@@ -8,13 +8,13 @@
 
 import CoreData
 
-// MARK: - Constants
-
-private enum Constants {
-    static let modelName = "NewsDataModel"
-}
-
-final class CoreDataManager {
+public final class CoreDataManager {
+    
+    // MARK: - Constants
+    
+    private enum Constants {
+        static let modelName = "NewsDataModel"
+    }
     
     // MARK: - Properties
     

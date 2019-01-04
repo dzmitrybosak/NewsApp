@@ -14,7 +14,7 @@
         <!--News-->
         <scene sceneID="qZR-Jz-sBi">
             <objects>
-                <viewController storyboardIdentifier="NewsVC" id="zLH-ut-FBP" customClass="NewsViewController" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewsVC" id="zLH-ut-FBP" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SDY-L3-GDd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -536,7 +536,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XLb-Ty-23s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1674" y="1531"/>
+            <point key="canvasLocation" x="1683" y="1531"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="IkT-sA-B9x">
@@ -599,7 +599,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NLn-x5-tVV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2387" y="1531"/>
+            <point key="canvasLocation" x="1974" y="2210"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mbu-po-CIe">

@@ -9,13 +9,18 @@
 import UIKit
 
 protocol TableViewDelegate {
-    var tableView: UITableView! { get set }
+    func setupDataSource(dataSourceService: DataSourceService)
     func loadData()
     func reloadData()
 }
 
-class NewNewsTableViewController: UIViewController {
+final class NewNewsTableViewController: UIViewController {
 
+    private struct Constants {
+        static let edit = "Edit"
+        static let done = "Done"
+    }
+    
     // MARK: - Initialization
     
     init(viewModel: NewNewsTableViewModelProtocol) {
@@ -47,13 +52,18 @@ class NewNewsTableViewController: UIViewController {
         setupActivityIndicator()
         
         viewModel.tableViewDelegate = self
-        viewModel.router.viewController = self
         
         setupTableView()
         
         searchBar.delegate = viewModel as? UISearchBarDelegate
         
         setupData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        viewModel.router.setupViewController(with: self)
     }
     
     // MARK: - UIView methods
@@ -81,7 +91,8 @@ class NewNewsTableViewController: UIViewController {
     // Setup data
     private func setupData() {
         activityIndicator?.startAnimating()
-        viewModel.setupDataSource()
+        viewModel.setupDataSourceDelegate()
+        setupDataSource(dataSourceService: viewModel.dataSourceService)
         loadData()
     }
     
@@ -90,10 +101,10 @@ class NewNewsTableViewController: UIViewController {
     private func editButtonPressed() {
         if tableView.isEditing == true {
             tableView.isEditing = false
-            editButton.title = "Edit"
+            editButton.title = Constants.edit
         } else {
             tableView.isEditing = true
-            editButton.title = "Done"
+            editButton.title = Constants.done
         }
     }
     
@@ -140,6 +151,11 @@ extension NewNewsTableViewController {
 // MARK: - TableViewDelegate
 
 extension NewNewsTableViewController: TableViewDelegate {
+    
+    func setupDataSource(dataSourceService: DataSourceService) {
+        tableView.dataSource = dataSourceService.dataSource
+        tableView.delegate = dataSourceService.delegate
+    }
     
     func loadData() {
         viewModel.loadData { [weak self] in

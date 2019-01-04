@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class StubService: NewsServiceProtocol {
+public final class StubService: NewsServiceProtocol {
     func getNews(callback: @escaping NewsCallback) {
         let news = [
             Article(sourceName: "raywenderlich.com", sourceID: "raywenderlich.com", author: "Matthew Morey", title: "Multiple Managed Object Contexts with Core Data Tutorial", description: "Learn how to use multiple managed object contexts to improve the performance of your apps in this Core Data Tutorial in Swift!", url: URL(string: "https://www.raywenderlich.com/7586-multiple-managed-object-contexts-with-core-data-tutorial"), urlToImage: URL(string: "https://koenig-media.raywenderlich.com/uploads/2016/10/CDT-feature-3.png"), publishedAt: Date(), likeValue: .noLike),

@@ -16,7 +16,7 @@ struct Section {
 protocol DataSourceDelegate: class {
     func getHeader(by section: Int) -> String
 }
-
+// public
 final class NewsDataSource: NSObject {
     
     // MARK: - Initialization

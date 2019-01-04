@@ -8,11 +8,11 @@
 
 import Foundation
 
-final class News: Decodable {
+public final class News: Decodable {
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case news = "articles"
     }
     
-    var news: [Article]
+    let news: [Article]
 }

@@ -8,7 +8,7 @@
 
 import CoreData
 
-final class CoreDataStack {
+public final class CoreDataStack {
     
     // MARK: - Properties
     

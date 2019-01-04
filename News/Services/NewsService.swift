@@ -8,7 +8,7 @@
 
 import CoreData
 
-final class NewsService {
+public final class NewsService {
     
     init(newsWebService: NewsServiceProtocol = StubService()) {
         self.newsWebService = newsWebService

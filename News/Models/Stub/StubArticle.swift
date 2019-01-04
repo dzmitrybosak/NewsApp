@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class StubArticle: ArticleModel {
+public final class StubArticle: ArticleModel {
     init(sourceName: String?, sourceID: String?, author: String?, title: String?, description: String?, url: URL?, urlToImage: URL?, publishedAt: Date?, likeValue: Article.Like = .noLike) {
         self.sourceName = sourceName
         self.sourceID = sourceID
@@ -21,13 +21,13 @@ final class StubArticle: ArticleModel {
         self.likeValue = likeValue
     }
     
-    var sourceName: String?
-    var sourceID: String?
-    var author: String?
-    var title: String?
-    var description: String?
-    var url: URL?
-    var urlToImage: URL?
-    var publishedAt: Date?
+    let sourceName: String?
+    let sourceID: String?
+    let author: String?
+    let title: String?
+    let description: String?
+    let url: URL?
+    let urlToImage: URL?
+    let publishedAt: Date?
     var likeValue: Article.Like
 }

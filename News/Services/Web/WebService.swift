@@ -8,13 +8,13 @@
 
 import Foundation
 
-// MARK: - Constants
-
-private enum Constants {
-    static let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=97d1c467a9584168a55584355bc778a8"
-}
-
-final class WebService: NewsServiceProtocol {
+public final class WebService: NewsServiceProtocol {
+    
+    // MARK: - Constants
+    
+    private enum Constants {
+        static let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=97d1c467a9584168a55584355bc778a8"
+    }
 
     // MARK: - Properties
     static let shared = WebService()

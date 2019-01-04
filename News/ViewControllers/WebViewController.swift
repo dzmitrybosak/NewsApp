@@ -13,7 +13,7 @@ protocol WebViewModelProtocol {
     var url: URL? { get set }
 }
 
-class WebViewController: UIViewController, WebViewModelProtocol {
+final class WebViewController: UIViewController, WebViewModelProtocol {
 
     // MARK: - Properties
     

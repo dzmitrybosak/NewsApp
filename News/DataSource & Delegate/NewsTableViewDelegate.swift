@@ -11,13 +11,12 @@ import UIKit
 protocol ItemSelectable: class {
     func didSelectItem(at indexPath: IndexPath)
 }
-
+// public
 final class NewsTableViewDelegate: NSObject, UITableViewDelegate  {
     
     // MARK: - Properties
     
     weak var viewModel: ItemSelectable?
-    
     weak var dataSourceDelegate: DataSourceDelegate?
     
     // MARK: - UITableViewDelegate methods
@@ -36,7 +35,7 @@ final class NewsTableViewDelegate: NSObject, UITableViewDelegate  {
         
         guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: Section.header) as? SectionHeader,
             let sourceName = dataSourceDelegate?.getHeader(by: section) else {
-                return UIView()
+                return nil
         }
         
         view.configure(with: sourceName)

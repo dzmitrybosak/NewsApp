@@ -13,10 +13,11 @@ protocol ArticleViewModelDelegate: class {
 }
 
 protocol ArticleViewModelProtocol {
-    var router: Router { get set }
+    var router: Router { get }
     var article: ArticleModel? { get set }
     func likeSelected(completion: @escaping () -> Void)
     func dislikeSelected(completion: @escaping () -> Void)
+    func openWebViewController()
 }
 
 final class ArticleViewModel: ArticleViewModelProtocol  {
@@ -32,7 +33,7 @@ final class ArticleViewModel: ArticleViewModelProtocol  {
     
     private let newsService: NewsService
     
-    var router: Router
+    let router: Router
     
     weak var delegate: ArticleViewModelDelegate?
     
@@ -69,5 +70,12 @@ final class ArticleViewModel: ArticleViewModelProtocol  {
         }
         
         completion(/*check like value*/)
+    }
+    
+    func openWebViewController() {
+        guard let url = article?.url else {
+            return
+        }
+        router.perform(route: .webViewController(url))
     }
 }

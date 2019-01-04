@@ -9,19 +9,20 @@
 import UIKit
 import AlamofireImage
 
-class ArticleViewController: UIViewController {
+final class ArticleViewController: UIViewController {
     
     // MARK: - Initialization
     
     init(dateFormatService: DateFormatService, viewModel: ArticleViewModelProtocol) {
         self.dateFormatService = dateFormatService
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
+//        super.init(nibName: nil, bundle: nil)
+        super.init(nibName: String(describing: ArticleViewController.self), bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         dateFormatService = DateFormatService.shared
-        viewModel = ArticleViewModel(newsService: NewsService(), router: ArticleViewRouter())
+        viewModel = ArticleViewModel(newsService: NewsService(), router: MainRouter())
         super.init(coder: aDecoder)
     }
     
@@ -42,40 +43,35 @@ class ArticleViewController: UIViewController {
     
     var viewModel: ArticleViewModelProtocol
     private let dateFormatService: DateFormatService
-
     
     // MARK: - UIViewController methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel.router.viewController = self
+        viewModel.router.setupViewController(with: self)
         
         setupData()
     }
-    
+
     // MARK: - Private methods
     
     private func setupData() {
         navigationItem.title = ""
-        
-        guard let article = viewModel.article else {
-            return
-        }
 
-        sourceNameLabel.text = article.sourceName
-        authorLabel.text = article.author
-        titleLabel.text = article.title
-        textView.text = article.description
+        sourceNameLabel.text = viewModel.article?.sourceName
+        authorLabel.text = viewModel.article?.author
+        titleLabel.text = viewModel.article?.title
+        textView.text = viewModel.article?.description
 
         setupReadMoreButton()
         checkLikeValue()
 
-        if let publishedAt = article.publishedAt {
+        if let publishedAt = viewModel.article?.publishedAt {
             dateLabel.text = dateFormatService.fromDate(publishedAt)
         }
 
-        if let imageURL = article.urlToImage {
+        if let imageURL = viewModel.article?.urlToImage {
             imageView.af_setImage(withURL: imageURL, placeholderImage: #imageLiteral(resourceName: "placeholder"))
         }
     }
@@ -112,7 +108,6 @@ class ArticleViewController: UIViewController {
         viewModel.likeSelected { [weak self] in
             self?.checkLikeValue()
         }
-        
     }
     
     @IBAction private func dislikeButtonPressed(_ sender: UIButton) {
@@ -122,13 +117,10 @@ class ArticleViewController: UIViewController {
     }
     
     @IBAction private func readMoreButton(_ sender: UIButton) {
-        
         guard let url = viewModel.article?.url else {
             return
         }
-        
         print(url)
-        
-        viewModel.router.openWebViewController(with: url)
+        viewModel.openWebViewController()
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class SortService {
+public final class SortService {
     
     static let shared = SortService()
     private init() {}

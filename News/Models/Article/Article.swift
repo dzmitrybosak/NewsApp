@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class Article: ArticleModel, Decodable {
+public final class Article: ArticleModel, Decodable {
     
     // MARK: - Properties
     
@@ -31,7 +31,7 @@ final class Article: ArticleModel, Decodable {
     
     // MARK: - Keys for decoding
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case source
         case sourceID = "id"
         case sourceName = "name"
@@ -71,7 +71,7 @@ final class Article: ArticleModel, Decodable {
         self.likeValue = Like.noLike
     }
 
-    required init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         let source = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: .source)
