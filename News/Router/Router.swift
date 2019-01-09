@@ -9,7 +9,6 @@
 import UIKit
 
 protocol Router {
-    func setupViewController(with viewController: UIViewController)
     func perform(route: Route)
 }
 
@@ -21,10 +20,6 @@ enum Route {
 public final class MainRouter: Router {
     
     weak var viewController: UIViewController?
-    
-    func setupViewController(with viewController: UIViewController) {
-        self.viewController = viewController
-    }
     
     func perform(route: Route) {
         switch route {

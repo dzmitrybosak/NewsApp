@@ -13,7 +13,6 @@ protocol ArticleViewModelDelegate: class {
 }
 
 protocol ArticleViewModelProtocol {
-    var router: Router { get }
     var article: ArticleModel? { get set }
     func likeSelected(completion: @escaping () -> Void)
     func dislikeSelected(completion: @escaping () -> Void)
@@ -32,8 +31,7 @@ final class ArticleViewModel: ArticleViewModelProtocol  {
     // MARK: - Properties
     
     private let newsService: NewsService
-    
-    let router: Router
+    private let router: Router
     
     weak var delegate: ArticleViewModelDelegate?
     

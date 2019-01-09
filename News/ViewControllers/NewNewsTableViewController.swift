@@ -29,8 +29,12 @@ final class NewNewsTableViewController: UIViewController {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        viewModel = NewNewsTableViewModel()
+        let router = MainRouter()
+        viewModel = NewNewsTableViewModel(router: router)
+        
         super.init(coder: aDecoder)
+        
+        router.viewController = self
     }
     
     // MARK: - Properties
@@ -59,12 +63,7 @@ final class NewNewsTableViewController: UIViewController {
         
         setupData()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        viewModel.router.setupViewController(with: self)
-    }
+
     
     // MARK: - UIView methods
     

@@ -9,7 +9,6 @@
 import UIKit
 
 protocol NewNewsTableViewModelProtocol {
-    var router: Router { get }
     var tableViewDelegate: TableViewDelegate? { get set }
     var dataSourceService: DataSourceService { get }
     func loadData(completion: @escaping () -> Void)
@@ -20,7 +19,7 @@ final class NewNewsTableViewModel: NSObject, NewNewsTableViewModelProtocol {
     
     // MARK: - Initialization
     
-    init(dataSourceService: DataSourceService = DataSourceService(), router: Router = MainRouter()) {
+    init(dataSourceService: DataSourceService = DataSourceService(), router: Router) {
         self.dataSourceService = dataSourceService
         self.router = router
         self.dataSourceService.delegate.dataSourceDelegate = self.dataSourceService.dataSource
@@ -30,7 +29,7 @@ final class NewNewsTableViewModel: NSObject, NewNewsTableViewModelProtocol {
     
     let dataSourceService: DataSourceService
     
-    let router: Router
+    private let router: Router
     
     var tableViewDelegate: TableViewDelegate?
     

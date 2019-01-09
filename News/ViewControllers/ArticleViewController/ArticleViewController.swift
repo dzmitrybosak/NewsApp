@@ -49,8 +49,6 @@ final class ArticleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel.router.setupViewController(with: self)
-        
         setupData()
     }
 
