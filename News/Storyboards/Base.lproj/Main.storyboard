@@ -14,7 +14,7 @@
         <!--News-->
         <scene sceneID="qZR-Jz-sBi">
             <objects>
-                <viewController storyboardIdentifier="NewsVC" id="zLH-ut-FBP" customClass="NewsViewController" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewsVC" id="zLH-ut-FBP" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SDY-L3-GDd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -262,9 +262,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="121.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4j8-bY-fTB">
-                                                    <rect key="frame" x="118" y="26" width="276" height="75.5"/>
-                                                    <string key="text">How Many Progressives Have Been Duped By Anti-Tesla, Anti-EV Propaganda? How Many Progressives Have Been Duped By Anti-Tesla, Anti-EV Propaganda?</string>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How Many Progressives Have Been Duped By Anti-Tesla, Anti-EV Propaganda?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4j8-bY-fTB">
+                                                    <rect key="frame" x="118" y="26" width="276" height="61"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -292,7 +291,6 @@
                                         <connections>
                                             <outlet property="imageCellView" destination="iHP-Jr-cMr" id="RYj-Cb-dli"/>
                                             <outlet property="titleLabel" destination="4j8-bY-fTB" id="oqK-B2-1d7"/>
-                                            <segue destination="0Pi-lH-dqs" kind="show" identifier="showArticle" id="qI1-oP-Gy6"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -346,7 +344,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uyi-Hq-RXN">
-                                <rect key="frame" x="0.0" y="88" width="414" height="734"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="778"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FXc-2d-pi6">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="695"/>
@@ -503,7 +501,6 @@
                                             </state>
                                             <connections>
                                                 <action selector="readMoreButton:" destination="0Pi-lH-dqs" eventType="touchUpInside" id="Hdq-pI-Pf6"/>
-                                                <segue destination="OZe-V7-gQi" kind="show" identifier="showWebView" id="4AX-l4-SJI"/>
                                             </connections>
                                         </button>
                                     </barButtonItem>
@@ -525,21 +522,21 @@
                     </view>
                     <navigationItem key="navigationItem" title="Reuters" largeTitleDisplayMode="never" id="sNS-Lp-flw"/>
                     <connections>
-                        <outlet property="authorLabel" destination="C2i-Og-Iex" id="Lud-fm-TH7"/>
-                        <outlet property="dateLabel" destination="qIa-ov-Yl8" id="Kpz-UM-mna"/>
-                        <outlet property="dislikeButton" destination="tIW-Rc-cUn" id="UPX-ik-L3F"/>
-                        <outlet property="imageView" destination="KgH-zO-0sx" id="9lr-Xf-A4E"/>
-                        <outlet property="likeButton" destination="LlE-dP-UZP" id="KPK-wv-EOg"/>
-                        <outlet property="lineView" destination="7Rb-ZE-CoG" id="CbP-3q-xgm"/>
-                        <outlet property="readMoreButtonOutlet" destination="Gko-XL-hAI" id="ZGz-J2-yXW"/>
-                        <outlet property="sourceNameLabel" destination="vbn-se-bmk" id="30z-u0-7x8"/>
-                        <outlet property="textView" destination="eFR-t6-uuk" id="0Dp-4p-dtu"/>
-                        <outlet property="titleLabel" destination="MiQ-Im-ISm" id="nO1-r4-Iwq"/>
+                        <outlet property="authorLabel" destination="C2i-Og-Iex" id="g66-MI-zym"/>
+                        <outlet property="dateLabel" destination="qIa-ov-Yl8" id="asI-e8-Fxu"/>
+                        <outlet property="dislikeButton" destination="tIW-Rc-cUn" id="HFW-ga-TQr"/>
+                        <outlet property="imageView" destination="KgH-zO-0sx" id="lqp-nK-p0I"/>
+                        <outlet property="likeButton" destination="LlE-dP-UZP" id="NfE-qC-sCu"/>
+                        <outlet property="lineView" destination="7Rb-ZE-CoG" id="6q2-wO-MqR"/>
+                        <outlet property="readMoreButtonOutlet" destination="Gko-XL-hAI" id="Ugw-Rx-N40"/>
+                        <outlet property="sourceNameLabel" destination="vbn-se-bmk" id="N17-sC-xfP"/>
+                        <outlet property="textView" destination="eFR-t6-uuk" id="hzX-in-oRJ"/>
+                        <outlet property="titleLabel" destination="MiQ-Im-ISm" id="umd-6E-x5m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XLb-Ty-23s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1759" y="1200"/>
+            <point key="canvasLocation" x="1683" y="1531"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="IkT-sA-B9x">
@@ -569,7 +566,7 @@
                                 <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </toolbar>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RrD-2F-BuZ">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -577,7 +574,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ubO-eg-C5j">
-                                <rect key="frame" x="0.0" y="88" width="414" height="2"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="2"/>
                             </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -602,7 +599,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NLn-x5-tVV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2545" y="1200"/>
+            <point key="canvasLocation" x="1974" y="2210"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mbu-po-CIe">

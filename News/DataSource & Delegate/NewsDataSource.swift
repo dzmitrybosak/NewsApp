@@ -8,26 +8,27 @@
 
 import UIKit
 
-protocol NewsHeadersDataSource: class {
-    func getHeader(by section: Int) -> String
+struct Section {
+    static let header = "SectionHeader"
+    static let footer = "SectionFooter"
 }
 
+protocol DataSourceDelegate: class {
+    func getHeader(by section: Int) -> String
+}
+// public
 final class NewsDataSource: NSObject {
-    
-    // MARK: - Singleton
-    
-    static let shared = NewsDataSource()
     
     // MARK: - Initialization
     
-    init(newsService: NewsService = NewsService.shared) {
+    init(newsService: NewsService = NewsService()) {
         self.newsService = newsService
         super.init()
     }
     
     // MARK: - Properties
     
-    private let newsService: NewsService
+    let newsService: NewsService
     
     var newsBySource: [NewsObject] = []
     var filteredNewsBySource: [NewsObject] = []
@@ -44,7 +45,7 @@ final class NewsDataSource: NSObject {
         }
     }
     
-    func loadTopArticle(callback: @escaping (Article) -> Void) {
+    func loadTopArticle(callback: @escaping (ArticleModel) -> Void) {
         newsService.newsBySectionAndValues { newsObject in
             let topArticle = newsObject.compactMap { $0.news?.first }.sorted { $0.publishedAt?.compare($1.publishedAt ?? Date()) == .orderedDescending }.first
             
@@ -117,7 +118,9 @@ extension NewsDataSource: UITableViewDataSource {
                 return UITableViewCell()
         }
         
-        cell.configure(with: article)
+        cell.viewModel = NewsCellViewModel()
+        cell.viewModel?.configureData(with: article)
+        cell.setupData()
         
         return cell
     }
@@ -135,11 +138,11 @@ extension NewsDataSource: UITableViewDataSource {
     
 }
 
-// MARK: - ArticleViewControllerDelegate
+// MARK: - ArticleViewModelDelegate
 
-extension NewsDataSource: ArticleViewControllerDelegate {
+extension NewsDataSource: ArticleViewModelDelegate {
     
-    func didLiked(_ article: Article) {
+    func didLiked(_ article: ArticleModel) {
         let section = newsBySource.index(where: { $0.sourceName == article.sourceName } ) ?? 0
         let row = newsBySource[section].news?.index(where: { $0.url == article.url } ) ?? 0
         newsBySource[section].news?[row].likeValue = article.likeValue
@@ -149,7 +152,7 @@ extension NewsDataSource: ArticleViewControllerDelegate {
 
 // MARK: - NewsHeadersDataSource
 
-extension NewsDataSource: NewsHeadersDataSource {
+extension NewsDataSource: DataSourceDelegate {
     
     func getHeader(by section: Int) -> String {
         return filteredNewsBySource[section].sourceName ?? "Unknown source"

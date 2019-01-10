@@ -8,23 +8,17 @@
 
 import Foundation
 
-final class NewsObject {
+public final class NewsObject {
     
     // MARK: - Properties
     
-    var sourceName: String?
-    var news: [Article]?
+    let sourceName: String?
+    var news: [ArticleModel]?
     
     // MARK: - Initialization
     
-    init(sectionName: String?, sectionObjects: [Article]?) {
+    init(sectionName: String?, sectionObjects: [ArticleModel]? = [StubArticle]()) {
         self.sourceName = sectionName
         self.news = sectionObjects
     }
-    
-    init() {
-        self.sourceName = nil
-        self.news = nil
-    }
-    
 }

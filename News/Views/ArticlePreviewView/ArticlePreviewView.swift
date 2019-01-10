@@ -10,7 +10,7 @@ import UIKit
 import AlamofireImage
 
 protocol Configuration: class {
-    func configure(with: Article)
+    func configure(with: ArticleModel)
 }
 
 final class ArticlePreviewView: UIView, Configuration {
@@ -31,7 +31,7 @@ final class ArticlePreviewView: UIView, Configuration {
     
     // MARK: - Properties
     
-    weak var action: Action?
+    weak var action: ArticleSelected?
     
     // MARK: - Outlets
     
@@ -49,7 +49,7 @@ final class ArticlePreviewView: UIView, Configuration {
         configureView()
     }
     
-    func configure(with article: Article) {
+    func configure(with article: ArticleModel) {
         setupText(from: article)
         setupImage(from: article)
     }
@@ -58,12 +58,12 @@ final class ArticlePreviewView: UIView, Configuration {
     
     // For data
     
-    private func setupText(from article: Article) {
+    private func setupText(from article: ArticleModel) {
         titleArticleLabel.text = article.title
         descriptionArticleLabel.text = article.description
     }
     
-    private func setupImage(from article: Article) {
+    private func setupImage(from article: ArticleModel) {
         
         if let urlToImage = article.urlToImage {
             imageArticleView.af_setImage(withURL: urlToImage, placeholderImage: #imageLiteral(resourceName: "placeholder"))

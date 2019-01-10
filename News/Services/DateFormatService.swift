@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class DateFormatService {
+public final class DateFormatService {
  
     static let shared = DateFormatService()
     private init() {}

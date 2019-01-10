@@ -9,7 +9,11 @@
 import UIKit
 import WebKit
 
-class WebViewController: UIViewController {
+protocol WebViewModelProtocol {
+    var url: URL? { get set }
+}
+
+final class WebViewController: UIViewController, WebViewModelProtocol {
 
     // MARK: - Properties
     
@@ -20,15 +24,16 @@ class WebViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        webView.navigationDelegate = self
         
-        setupWebView()
+        print("It's need to make xib instead of storyboard")
+        
+        //webView.navigationDelegate = self
+        //setupWebView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
+//        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
     }
 
     private func setupWebView() {

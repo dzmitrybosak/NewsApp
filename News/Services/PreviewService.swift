@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class PreviewService {
+public final class PreviewService {
     
     // MARK: - Singleton
     

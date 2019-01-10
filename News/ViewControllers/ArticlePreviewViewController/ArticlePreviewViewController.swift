@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol Action: class {
+protocol ArticleSelected: class {
     func openArticle()
     func close()
 }
@@ -18,18 +18,17 @@ final class ArticlePreviewViewController: UIViewController {
     // MARK: - Initialization
     
     convenience init() {
-        self.init(newsDataSource: NewsDataSource.shared, delegate: NewsDataSource.shared)
+        self.init(newsDataSource: NewsDataSource(), delegate: NewsDataSource())
     }
     
-    init(newsDataSource: NewsDataSource, delegate: ArticleViewControllerDelegate) {
+    init(newsDataSource: NewsDataSource, delegate: ArticleViewModelDelegate) {
         self.newsDataSource = newsDataSource
         self.delegate = delegate
         super.init(nibName: String(describing: ArticlePreviewViewController.self), bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.newsDataSource = NewsDataSource.shared
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Properties
@@ -37,9 +36,9 @@ final class ArticlePreviewViewController: UIViewController {
     private let newsDataSource: NewsDataSource
 
     weak var configuration: Configuration?
-    weak var delegate: ArticleViewControllerDelegate?
+    weak var delegate: ArticleViewModelDelegate?
     
-    private var article: Article?
+    private var article: ArticleModel?
     
     // MARK: - UIViewController methods
     
@@ -72,7 +71,7 @@ final class ArticlePreviewViewController: UIViewController {
         ])
     }
     
-    private func loadArticle(callback: @escaping (Article) -> Void) {        
+    private func loadArticle(callback: @escaping (ArticleModel) -> Void) {
         newsDataSource.loadTopArticle { article in
             self.article = article
             callback(article)
@@ -94,7 +93,7 @@ final class ArticlePreviewViewController: UIViewController {
 
 // MARK: - Action Protocol
 
-extension ArticlePreviewViewController: Action {
+extension ArticlePreviewViewController: ArticleSelected {
     
     func openArticle() {
         openArticleViewController()
@@ -119,7 +118,7 @@ extension ArticlePreviewViewController: Action {
                 return
         }
         
-        articleViewController.article = topArticle
+        articleViewController.viewModel.article = topArticle
         
         navigationController?.pushViewController(articleViewController, animated: true)
         

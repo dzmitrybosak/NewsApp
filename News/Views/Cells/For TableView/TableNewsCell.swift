@@ -9,7 +9,7 @@
 import UIKit
 import AlamofireImage
 
-class TableNewsCell: UITableViewCell {
+final class TableNewsCell: UITableViewCell {
 
     class var reuseIdentifier: String {
         return "TableNewsCell"
@@ -17,15 +17,16 @@ class TableNewsCell: UITableViewCell {
     
     // MARK: - Properties
     
+    var viewModel: NewsCellViewModelProtocol?
+    
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var imageCellView: UIImageView!
     
-    // MARK: - Main methods
+    // MARK: - UITableViewCell methods
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        setupSelectionColor()
-        setupCornerRadius(for: imageCellView)
+        setupUI()
     }
     
     override func prepareForReuse() {
@@ -33,34 +34,31 @@ class TableNewsCell: UITableViewCell {
         imageCellView.af_cancelImageRequest()
     }
     
-    // Configure cell
-    func configure(with article: Article) {
-        setupText(from: article)
-        setupImage(from: article)
-    }
+    // MARK: - Data method
     
-    // MARK: - Private methods
-    
-    func setupText(from article: Article) {
-        titleLabel.text = article.title
-    }
-    
-    func setupImage(from article: Article) {
+    func setupData() {
         
-        if let urlToImage = article.urlToImage {
-            imageCellView.af_setImage(withURL: urlToImage, placeholderImage: #imageLiteral(resourceName: "placeholder"))
-        } else {
-            imageCellView.image = #imageLiteral(resourceName: "placeholder")
+        titleLabel.text = self.viewModel?.title
+        
+        guard let imageURL = viewModel?.imageURL else {
+            return
         }
-
+        
+        imageCellView.af_setImage(withURL: imageURL, placeholderImage: #imageLiteral(resourceName: "placeholder"))
     }
     
-    func setupCornerRadius(for imageView: UIImageView) {
+    // MARK: - UI methods
+    
+    private func setupUI() {
+        setupSelectionColor()
+        setupCornerRadius(for: imageCellView)
+    }
+    
+    private func setupCornerRadius(for imageView: UIImageView) {
         imageView.layer.cornerRadius = 5
         imageView.layer.masksToBounds = true
     }
     
-    // Setup selection background color
     private func setupSelectionColor() {
         let selectionView = UIView()
         selectionView.backgroundColor = #colorLiteral(red: 0.200000003, green: 0.200000003, blue: 0.200000003, alpha: 1)
