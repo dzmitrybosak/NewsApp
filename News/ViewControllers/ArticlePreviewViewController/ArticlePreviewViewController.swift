@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol Action: class {
+protocol ArticleSelected: class {
     func openArticle()
     func close()
 }
@@ -18,7 +18,6 @@ final class ArticlePreviewViewController: UIViewController {
     // MARK: - Initialization
     
     convenience init() {
-        //self.init(newsDataSource: NewsDataSource.shared, delegate: NewsDataSource.shared)
         self.init(newsDataSource: NewsDataSource(), delegate: NewsDataSource())
     }
     
@@ -94,7 +93,7 @@ final class ArticlePreviewViewController: UIViewController {
 
 // MARK: - Action Protocol
 
-extension ArticlePreviewViewController: Action {
+extension ArticlePreviewViewController: ArticleSelected {
     
     func openArticle() {
         openArticleViewController()

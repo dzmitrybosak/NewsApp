@@ -31,7 +31,7 @@ final class ArticlePreviewView: UIView, Configuration {
     
     // MARK: - Properties
     
-    weak var action: Action?
+    weak var action: ArticleSelected?
     
     // MARK: - Outlets
     
